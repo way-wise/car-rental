@@ -1,16 +1,12 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
 import { signOut } from "@/lib/auth-client";
-import { cn } from "@/lib/utils";
 import { useProgress } from "@bprogress/next";
-import { Menu, X } from "lucide-react";
-import Image from "next/image";
+import { Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ProfileDropdown } from "./profile-dropdown";
 
 import {
   Drawer,
@@ -36,16 +32,15 @@ const Navbar = ({ session }: { session: Session }) => {
     },
     {
       title: "Services",
-      url: "/exercise-setup",
+      url: "#services",
     },
     {
       title: "Pricing",
-      url: "/pricing",
+      url: "#pricing",
     },
-
     {
       title: "About Driver",
-      url: "/about-driver",
+      url: "#about-driver",
     },
   ];
   const handleSignoutMobile = async () => {
@@ -72,70 +67,47 @@ const Navbar = ({ session }: { session: Session }) => {
 
   return (
     <>
-      <nav className="sticky top-0 z-20 h-16 border-b border-border bg-white py-3 dark:bg-card">
-        <div className="container flex items-center justify-between gap-2">
-          <Link href="/" className="flex shrink-0 items-center">
-            <Image
-              src="/logo.svg"
-              alt="Brand Logo"
-              width={80}
-              height={32}
-              priority
-              className="h-8 w-auto"
-            />
-          </Link>
+      <nav className="sticky top-0 z-20 bg-black/80 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center space-x-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded bg-primary">
+                <span className="text-lg font-bold text-white">CR</span>
+              </div>
+              <span className="text-xl font-semibold text-white">
+                CarRide California
+              </span>
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden items-center justify-between gap-2 xl:flex">
-            <div className="flex items-center gap-[2px]">
-              {menuList.map((menu, index) => {
-                const isActive = pathname === menu.url;
-
-                return (
-                  <div key={index} className="flex items-center">
-                    {index > 0 && <div className="mx-3 h-4 w-px bg-border" />}
-                    <Link
-                      href={menu.url!}
-                      className={cn(
-                        "border-b-2 border-transparent px-3 py-2 text-sm font-medium transition-colors hover:text-primary focus:outline-none",
-                        {
-                          "border-b-primary text-primary": isActive,
-                          "text-muted-foreground": !isActive,
-                        },
-                      )}
-                    >
-                      {menu.title}
-                    </Link>
-                  </div>
-                );
-              })}
+            {/* Desktop Navigation */}
+            <div className="hidden items-center space-x-8 md:flex">
+              {menuList.map((menu, index) => (
+                <Link
+                  key={index}
+                  href={menu.url!}
+                  className="text-white transition-colors hover:text-primary"
+                >
+                  {menu.title}
+                </Link>
+              ))}
             </div>
 
+            {/* Phone Button */}
             <div className="flex items-center gap-4">
-              {/* <ThemeSwitcher /> */}
-              {session ? (
-                <ProfileDropdown session={session} />
-              ) : (
-                <Button asChild>
-                  <Link className="!bg-[#DC143C]" href="/auth/sign-in">
-                    Login
-                  </Link>
-                </Button>
-              )}
-            </div>
-          </div>
+              <button className="flex items-center space-x-2 rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-primary/90">
+                <Phone className="h-4 w-4" />
+                <span className="hidden sm:inline">+1-310-756-8533</span>
+              </button>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center gap-4 xl:hidden">
-            {session && <ProfileDropdown session={session} />}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setMobileMenuOpen(true)}
-              className="rounded-md border border-gray-300 p-2"
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                className="p-2 text-white md:hidden"
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -143,77 +115,49 @@ const Navbar = ({ session }: { session: Session }) => {
       {/* Mobile Sidebar */}
       <Drawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
         <DrawerContent>
-          <DrawerHeader className="border-b-0">
-            <div className="flex flex-col">
-              <Link href="/" className="flex items-center">
-                <Image
-                  src="/logo.svg"
-                  alt="Brand Logo"
-                  width={80}
-                  height={32}
-                  priority
-                  className="h-8 w-auto"
-                />
+          <DrawerHeader className="border-b-0 bg-black">
+            <div className="flex items-center justify-between">
+              <Link
+                href="/"
+                className="flex items-center space-x-3"
+                onClick={closeMobileMenu}
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded bg-primary">
+                  <span className="text-lg font-bold text-white">CR</span>
+                </div>
+                <span className="text-xl font-semibold text-white">
+                  CarRide California
+                </span>
               </Link>
-              <DrawerDescription className="sr-only">
-                Mobile sidebar navigation
-              </DrawerDescription>
+              <DrawerClose className="p-2 text-white">
+                <X className="h-6 w-6" />
+              </DrawerClose>
             </div>
-            <DrawerClose
-              className={cn(
-                buttonVariants({ variant: "secondary", size: "icon" }),
-              )}
-            >
-              <X />
-            </DrawerClose>
+            <DrawerDescription className="sr-only">
+              Mobile sidebar navigation
+            </DrawerDescription>
           </DrawerHeader>
-          <div className="flex flex-col overflow-y-auto p-6">
+          <div className="flex flex-col overflow-y-auto bg-black p-6 text-white">
             {/* Mobile Navigation Menu */}
             <nav className="space-y-4">
-              {menuList.map((menu, index) => {
-                const isActive = pathname === menu.url;
-
-                return (
-                  <Link
-                    key={index}
-                    href={menu.url!}
-                    className={cn(
-                      "block border-b-2 border-transparent py-3 text-sm font-medium transition-colors",
-                      {
-                        "border-b-primary text-primary": isActive,
-                        "text-muted-foreground": !isActive,
-                      },
-                    )}
-                    onClick={closeMobileMenu}
-                  >
-                    {menu.title}
-                  </Link>
-                );
-              })}
+              {menuList.map((menu, index) => (
+                <Link
+                  key={index}
+                  href={menu.url!}
+                  className="block py-3 text-lg font-medium transition-colors hover:text-primary"
+                  onClick={closeMobileMenu}
+                >
+                  {menu.title}
+                </Link>
+              ))}
             </nav>
 
-            {/* Mobile Auth Section */}
-            <div className="mt-8 border-t pt-6">
-              {session ? (
-                <div className="space-y-4">
-                  <div className="text-sm text-muted-foreground">
-                    Signed in as {session.user.email}
-                  </div>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={handleSignoutMobile}
-                  >
-                    Sign Out
-                  </Button>
-                </div>
-              ) : (
-                <Button asChild className="w-full">
-                  <Link href="/auth/sign-in" onClick={closeMobileMenu}>
-                    LOGIN
-                  </Link>
-                </Button>
-              )}
+            {/* Mobile Phone Button */}
+            <div className="mt-8 border-t border-gray-800 pt-6">
+              <button className="flex w-full items-center justify-center space-x-2 rounded-lg bg-primary px-4 py-3 text-white transition-colors hover:bg-primary/90">
+                <Phone className="h-5 w-5" />
+                <span>+1-310-756-8533</span>
+              </button>
             </div>
           </div>
         </DrawerContent>
