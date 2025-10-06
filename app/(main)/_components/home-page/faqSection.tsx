@@ -13,23 +13,38 @@ const FaqSection = () => {
     {
       question: "How far in advance should I book?",
       answer:
-        "We recommend booking at least 24 hours in advance for airport transfers and 48 hours for special events. However, we also accept last-minute bookings based on availability.",
+        "We recommend booking at least 24 hours in advance for airport transfers and 48 hours for special events. However, we also accept last-minute bookings based on availability. For peak seasons and holidays, we suggest booking 1-2 weeks in advance to ensure availability.",
     },
     {
       question: "What is your cancellation policy?",
-      answer: "",
+      answer:
+        "You can cancel your booking up to 2 hours before your scheduled pickup time for a full refund. Cancellations made less than 2 hours before pickup will incur a 50% cancellation fee. No-shows will be charged the full amount. For airport transfers, we offer free cancellation if your flight is delayed by more than 2 hours.",
     },
     {
       question: "What payment methods do you accept?",
-      answer: "",
+      answer:
+        "We accept all major credit cards (Visa, MasterCard, American Express), PayPal, Apple Pay, Google Pay, and bank transfers. Payment is required at the time of booking to confirm your reservation. We also accept cash payments for local rides, but advance payment is preferred for airport transfers and long-distance trips.",
     },
     {
       question: "Can I cancel or modify my booking?",
-      answer: "",
+      answer:
+        "Yes, you can modify or cancel your booking through our website, mobile app, or by calling our customer service. Changes to pickup time, location, or vehicle type can be made up to 2 hours before your scheduled pickup. Modifications may be subject to price adjustments based on availability and distance changes.",
     },
     {
       question: "What happens if my flight is delayed?",
-      answer: "",
+      answer:
+        "We monitor flight arrivals in real-time and automatically adjust your pickup time for domestic flights. For international flights, please update us as soon as possible. We provide a 30-minute grace period after your flight lands. If your flight is delayed by more than 2 hours, you can cancel free of charge or reschedule at no extra cost.",
+    },
+    {
+      question: "What types of vehicles do you offer?",
+      answer:
+        "Our fleet includes economy sedans, luxury sedans, SUVs, minivans, and executive vehicles. We also offer wheelchair-accessible vehicles upon request. All vehicles are well-maintained, clean, and equipped with modern amenities. Vehicle availability depends on your location and booking time.",
+    },
+
+    {
+      question: "Do you offer services outside the city?",
+      answer:
+        "Yes, we provide long-distance and intercity transportation services. We offer competitive rates for out-of-town trips and can arrange round-trip bookings. For long-distance travel, we recommend booking in advance and may require a minimum booking duration. Contact us for custom quotes for your specific destination.",
     },
   ];
   return (
