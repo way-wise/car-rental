@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut } from "@/lib/auth-client";
+import { handleSmoothScroll } from "@/lib/smoothScroll";
 import { useProgress } from "@bprogress/next";
 import { Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
@@ -28,7 +29,7 @@ const Navbar = ({ session }: { session: Session }) => {
   const menuList = [
     {
       title: "Home",
-      url: "/",
+      url: "#home",
     },
     {
       title: "Services",
@@ -65,6 +66,18 @@ const Navbar = ({ session }: { session: Session }) => {
     setMobileMenuOpen(false);
   };
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    // Check if we're on the home page and it's a hash link
+    if (pathname === "/" && href.startsWith("#")) {
+      e.preventDefault();
+      handleSmoothScroll(href);
+      closeMobileMenu(); // Close mobile menu if open
+    }
+  };
+
   return (
     <>
       <nav className="sticky top-0 z-20 bg-black/80 backdrop-blur-sm">
@@ -87,6 +100,7 @@ const Navbar = ({ session }: { session: Session }) => {
                   key={index}
                   href={menu.url!}
                   className="text-white transition-colors hover:text-primary"
+                  onClick={(e) => handleNavClick(e, menu.url!)}
                 >
                   {menu.title}
                 </Link>
@@ -95,11 +109,12 @@ const Navbar = ({ session }: { session: Session }) => {
 
             {/* Phone Button */}
             <div className="flex items-center gap-4">
-              <button className="flex items-center space-x-2 rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-primary/90">
-                <Phone className="h-4 w-4" />
-                <span className="hidden sm:inline">+1-310-756-8533</span>
-              </button>
-
+              <Link href="tel:+1-310-756-8533">
+                <button className="flex cursor-pointer items-center space-x-2 rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-primary/90">
+                  <Phone className="h-4 w-4" />
+                  <span className="hidden sm:inline">+1-310-756-8533</span>
+                </button>
+              </Link>
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
@@ -145,7 +160,7 @@ const Navbar = ({ session }: { session: Session }) => {
                   key={index}
                   href={menu.url!}
                   className="block py-3 text-lg font-medium transition-colors hover:text-primary"
-                  onClick={closeMobileMenu}
+                  onClick={(e) => handleNavClick(e, menu.url!)}
                 >
                   {menu.title}
                 </Link>
@@ -154,10 +169,12 @@ const Navbar = ({ session }: { session: Session }) => {
 
             {/* Mobile Phone Button */}
             <div className="mt-8 border-t border-gray-800 pt-6">
-              <button className="flex w-full items-center justify-center space-x-2 rounded-lg bg-primary px-4 py-3 text-white transition-colors hover:bg-primary/90">
-                <Phone className="h-5 w-5" />
-                <span>+1-310-756-8533</span>
-              </button>
+              <Link href="tel:+1-310-756-8533">
+                <button className="flex w-full cursor-pointer items-center justify-center space-x-2 rounded-lg bg-primary px-4 py-3 text-white transition-colors hover:bg-primary/90">
+                  <Phone className="h-5 w-5" />
+                  <span>+1-310-756-8533</span>
+                </button>
+              </Link>
             </div>
           </div>
         </DrawerContent>

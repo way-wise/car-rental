@@ -54,6 +54,7 @@ const driverBadges = [
 const ServiceSection = () => {
   return (
     <section
+      id="services"
       className={`relative bg-[url(/assets/images/service-bg.png)] bg-cover bg-center`}
     >
       {/* Overlay with low opacity */}

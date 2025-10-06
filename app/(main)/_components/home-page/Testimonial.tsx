@@ -91,7 +91,10 @@ const Testimonial = () => {
     },
   ];
   return (
-    <section className="relative w-full overflow-hidden bg-[url(/assets/images/testimonial.png)] bg-cover bg-center">
+    <section
+      id="about-driver"
+      className="relative w-full overflow-hidden bg-[url(/assets/images/testimonial.png)] bg-cover bg-center"
+    >
       {/* Overlay with low opacity */}
       <div className="absolute inset-0 z-5 bg-black/80"></div>
 

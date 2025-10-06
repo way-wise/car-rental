@@ -1,4 +1,5 @@
 import { MailIcon, MapPinnedIcon, PhoneIcon } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   const footerLinks = {
@@ -34,13 +35,13 @@ const Footer = () => {
             </h3>
             <nav className="flex flex-col gap-3">
               {footerLinks.quickLinks.map((link, index) => (
-                <a
+                <Link
                   key={index}
                   href="#"
                   className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
                 >
                   {link}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
@@ -52,13 +53,13 @@ const Footer = () => {
             </h3>
             <nav className="flex flex-col gap-3">
               {footerLinks.services.map((service, index) => (
-                <a
+                <Link
                   key={index}
                   href="#"
                   className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
                 >
                   {service}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>
@@ -71,23 +72,32 @@ const Footer = () => {
             <div className="flex flex-col gap-4">
               <div className="flex items-start gap-2">
                 <PhoneIcon className="mt-1 h-4 w-4 text-white" />
-                <span className="text-sm leading-[30px] font-normal tracking-[-0.07px] text-white">
+                <Link
+                  href="tel:+1-310-756-5533"
+                  className="text-sm leading-[30px] font-normal tracking-[-0.07px] text-white transition-colors hover:text-[#dc143c]"
+                >
                   +1-310-756-5533
-                </span>
+                </Link>
               </div>
               <div className="flex items-start gap-2">
                 <MailIcon className="mt-1 h-4 w-4 text-white" />
-                <span className="text-sm leading-[30px] font-normal tracking-[-0.07px] text-white">
+                <Link
+                  href="mailto:seungyoon2@gmail.com"
+                  className="text-sm leading-[30px] font-normal tracking-[-0.07px] text-white transition-colors hover:text-[#dc143c]"
+                >
                   seungyoon2@gmail.com
-                </span>
+                </Link>
               </div>
               <div className="flex items-start gap-2">
                 <MapPinnedIcon className="mt-1 h-4 w-4 text-white" />
-                <span className="text-sm leading-[14px] font-normal tracking-[-0.07px] text-white">
+                <Link
+                  href="https://maps.app.goo.gl/ZzjMftLv3kumh1DZ7"
+                  className="text-sm leading-[14px] font-normal tracking-[-0.07px] text-white transition-colors hover:text-[#dc143c]"
+                >
                   Encino Town Center, 17200 Ventura
                   <br />
                   Blvd, CA 91316
-                </span>
+                </Link>
               </div>
             </div>
           </div>

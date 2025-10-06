@@ -58,7 +58,10 @@ const CarPlan = () => {
     },
   ];
   return (
-    <section className="relative w-full overflow-hidden bg-[url(/assets/images/plan-bg.png)] bg-cover bg-center">
+    <section
+      id="pricing"
+      className="relative w-full overflow-hidden bg-[url(/assets/images/plan-bg.png)] bg-cover bg-center"
+    >
       {/* Background Image */}
       <div className="absolute inset-0 z-5 bg-white/80"></div>
 
