@@ -20,9 +20,9 @@ const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-2 py-20 lg:px-8">
         <div className="grid min-h-[600px] grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Left Content */}
-          <div className="space-y-8">
+          <div className="space-y-8 text-center lg:text-left">
             <div className="animate-fade-in [--animation-delay:600ms]">
-              <h1 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
+              <h1 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
                 Reliable Airport & City Rides
                 <br />
                 in California
