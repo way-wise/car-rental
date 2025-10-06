@@ -37,7 +37,7 @@ const Footer = () => {
               {footerLinks.quickLinks.map((link, index) => (
                 <Link
                   key={index}
-                  href="#"
+                  href={`#${link}`}
                   className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
                 >
                   {link}
@@ -55,7 +55,7 @@ const Footer = () => {
               {footerLinks.services.map((service, index) => (
                 <Link
                   key={index}
-                  href="#"
+                  href={service}
                   className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
                 >
                   {service}
