@@ -55,7 +55,7 @@ const Footer = () => {
               {footerLinks.services.map((service, index) => (
                 <Link
                   key={index}
-                  href={service}
+                  href="#"
                   className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
                 >
                   {service}

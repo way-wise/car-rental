@@ -150,9 +150,10 @@ const ServiceSection = () => {
               <Image
                 className="h-[400px] w-full rounded-[20px] object-cover"
                 alt="Driver"
-                src="https://c.animaapp.com/mgdxk0bzO3P1u7/img/rectangle-13.png"
+                src="/assets/images/driver.png"
                 width={400}
                 height={400}
+                unoptimized
               />
               <div className="absolute right-0 bottom-16 flex h-[60px] w-60 items-center justify-center gap-1 rounded-lg bg-white shadow-[0px_0px_6px_#00000033]">
                 {Array.from({ length: 5 }).map((_, index) => (

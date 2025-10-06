@@ -14,11 +14,10 @@ const CarPlan = () => {
     {
       title: (
         <>
-          <span className="block lg:hidden">Airport to Home</span>
+          <span className="block lg:hidden">Airport Pick & Drop</span>
           <span className="hidden lg:inline">
-            Airport to
-            <br />
-            Home
+            Airport Pick
+            <br />& Drop
           </span>
         </>
       ),
@@ -38,16 +37,16 @@ const CarPlan = () => {
     {
       title: (
         <>
-          <span className="block lg:hidden">Home to Airport</span>
+          <span className="block lg:hidden">Corporate Rides</span>
           <span className="hidden lg:inline">
-            Home to
+            Corporate
             <br />
-            Airport
+            Rides
           </span>
         </>
       ),
       description:
-        "One-way transfer from any major California airport to your home",
+        "Professional transportation for your daily office commute. Comfortable and punctual service",
       price: "$50",
       priceUnit: "",
       features: [
@@ -62,16 +61,15 @@ const CarPlan = () => {
     {
       title: (
         <>
-          <span className="block lg:hidden">City Rides</span>
+          <span className="block lg:hidden">City Pick & Drop</span>
           <span className="hidden lg:inline">
-            City Rides
-            <br />
-            in California
+            City Pick
+            <br />& Drop
           </span>
         </>
       ),
       description:
-        "One-way transfer from any major California airport to your home",
+        "Explore California cities with our hourly rental service. Perfect for meetings and sightseeing",
       price: "$30",
       priceUnit: "/hour",
       features: [
