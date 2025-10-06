@@ -168,7 +168,7 @@ const ServiceSection = () => {
               </div>
             </div>
 
-            <Button className="mx-auto flex h-[60px] w-[260px] rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]">
+            <Button className="mx-auto flex w-[260px] rounded-[40px] bg-primary py-6 shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]">
               <span className="text-base leading-[20.8px] font-semibold tracking-[0] text-white">
                 Book Your Ride
               </span>
