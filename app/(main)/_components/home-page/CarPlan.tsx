@@ -73,10 +73,10 @@ const CarPlan = () => {
           {/* Car Images Section */}
           <div className="space-y-8">
             <div className="text-center lg:text-left">
-              <h2 className="[font-family:'Poppins',Helvetica] text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
+              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Our Luxury Car
               </h2>
-              <p className="mt-2 [font-family:'Poppins',Helvetica] text-xl leading-8 font-normal tracking-[-0.50px] text-[#303740]">
+              <p className="mt-2 text-xl leading-8 font-normal tracking-[-0.50px] text-[#303740]">
                 Clean, comfortable, and well-maintained—our luxury car makes
                 every ride smooth and stylish.
               </p>
@@ -100,10 +100,10 @@ const CarPlan = () => {
           {/* Pricing Section */}
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="[font-family:'Poppins',Helvetica] text-4xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
+              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
                 Simple, Transparent Pricing
               </h2>
-              <p className="mt-2 [font-family:'Poppins',Helvetica] text-xl leading-[30px] font-normal tracking-[-1.00px] text-white">
+              <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-white">
                 No hidden fees, no surge pricing. Just honest, upfront rates for
                 professional transportation services across California.
               </p>
@@ -121,11 +121,11 @@ const CarPlan = () => {
                   <CardContent className="flex h-full p-0">
                     <div className="flex flex-1 flex-col items-center justify-center p-4">
                       <h3
-                        className={`[font-family:'Poppins',Helvetica] font-semibold ${plan.isPopular ? "text-[#dc143c]" : "text-black"} mb-2 text-center text-xl leading-8 tracking-[-0.50px] whitespace-pre-line`}
+                        className={`font-semibold ${plan.isPopular ? "text-[#dc143c]" : "text-black"} mb-2 text-center text-xl leading-8 tracking-[-0.50px] whitespace-pre-line`}
                       >
                         {plan.title}
                       </h3>
-                      <p className="text-center [font-family:'Poppins',Helvetica] text-sm leading-[22px] font-normal tracking-[0] text-[#303740]">
+                      <p className="text-center text-sm leading-[22px] font-normal tracking-[0] text-[#303740]">
                         {plan.description}
                       </p>
                     </div>
@@ -137,7 +137,7 @@ const CarPlan = () => {
                           className="mb-2 flex items-center gap-3"
                         >
                           <CheckCircle2Icon className="h-4 w-4 text-[#354152]" />
-                          <span className="[font-family:'Poppins',Helvetica] text-xs leading-6 font-normal tracking-[0] text-[#354152]">
+                          <span className="text-xs leading-6 font-normal tracking-[0] text-[#354152]">
                             {feature}
                           </span>
                         </div>
@@ -146,13 +146,13 @@ const CarPlan = () => {
                     <div className="relative flex w-[180px] flex-col items-center justify-center rounded-[0px_10px_10px_0px] bg-[#f1f1f1]">
                       {plan.isPopular && (
                         <Badge className="absolute top-3 h-[25px] w-[110px] rounded-[40px] border-0 bg-[#dc143c] shadow-[inset_0px_-1px_0px_#00000040] hover:bg-[#dc143c]">
-                          <span className="[font-family:'Poppins',Helvetica] text-xs leading-[15.6px] font-semibold tracking-[0] text-white">
+                          <span className="text-xs leading-[15.6px] font-semibold tracking-[0] text-white">
                             Most Popular
                           </span>
                         </Badge>
                       )}
 
-                      <div className="mb-4 text-center [font-family:'Poppins',Helvetica] text-3xl leading-[normal] font-semibold tracking-[-0.50px] text-[#dc143c]">
+                      <div className="mb-4 text-center text-3xl leading-[normal] font-semibold tracking-[-0.50px] text-[#dc143c]">
                         {plan.price}
                         {plan.priceUnit && (
                           <span className="text-lg font-medium tracking-[-0.10px] text-black">
@@ -161,7 +161,7 @@ const CarPlan = () => {
                         )}
                       </div>
                       <Button className="h-[40px] w-[150px] rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#dc143c] hover:text-white">
-                        <span className="[font-family:'Poppins',Helvetica] text-sm leading-[20.8px] font-semibold tracking-[0] text-[#dc143c]">
+                        <span className="text-sm leading-[20.8px] font-semibold tracking-[0] text-[#dc143c]">
                           Book Now
                         </span>
                       </Button>
@@ -171,7 +171,7 @@ const CarPlan = () => {
               ))}
             </div>
             <div className="text-center">
-              <p className="[font-family:'Poppins',Helvetica] text-xl leading-[30px] font-medium tracking-[-0.50px] text-white [text-shadow:0px_2px_6px_#0000004c]">
+              <p className="text-xl leading-[30px] font-medium tracking-[-0.50px] text-white [text-shadow:0px_2px_6px_#0000004c]">
                 Need a custom quote for multiple trips or special requirements?
               </p>
               <Button className="mt-4 h-[60px] w-[350px] rounded-[40px] bg-[#dc143c] shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]">
@@ -180,7 +180,7 @@ const CarPlan = () => {
                   alt="Phone"
                   src="https://c.animaapp.com/mgdxk0bzO3P1u7/img/group-4.png"
                 />
-                <span className="[font-family:'Poppins',Helvetica] text-lg leading-[28.6px] font-bold tracking-[0] text-white">
+                <span className="text-lg leading-[28.6px] font-bold tracking-[0] text-white">
                   +1-310-756-5533
                 </span>
               </Button>
