@@ -104,7 +104,7 @@ const Testimonial = () => {
           {/* Testimonial Section */}
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-4xl leading-tight font-semibold tracking-[-1.00px] text-white lg:text-5xl">
+              <h2 className="text-3xl leading-tight font-semibold tracking-[-1.00px] text-white lg:text-5xl">
                 What Our Clients Say
               </h2>
               <p className="mt-2 text-xl leading-8 font-normal tracking-[-1.00px] text-white">
@@ -161,7 +161,7 @@ const Testimonial = () => {
           {/* How It Works Section */}
           <div className="space-y-12">
             <div className="text-center lg:text-left">
-              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
+              <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
                 How It Works
               </h2>
               <p className="mt-2 text-lg leading-relaxed font-normal tracking-[-0.50px] text-white">

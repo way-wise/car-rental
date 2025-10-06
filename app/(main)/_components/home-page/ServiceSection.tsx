@@ -66,7 +66,7 @@ const ServiceSection = () => {
           {/* Services Section */}
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
+              <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Service
               </h2>
               <p className="mt-2 text-lg leading-relaxed font-normal tracking-[-0.50px] text-[#303740] md:px-6">
@@ -104,7 +104,7 @@ const ServiceSection = () => {
           {/* Driver Section */}
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
+              <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Meet Seung Lee
               </h2>
               <p className="mt-2 text-lg leading-8 font-normal tracking-[-0.50px] text-[#303740]">

@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import Link from "next/link";
 import { IoCall } from "react-icons/io5";
 
 const CarPlan = () => {
@@ -12,7 +13,16 @@ const CarPlan = () => {
   ];
   const pricingPlans = [
     {
-      title: "Airport to\nHome",
+      title: (
+        <>
+          <span className="block lg:hidden">Airport to Home</span>
+          <span className="hidden lg:inline">
+            Airport to
+            <br />
+            Home
+          </span>
+        </>
+      ),
       description:
         "One-way transfer from any major California airport to your home",
       price: "$50",
@@ -27,7 +37,16 @@ const CarPlan = () => {
       isPopular: false,
     },
     {
-      title: "Home to\nAirport",
+      title: (
+        <>
+          <span className="block lg:hidden">Home to Airport</span>
+          <span className="hidden lg:inline">
+            Home to
+            <br />
+            Airport
+          </span>
+        </>
+      ),
       description:
         "One-way transfer from any major California airport to your home",
       price: "$50",
@@ -42,7 +61,16 @@ const CarPlan = () => {
       isPopular: true,
     },
     {
-      title: "City Rides",
+      title: (
+        <>
+          <span className="block lg:hidden">City Rides</span>
+          <span className="hidden lg:inline">
+            City Rides
+            <br />
+            in California
+          </span>
+        </>
+      ),
       description:
         "One-way transfer from any major California airport to your home",
       price: "$30",
@@ -71,7 +99,7 @@ const CarPlan = () => {
           {/* Car Images Section */}
           <div className="col-span-1 space-y-8 lg:col-span-2 xl:col-span-1">
             <div className="text-center">
-              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
+              <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Our Luxury Car
               </h2>
               <p className="mt-2 text-xl leading-8 font-normal tracking-[-0.50px] text-black md:px-4">
@@ -98,7 +126,7 @@ const CarPlan = () => {
           {/* Pricing Section */}
           <div className="col-span-1 space-y-8 lg:col-span-3 xl:col-span-1">
             <div className="text-center">
-              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
+              <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Simple, Transparent Pricing
               </h2>
               <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-black md:px-4">
@@ -137,13 +165,15 @@ const CarPlan = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="relative flex w-full flex-col items-center justify-center rounded-[0px_10px_10px_0px] bg-[#f1f1f1] py-2 transition-all duration-300 ease-in-out group-hover:bg-primary sm:w-[180px]">
+                    <div className="flex w-full flex-col items-center justify-center rounded-[0px_10px_10px_0px] bg-[#f1f1f1] py-2 transition-all duration-300 ease-in-out group-hover:bg-primary sm:w-[180px]">
                       {plan.isPopular && (
-                        <Badge className="absolute top-3 h-[25px] w-[110px] rounded-[40px] border-1 bg-[#dc143c] shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out group-hover:border-white group-hover:bg-[#dc143c]">
-                          <span className="text-xs leading-[15.6px] font-semibold tracking-[0] text-white">
-                            Most Popular
-                          </span>
-                        </Badge>
+                        <>
+                          <Badge className="mb-2 h-[25px] w-[110px] rounded-[40px] border-1 bg-[#dc143c] shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out group-hover:border-white group-hover:bg-[#dc143c]">
+                            <span className="text-xs leading-[15.6px] font-semibold tracking-[0] text-white">
+                              Most Popular
+                            </span>
+                          </Badge>
+                        </>
                       )}
 
                       <div className="mb-4 text-center text-3xl leading-[normal] font-semibold tracking-[-0.50px] text-[#dc143c] group-hover:text-white">
@@ -168,13 +198,15 @@ const CarPlan = () => {
               <p className="text-xl leading-[30px] font-medium tracking-[-0.50px] text-black [text-shadow:0px_2px_6px_#0000004c]">
                 Need a custom quote for multiple trips or special requirements?
               </p>
-              <Button className="mx-auto mt-4 w-3/4 rounded-full bg-[#dc143c] py-6 shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out hover:bg-[#c01234]">
-                <IoCall className="h-12 w-12" />
+              <Link href="tel:+1-310-756-5533">
+                <Button className="mx-auto mt-4 w-3/4 rounded-full bg-[#dc143c] py-6 shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out hover:bg-[#c01234]">
+                  <IoCall className="h-12 w-12" />
 
-                <span className="text-lg leading-[28.6px] font-bold tracking-[0] text-white">
-                  +1-310-756-5533
-                </span>
-              </Button>
+                  <span className="text-lg leading-[28.6px] font-bold tracking-[0] text-white">
+                    +1-310-756-5533
+                  </span>
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
