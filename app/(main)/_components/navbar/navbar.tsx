@@ -6,7 +6,7 @@ import { useProgress } from "@bprogress/next";
 import { Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import {
@@ -22,6 +22,7 @@ type Session = typeof auth.$Infer.Session;
 const Navbar = ({ session }: { session: Session }) => {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const { start, stop } = useProgress();
   const router = useRouter();
@@ -78,9 +79,26 @@ const Navbar = ({ session }: { session: Session }) => {
     }
   };
 
+  // Handle scroll effect for navbar transparency
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50); // Change navbar style after 50px scroll
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
-      <nav className="sticky top-0 z-20 bg-black/80 backdrop-blur-sm">
+      <nav
+        className={`sticky top-0 z-20 transition-all duration-300 ${
+          isScrolled
+            ? "bg-black/80 backdrop-blur-sm"
+            : "bg-black/20 backdrop-blur-sm"
+        }`}
+      >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}

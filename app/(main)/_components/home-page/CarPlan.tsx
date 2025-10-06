@@ -66,10 +66,10 @@ const CarPlan = () => {
       <div className="absolute inset-0 z-5 bg-white/80"></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto h-full px-2 py-20 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-32">
+      <div className="relative z-10 container mx-auto h-full px-2 py-20">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-4 xl:grid-cols-2">
           {/* Car Images Section */}
-          <div className="space-y-8">
+          <div className="col-span-1 space-y-8 lg:col-span-2 xl:col-span-1">
             <div className="text-center">
               <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Our Luxury Car
@@ -96,7 +96,7 @@ const CarPlan = () => {
           </div>
 
           {/* Pricing Section */}
-          <div className="space-y-8">
+          <div className="col-span-1 space-y-8 lg:col-span-3 xl:col-span-1">
             <div className="text-center">
               <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Simple, Transparent Pricing
@@ -112,7 +112,7 @@ const CarPlan = () => {
                   key={index}
                   className={`group "hover:border-2 relative rounded-[10px] border border-[#f1f1f1] bg-white shadow-[0px_1px_3px_#0000001a] transition-all duration-300 ease-in-out hover:border-[#dc143c] hover:shadow-[0px_4px_10px_#dc143c99]`}
                 >
-                  <CardContent className="flex h-full p-0">
+                  <CardContent className="flex h-full flex-col p-0 sm:flex-row">
                     <div className="flex flex-1 flex-col items-center justify-center p-4">
                       <h3
                         className={`mb-2 text-center text-xl leading-8 font-semibold tracking-[-0.50px] whitespace-pre-line text-black transition-all duration-300 ease-in-out group-hover:text-[#dc143c]`}
@@ -123,8 +123,8 @@ const CarPlan = () => {
                         {plan.description}
                       </p>
                     </div>
-                    <div className="h-32 w-px self-center bg-[#ececec]" />
-                    <div className="flex flex-1 flex-col justify-center p-4">
+                    <div className="h-0 w-px self-center bg-[#ececec] lg:h-32" />
+                    <div className="flex flex-1 flex-col justify-center px-4 sm:py-4 lg:p-4">
                       {plan.features.map((feature, featureIndex) => (
                         <div
                           key={featureIndex}
@@ -137,7 +137,7 @@ const CarPlan = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="relative flex w-[180px] flex-col items-center justify-center rounded-[0px_10px_10px_0px] bg-[#f1f1f1] transition-all duration-300 ease-in-out group-hover:bg-primary">
+                    <div className="relative flex w-full flex-col items-center justify-center rounded-[0px_10px_10px_0px] bg-[#f1f1f1] py-2 transition-all duration-300 ease-in-out group-hover:bg-primary sm:w-[180px]">
                       {plan.isPopular && (
                         <Badge className="absolute top-3 h-[25px] w-[110px] rounded-[40px] border-1 bg-[#dc143c] shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out group-hover:border-white group-hover:bg-[#dc143c]">
                           <span className="text-xs leading-[15.6px] font-semibold tracking-[0] text-white">
