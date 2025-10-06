@@ -36,13 +36,18 @@ const Navbar = ({ session }: { session: Session }) => {
       title: "Services",
       url: "#services",
     },
+
+    {
+      title: "About Driver",
+      url: "#about-driver",
+    },
     {
       title: "Pricing",
       url: "#pricing",
     },
     {
-      title: "About Driver",
-      url: "#about-driver",
+      title: "FAQ",
+      url: "#faq",
     },
   ];
   const handleSignoutMobile = async () => {

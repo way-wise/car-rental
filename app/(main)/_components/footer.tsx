@@ -13,7 +13,7 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="lg:col-span-1">
             <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-[#dc143c]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-primary">
                 <span className="text-lg leading-7 font-bold tracking-[0] text-white">
                   CR
                 </span>

@@ -1,9 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { Check, Phone } from "lucide-react";
 import Link from "next/link";
-import { IoCall } from "react-icons/io5";
 
 const CarPlan = () => {
   const carImages = [
@@ -168,7 +167,7 @@ const CarPlan = () => {
                     <div className="flex w-full flex-col items-center justify-center rounded-[0px_10px_10px_0px] bg-[#f1f1f1] py-2 transition-all duration-300 ease-in-out group-hover:bg-primary sm:w-[180px]">
                       {plan.isPopular && (
                         <>
-                          <Badge className="mb-2 h-[25px] w-[110px] rounded-[40px] border-1 bg-[#dc143c] shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out group-hover:border-white group-hover:bg-[#dc143c]">
+                          <Badge className="mb-2 h-[25px] w-[110px] rounded-[40px] border-1 bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out group-hover:border-white group-hover:bg-primary">
                             <span className="text-xs leading-[15.6px] font-semibold tracking-[0] text-white">
                               Most Popular
                             </span>
@@ -198,9 +197,9 @@ const CarPlan = () => {
               <p className="text-xl leading-[30px] font-medium tracking-[-0.50px] text-black [text-shadow:0px_2px_6px_#0000004c]">
                 Need a custom quote for multiple trips or special requirements?
               </p>
-              <Link href="tel:+1-310-756-5533">
-                <Button className="mx-auto mt-4 w-3/4 rounded-full bg-[#dc143c] py-6 shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out hover:bg-[#c01234]">
-                  <IoCall className="h-12 w-12" />
+              <Link href="tel:+1-310-756-5533" className="w-full sm:w-[300px]">
+                <Button className="mx-auto mt-4 w-full rounded-full bg-primary py-7 shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out hover:bg-primary">
+                  <Phone className="h-12 w-12" />
 
                   <span className="text-lg leading-[28.6px] font-bold tracking-[0] text-white">
                     +1-310-756-5533

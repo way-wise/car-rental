@@ -159,7 +159,7 @@ const Testimonial = () => {
             </div>
           </div>
           {/* How It Works Section */}
-          <div className="space-y-12">
+          <div className="space-y-12 pl-2">
             <div className="text-center lg:text-left">
               <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
                 How It Works
@@ -172,7 +172,7 @@ const Testimonial = () => {
               {howItWorksSteps.map((step, index) => (
                 <div key={index} className="relative flex items-start gap-6">
                   <div className="relative flex-shrink-0">
-                    <div className="flex h-24 w-24 items-center justify-center rounded-[45px] bg-[#dc143c] text-[40px] font-semibold text-white">
+                    <div className="flex h-24 w-24 items-center justify-center rounded-[45px] bg-primary text-[40px] font-semibold text-white">
                       {step.icon}
                     </div>
                     <div className="absolute -top-2 -left-2 flex h-8 w-8 items-center justify-center rounded-full border border-primary bg-white">
