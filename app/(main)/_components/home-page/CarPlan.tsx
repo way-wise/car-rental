@@ -92,9 +92,9 @@ const CarPlan = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto h-full px-2 py-20">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-4 xl:grid-cols-2">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-8 xl:grid-cols-2 xl:gap-20">
           {/* Car Images Section */}
-          <div className="col-span-1 space-y-8 lg:col-span-2 xl:col-span-1">
+          <div className="col-span-1 space-y-8 lg:col-span-2 xl:col-span-1 xl:w-4/5">
             <div className="text-center">
               <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Our Luxury Car
