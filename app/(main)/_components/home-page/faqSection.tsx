@@ -5,6 +5,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { IoCall } from "react-icons/io5";
 
 const FaqSection = () => {
   const faqItems = [
@@ -31,28 +33,15 @@ const FaqSection = () => {
     },
   ];
   return (
-    <section className="relative w-full overflow-hidden">
+    <section className="relative w-full overflow-hidden bg-[url(/assets/images/faq-bg.png)] bg-cover bg-center">
       {/* Background Images */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-0 h-full w-1/2 bg-[#090909]" />
-        <div className="absolute top-0 right-0 h-full w-1/2 bg-white" />
-        <img
-          className="absolute top-0 left-0 h-full w-1/2 object-cover"
-          alt="Mask group"
-          src="https://c.animaapp.com/mgdxk0bzO3P1u7/img/mask-group-4.png"
-        />
-        <img
-          className="absolute top-0 right-0 h-full w-1/2 object-cover"
-          alt="Mask group"
-          src="https://c.animaapp.com/mgdxk0bzO3P1u7/img/mask-group-5.png"
-        />
-      </div>
+      <div className="absolute inset-0 bg-black/80"></div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 py-20 lg:px-8">
+      <div className="relative z-10 container mx-auto px-2 py-20 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Contact Section */}
-          <div className="space-y-8 text-center">
+          <div className="flex flex-col justify-center space-y-8 text-center">
             <div>
               <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
                 Have A Question?
@@ -63,18 +52,16 @@ const FaqSection = () => {
               </p>
             </div>
             <div className="flex flex-col justify-center gap-5 sm:flex-row">
-              <Button className="h-[60px] w-full rounded-[40px] bg-[#dc143c] shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234] sm:w-[300px]">
-                <img
-                  className="mr-2 h-[22px] w-[22px]"
-                  alt="Phone"
-                  src="https://c.animaapp.com/mgdxk0bzO3P1u7/img/group-2.png"
-                />
-                <span className="text-xl leading-[26px] font-bold tracking-[0] text-white">
-                  +1-310-756-5533
-                </span>
-              </Button>
-              <Button className="h-[60px] w-full rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#dc143c] hover:text-white sm:w-[300px]">
-                <span className="text-xl leading-[26px] font-semibold tracking-[0] text-[#dc143c]">
+              <Link href="tel:+1-310-756-5533">
+                <Button className="h-[60px] w-full cursor-pointer rounded-[40px] bg-[#dc143c] shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234] sm:w-[300px]">
+                  <IoCall className="h-12 w-12" />
+                  <span className="text-xl leading-[26px] font-bold tracking-[0] text-white">
+                    +1-310-756-5533
+                  </span>
+                </Button>
+              </Link>
+              <Button className="group h-[60px] w-full cursor-pointer rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:border-white hover:bg-[#dc143c] sm:w-[300px]">
+                <span className="text-xl leading-[26px] font-semibold tracking-[0] text-[#dc143c] group-hover:text-white">
                   Book Now
                 </span>
               </Button>
@@ -84,10 +71,10 @@ const FaqSection = () => {
           {/* FAQ Section */}
           <div className="space-y-8">
             <div className="text-center">
-              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
+              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
                 Frequently Asked Questions
               </h2>
-              <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-[#303740]">
+              <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-white">
                 Everything you need to know about our services
               </p>
             </div>
