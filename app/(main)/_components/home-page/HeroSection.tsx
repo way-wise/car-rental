@@ -97,25 +97,6 @@ const HeroSection = () => {
           </div>
 
           {/* Right Content - Decorative Images */}
-          <div className="relative hidden lg:block">
-            <div className="relative h-[600px] w-full">
-              <img
-                className="absolute top-0 right-0 h-full w-full object-contain"
-                alt="Vector"
-                src="https://c.animaapp.com/mgdxk0bzO3P1u7/img/vector-3.svg"
-              />
-              <img
-                className="absolute top-0 right-0 h-full w-full object-contain"
-                alt="Subtract"
-                src="https://c.animaapp.com/mgdxk0bzO3P1u7/img/subtract.svg"
-              />
-              <img
-                className="absolute top-0 right-0 h-full w-full object-contain"
-                alt="Mask group"
-                src="https://c.animaapp.com/mgdxk0bzO3P1u7/img/mask-group-1.png"
-              />
-            </div>
-          </div>
         </div>
       </div>
     </section>
