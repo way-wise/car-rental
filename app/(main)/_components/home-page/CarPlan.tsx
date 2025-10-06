@@ -63,8 +63,8 @@ const CarPlan = () => {
       <div className="absolute inset-0 z-5 bg-white/80"></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-2 py-20 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
+      <div className="relative z-10 container mx-auto h-full px-2 py-20 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-32">
           {/* Car Images Section */}
           <div className="space-y-8">
             <div className="text-center">
@@ -80,7 +80,7 @@ const CarPlan = () => {
               {carImages.map((image, index) => (
                 <div
                   key={index}
-                  className="h-[300px] w-full overflow-hidden rounded-[20px] bg-[#131417] transition-transform hover:scale-105"
+                  className="h-[250px] w-full overflow-hidden rounded-[20px] bg-[#131417] transition-transform hover:scale-105"
                 >
                   <img
                     className="h-full w-full object-cover"
@@ -103,7 +103,7 @@ const CarPlan = () => {
                 professional transportation services across California.
               </p>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-12">
               {pricingPlans.map((plan, index) => (
                 <Card
                   key={index}
