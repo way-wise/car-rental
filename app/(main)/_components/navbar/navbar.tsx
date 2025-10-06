@@ -99,7 +99,9 @@ const Navbar = ({ session }: { session: Session }) => {
     <>
       <nav
         className={`sticky top-0 z-20 transition-all duration-300 ${
-          isScrolled ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"
+          isScrolled
+            ? "bg-black/80 backdrop-blur-sm"
+            : "bg-black/90 backdrop-blur-sm"
         }`}
       >
         <div className="container mx-auto px-4 py-4">

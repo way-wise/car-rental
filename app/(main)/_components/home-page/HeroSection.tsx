@@ -5,19 +5,23 @@ import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section id="home" className="relative min-h-screen w-full overflow-hidden">
+    // <section id="home" className="relative min-h-screen w-full overflow-hidden">
+    <section
+      id="home"
+      className={`min-h-screen bg-[url(/assets/images/hero-bg.png)] bg-cover bg-center py-20`}
+    >
       {/* Background Image */}
-      <div className="absolute inset-0">
+      {/* <div className="absolute inset-0">
         <img
           className="h-full w-full object-cover"
           alt="Chicago skyline"
           src="/assets/images/hero-bg.png"
         />
         <div className="absolute inset-0 bg-[#0000002c]" />
-      </div>
+      </div> */}
 
       {/* Content Container */}
-      <div className="relative z-10 container mx-auto px-2 py-20 lg:px-8">
+      <div className="container mx-auto px-2 py-0 lg:px-8">
         <div className="grid min-h-[600px] grid-cols-1 items-center gap-12 lg:grid-cols-2">
           {/* Left Content */}
           <div className="space-y-8 text-center lg:text-left">
