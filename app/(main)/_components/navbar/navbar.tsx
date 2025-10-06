@@ -191,14 +191,14 @@ const Navbar = ({ session }: { session: Session }) => {
             </nav>
 
             {/* Mobile Phone Button */}
-            <div className="mt-8 border-t border-gray-800 pt-6">
+            {/* <div className="mt-8 border-t border-gray-800 pt-6 hi">
               <Link href="tel:+1-310-756-8533">
                 <button className="flex w-full cursor-pointer items-center justify-center space-x-2 rounded-lg bg-primary px-4 py-3 text-white transition-colors hover:bg-primary/90">
                   <Phone className="h-5 w-5" />
                   <span>+1-310-756-8533</span>
                 </button>
               </Link>
-            </div>
+            </div> */}
           </div>
         </DrawerContent>
       </Drawer>

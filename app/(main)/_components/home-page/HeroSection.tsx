@@ -1,25 +1,34 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { DatePicker } from "@/components/ui/date-picker";
+import { LocationAutocomplete } from "@/components/ui/location-autocomplete";
+import { TimePicker } from "@/components/ui/time-picker";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
+import { useState } from "react";
 
 const HeroSection = () => {
+  // Form state
+  const [pickupLocation, setPickupLocation] = useState("");
+  const [dropLocation, setDropLocation] = useState("");
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedTime, setSelectedTime] = useState("");
+
+  const handleBooking = () => {
+    const bookingData = {
+      pickupLocation,
+      dropLocation,
+      selectedDate: selectedDate ? selectedDate.toISOString() : "",
+      selectedTime,
+    };
+    console.log("Booking Data:", bookingData);
+  };
+
   return (
-    // <section id="home" className="relative min-h-screen w-full overflow-hidden">
     <section
       id="home"
       className={`min-h-screen bg-[url(/assets/images/hero-bg.png)] bg-cover bg-center py-20`}
     >
-      {/* Background Image */}
-      {/* <div className="absolute inset-0">
-        <img
-          className="h-full w-full object-cover"
-          alt="Chicago skyline"
-          src="/assets/images/hero-bg.png"
-        />
-        <div className="absolute inset-0 bg-[#0000002c]" />
-      </div> */}
-
       {/* Content Container */}
       <div className="container mx-auto px-2 py-0 lg:px-8">
         <div className="grid min-h-[600px] grid-cols-1 items-center gap-12 lg:grid-cols-2">
@@ -49,9 +58,10 @@ const HeroSection = () => {
                         Pickup Location
                       </label>
                     </div>
-                    <Input
+                    <LocationAutocomplete
+                      value={pickupLocation}
+                      onChange={setPickupLocation}
                       placeholder="Enter pickup address"
-                      className="h-[41px] rounded-md border-0 bg-white text-sm font-light text-[#677485] shadow-[0px_0px_2px_#00000066]"
                     />
                   </div>
                   <div>
@@ -61,9 +71,10 @@ const HeroSection = () => {
                         Drop Location
                       </label>
                     </div>
-                    <Input
+                    <LocationAutocomplete
+                      value={dropLocation}
+                      onChange={setDropLocation}
                       placeholder="Enter drop address"
-                      className="h-[41px] rounded-md border-0 bg-white text-sm font-light text-[#677485] shadow-[0px_0px_2px_#00000066]"
                     />
                   </div>
                   <div>
@@ -73,9 +84,10 @@ const HeroSection = () => {
                         Date
                       </label>
                     </div>
-                    <Input
+                    <DatePicker
+                      value={selectedDate}
+                      onChange={setSelectedDate}
                       placeholder="Select date"
-                      className="h-[41px] rounded-md border-0 bg-white text-sm font-light text-[#677485] shadow-[0px_0px_2px_#00000066]"
                     />
                   </div>
                   <div>
@@ -85,13 +97,17 @@ const HeroSection = () => {
                         Time
                       </label>
                     </div>
-                    <Input
+                    <TimePicker
+                      value={selectedTime}
+                      onChange={setSelectedTime}
                       placeholder="Select time"
-                      className="h-[41px] rounded-md border-0 bg-white text-sm font-light text-[#677485] shadow-[0px_0px_2px_#00000066]"
                     />
                   </div>
                 </div>
-                <Button className="h-[50px] w-full rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]">
+                <Button
+                  onClick={handleBooking}
+                  className="h-[50px] w-full rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]"
+                >
                   <span className="text-base leading-[20.8px] font-semibold tracking-[0] text-white">
                     Book Now
                   </span>
