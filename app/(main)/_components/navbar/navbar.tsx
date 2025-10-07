@@ -1,14 +1,6 @@
 "use client";
 
-import { signOut } from "@/lib/auth-client";
-import { handleSmoothScroll } from "@/lib/smoothScroll";
-import { useProgress } from "@bprogress/next";
-import { Menu, Phone, X } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-
+import Topbar from "@/app/(main)/_components/navbar/Topbar";
 import {
   Drawer,
   DrawerClose,
@@ -17,6 +9,16 @@ import {
   DrawerHeader,
 } from "@/components/ui/drawer";
 import type { auth } from "@/lib/auth";
+import { signOut } from "@/lib/auth-client";
+import { handleSmoothScroll } from "@/lib/smoothScroll";
+import { useProgress } from "@bprogress/next";
+import { Menu, Phone, X } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
 type Session = typeof auth.$Infer.Session;
 
 const Navbar = ({ session }: { session: Session }) => {
@@ -96,20 +98,27 @@ const Navbar = ({ session }: { session: Session }) => {
   }, []);
 
   return (
-    <>
-      <nav
-        className={`sticky top-0 z-20 transition-all duration-300 ${
+    <nav className="sticky top-0 z-20 transition-all duration-300">
+      <Topbar />
+      <div
+        className={` ${
           isScrolled
             ? "bg-black/80 backdrop-blur-sm"
             : "bg-black/90 backdrop-blur-sm"
         }`}
       >
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-2 md:py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded bg-primary">
-                <span className="text-lg font-bold text-white">CR</span>
+              <div className="flex items-center justify-center rounded">
+                <Image
+                  src="/logo.svg"
+                  alt="logo"
+                  width={40}
+                  height={40}
+                  className="w-14"
+                />
               </div>
               <span className="text-xl font-semibold text-white">
                 CarRide California
@@ -117,7 +126,7 @@ const Navbar = ({ session }: { session: Session }) => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden items-center space-x-8 md:flex">
+            <div className="hidden items-center space-x-8 lg:flex">
               {menuList.map((menu, index) => (
                 <Link
                   key={index}
@@ -132,23 +141,23 @@ const Navbar = ({ session }: { session: Session }) => {
 
             {/* Phone Button */}
             <div className="flex items-center gap-4">
-              <Link href="tel:+1-310-756-8533">
+              <Link href="tel:+1-310-756-8533" className="hidden lg:block">
                 <button className="flex cursor-pointer items-center space-x-2 rounded-lg bg-primary px-4 py-2 text-white transition-colors hover:bg-primary/90">
                   <Phone className="h-4 w-4" />
-                  <span className="hidden sm:inline">+1-310-756-8533</span>
+                  <span className="inline">+1-310-756-8533</span>
                 </button>
               </Link>
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(true)}
-                className="p-2 text-white md:hidden"
+                className="p-2 text-white lg:hidden"
               >
                 <Menu className="h-6 w-6" />
               </button>
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
       {/* Mobile Sidebar */}
       <Drawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -202,7 +211,7 @@ const Navbar = ({ session }: { session: Session }) => {
           </div>
         </DrawerContent>
       </Drawer>
-    </>
+    </nav>
   );
 };
 
