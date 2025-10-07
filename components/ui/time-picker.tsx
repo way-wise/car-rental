@@ -16,6 +16,7 @@ interface TimePickerProps {
   onChange: (time: string) => void;
   placeholder?: string;
   className?: string;
+  selectedDate?: Date;
 }
 
 export function TimePicker({
@@ -23,6 +24,7 @@ export function TimePicker({
   onChange,
   placeholder = "Select time",
   className,
+  selectedDate,
 }: TimePickerProps) {
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState(value || "");
@@ -61,16 +63,40 @@ export function TimePicker({
     setOpen(true);
   };
 
-  // Filter time options for today (only future times)
+  // Filter time options based on selected date
   const now = new Date();
-  const currentHour = now.getHours();
-  const currentMinute = now.getMinutes();
-  const currentTime = currentHour * 60 + currentMinute;
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const selectedDateOnly = selectedDate
+    ? new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate(),
+      )
+    : null;
+
+  const isToday =
+    selectedDateOnly && selectedDateOnly.getTime() === today.getTime();
+  const isFutureDate =
+    selectedDateOnly && selectedDateOnly.getTime() > today.getTime();
 
   const filteredTimeOptions = timeOptions.filter((option) => {
-    const [hours, minutes] = option.value.split(":").map(Number);
-    const optionTime = hours * 60 + minutes;
-    return optionTime >= currentTime;
+    // If no date selected or future date selected, show all times
+    if (!selectedDate || isFutureDate) {
+      return true;
+    }
+
+    // If today is selected, only show future times
+    if (isToday) {
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+      const currentTime = currentHour * 60 + currentMinute;
+      const [hours, minutes] = option.value.split(":").map(Number);
+      const optionTime = hours * 60 + minutes;
+      return optionTime >= currentTime;
+    }
+
+    // For past dates, show no times (or you could show all times if needed)
+    return false;
   });
 
   return (
@@ -110,7 +136,11 @@ export function TimePicker({
               ))
             ) : (
               <div className="p-3 text-center text-sm text-gray-500">
-                No available times for today
+                {selectedDate
+                  ? isToday
+                    ? "No available times for today"
+                    : "No available times for selected date"
+                  : "No available times"}
               </div>
             )}
           </div>

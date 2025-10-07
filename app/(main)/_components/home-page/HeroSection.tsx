@@ -101,6 +101,7 @@ const HeroSection = () => {
                       value={selectedTime}
                       onChange={setSelectedTime}
                       placeholder="Select time"
+                      selectedDate={selectedDate}
                     />
                   </div>
                 </div>
