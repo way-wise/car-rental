@@ -31,24 +31,23 @@ const HeroSection = () => {
     >
       {/* Content Container */}
       <div className="container mx-auto px-2 py-0 lg:px-8">
-        <div className="grid min-h-[600px] grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div className="grid min-h-[600px] grid-cols-1 items-center gap-12 lg:grid-cols-12">
           {/* Left Content */}
-          <div className="space-y-8 text-center lg:text-left">
+          <div className="space-y-8 text-center lg:col-span-8 lg:text-left">
             <div className="animate-fade-in [--animation-delay:600ms]">
               <h1 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
-                Reliable Airport & City Rides
-                <br />
-                in California
+                Executive Airport & City Rides in Los Angeles and Surrounding
+                Cities
               </h1>
             </div>
             <p className="animate-fade-in text-lg leading-relaxed font-normal tracking-[-0.50px] text-white [--animation-delay:800ms]">
               Experience premium transportation with our professional drivers.
               Safe, comfortable, and always on time.
             </p>
-            <Card className="animate-fade-in rounded-[34px] border-0 bg-[#ffffff33] shadow-[0px_-1.5px_0px_#ffffff66] backdrop-blur-[5px] backdrop-brightness-[100%] [--animation-delay:1000ms] [-webkit-backdrop-filter:blur(5px)_brightness(100%)]">
+            <Card className="animate-fade-in rounded-[34px] border-0 bg-[#ffffff33] shadow-[0px_-1.5px_0px_#ffffff66] backdrop-blur-[5px] backdrop-brightness-[100%] [--animation-delay:1000ms] [-webkit-backdrop-filter:blur(5px)_brightness(100%)] lg:w-5/6">
               <CardContent className="p-8">
                 <h2 className="mb-6 text-xl leading-[normal] font-semibold tracking-[-0.50px] text-white">
-                  Quick Booking
+                  Reserve a Ride
                 </h2>
                 <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div>
