@@ -19,7 +19,7 @@ const Topbar = () => {
             href="mailto:seungyoon2@gmail.com"
             className="text-sm text-white transition-colors hover:text-[#dc143c]"
           >
-            seungyoon2@gmail.com
+            seung@waywise.pro
           </Link>
         </div>
       </div>

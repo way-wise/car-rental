@@ -121,7 +121,7 @@ const Navbar = ({ session }: { session: Session }) => {
                 />
               </div>
               <span className="text-xl font-semibold text-white">
-                CarRide California
+                Waywise Lux transport
               </span>
             </Link>
 
@@ -169,11 +169,17 @@ const Navbar = ({ session }: { session: Session }) => {
                 className="flex items-center space-x-3"
                 onClick={closeMobileMenu}
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded bg-primary">
-                  <span className="text-lg font-bold text-white">CR</span>
+                <div className="flex items-center justify-center rounded">
+                  <Image
+                    src="/logo.svg"
+                    alt="logo"
+                    width={40}
+                    height={40}
+                    className="w-14"
+                  />
                 </div>
                 <span className="text-xl font-semibold text-white">
-                  CarRide California
+                  Waywise Lux transport
                 </span>
               </Link>
               <DrawerClose className="p-2 text-white">

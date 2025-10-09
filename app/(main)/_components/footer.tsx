@@ -1,4 +1,5 @@
 import { MailIcon, MapPinnedIcon, PhoneIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
@@ -13,18 +14,25 @@ const Footer = () => {
           {/* Logo and Description */}
           <div className="lg:col-span-1">
             <div className="mb-6 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-primary">
-                <span className="text-lg leading-7 font-bold tracking-[0] text-white">
-                  CR
+              <Link href="/" className="flex items-center space-x-3">
+                <div className="flex items-center justify-center rounded">
+                  <Image
+                    src="/logo.svg"
+                    alt="logo"
+                    width={40}
+                    height={40}
+                    className="w-14"
+                  />
+                </div>
+                <span className="text-xl font-semibold text-white">
+                  Waywise Lux transport
                 </span>
-              </div>
-              <span className="text-xl leading-7 font-semibold tracking-[0] text-white">
-                CarRide California
-              </span>
+              </Link>
             </div>
             <p className="text-sm leading-5 font-normal tracking-[0] text-white">
               Premium car service providing reliable airport and city rides
-              across California with professional drivers.
+              across Los Angeles and surrounding cities with professional
+              drivers.
             </p>
           </div>
 
@@ -85,7 +93,7 @@ const Footer = () => {
                   href="mailto:seungyoon2@gmail.com"
                   className="text-sm leading-[30px] font-normal tracking-[-0.07px] text-white transition-colors hover:text-[#dc143c]"
                 >
-                  seungyoon2@gmail.com
+                  seung@waywise.pro
                 </Link>
               </div>
               <div className="flex items-start gap-2">
@@ -94,9 +102,9 @@ const Footer = () => {
                   href="https://maps.app.goo.gl/ZzjMftLv3kumh1DZ7"
                   className="text-sm leading-[14px] font-normal tracking-[-0.07px] text-white transition-colors hover:text-[#dc143c]"
                 >
-                  Encino Town Center, 17200 Ventura
+                  Saddleback Ridge Rd, Santa Clarita,
                   <br />
-                  Blvd, CA 91316
+                  CA 91351
                 </Link>
               </div>
             </div>
@@ -106,8 +114,8 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="mt-12 border-t border-[#1e1e1e] pt-8">
           <p className="text-center text-sm leading-[30px] font-normal tracking-[-0.50px] text-[#7f7f7f]">
-            © 2025 CalRide. All rights reserved. | Privacy Policy | Terms of
-            Service
+            © 2025 Waywise Lux transport. All rights reserved. | Privacy Policy
+            | Terms of Service
           </p>
         </div>
       </div>

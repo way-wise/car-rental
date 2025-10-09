@@ -44,7 +44,7 @@ const HeroSection = () => {
               Experience premium transportation with our professional drivers.
               Safe, comfortable, and always on time.
             </p>
-            <Card className="animate-fade-in rounded-[34px] border-0 bg-[#ffffff33] shadow-[0px_-1.5px_0px_#ffffff66] backdrop-blur-[5px] backdrop-brightness-[100%] [--animation-delay:1000ms] [-webkit-backdrop-filter:blur(5px)_brightness(100%)] lg:w-5/6">
+            <Card className="animate-fade-in rounded-[34px] border-0 bg-[#ffffff33] shadow-[0px_-1.5px_0px_#ffffff66] backdrop-blur-[5px] backdrop-brightness-[100%] [--animation-delay:1000ms] [-webkit-backdrop-filter:blur(5px)_brightness(100%)] lg:w-5/6 xl:w-4/6">
               <CardContent className="p-8">
                 <h2 className="mb-6 text-xl leading-[normal] font-semibold tracking-[-0.50px] text-white">
                   Reserve a Ride
