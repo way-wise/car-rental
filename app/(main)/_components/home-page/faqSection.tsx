@@ -56,7 +56,7 @@ const FaqSection = () => {
       <div className="absolute inset-0 bg-black/80"></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-2 py-20 lg:px-8">
+      <div className="relative z-10 container py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
           {/* Contact Section */}
           <div className="flex flex-col justify-center space-y-8 text-center">

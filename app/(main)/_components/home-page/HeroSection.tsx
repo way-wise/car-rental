@@ -30,7 +30,7 @@ const HeroSection = () => {
       className={`min-h-screen bg-[url(/assets/images/hero-bg.png)] bg-cover bg-center py-20`}
     >
       {/* Content Container */}
-      <div className="container mx-auto px-2 py-0 lg:px-8">
+      <div className="container py-0">
         <div className="grid min-h-[600px] grid-cols-1 items-center gap-12 lg:grid-cols-12">
           {/* Left Content */}
           <div className="space-y-8 text-center lg:col-span-8 lg:text-left">

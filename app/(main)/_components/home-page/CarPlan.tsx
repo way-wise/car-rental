@@ -91,7 +91,7 @@ const CarPlan = () => {
       <div className="absolute inset-0 z-5 bg-white/80"></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto h-full px-2 py-20">
+      <div className="relative z-10 container h-full py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-8 xl:grid-cols-2 xl:gap-20">
           {/* Car Images Section */}
           <div className="col-span-1 space-y-8 lg:col-span-2 xl:col-span-1 xl:w-4/5">

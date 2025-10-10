@@ -74,7 +74,7 @@ const ServiceSection = () => {
       <div className="absolute inset-0 z-5 bg-[#EAEEEF]/80"></div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto gap-12 px-2 py-20">
+      <div className="relative z-10 container gap-12 py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-4 xl:gap-20">
           {/* Services Section */}
           <div className="space-y-8">

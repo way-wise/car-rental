@@ -107,7 +107,7 @@ const Navbar = ({ session }: { session: Session }) => {
             : "bg-black/90 backdrop-blur-sm"
         }`}
       >
-        <div className="container mx-auto px-4 py-2 md:py-4">
+        <div className="container py-2 md:py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
@@ -160,9 +160,13 @@ const Navbar = ({ session }: { session: Session }) => {
       </div>
 
       {/* Mobile Sidebar */}
-      <Drawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+      <Drawer
+        open={mobileMenuOpen}
+        onOpenChange={setMobileMenuOpen}
+        direction="left"
+      >
         <DrawerContent>
-          <DrawerHeader className="border-b-0 bg-black">
+          <DrawerHeader className="border-b-0 bg-black p-2">
             <div className="flex items-center justify-between">
               <Link
                 href="/"
@@ -175,7 +179,7 @@ const Navbar = ({ session }: { session: Session }) => {
                     alt="logo"
                     width={40}
                     height={40}
-                    className="w-14"
+                    className="w-16"
                   />
                 </div>
                 <span className="text-xl font-semibold text-white">
@@ -190,7 +194,7 @@ const Navbar = ({ session }: { session: Session }) => {
               Mobile sidebar navigation
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex flex-col overflow-y-auto bg-black p-6 text-white">
+          <div className="flex h-full flex-col overflow-y-auto bg-black p-6 text-white">
             {/* Mobile Navigation Menu */}
             <nav className="space-y-4">
               {menuList.map((menu, index) => (
