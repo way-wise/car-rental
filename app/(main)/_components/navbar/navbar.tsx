@@ -98,14 +98,10 @@ const Navbar = ({ session }: { session: Session }) => {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-20 transition-all duration-300">
+    <nav className="sticky top-0 z-20 bg-transparent transition-all duration-300">
       <Topbar />
       <div
-        className={` ${
-          isScrolled
-            ? "bg-black/80 backdrop-blur-sm"
-            : "bg-black/90 backdrop-blur-sm"
-        }`}
+        className={` ${isScrolled ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"}`}
       >
         <div className="container py-2 md:py-4">
           <div className="flex items-center justify-between">

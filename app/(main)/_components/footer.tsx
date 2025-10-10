@@ -36,7 +36,7 @@ const Footer = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-20 md:grid-cols-3 lg:col-span-8 lg:pl-20">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-3 lg:col-span-8 lg:pl-20">
             {/* Quick Links */}
             <div>
               <h3 className="mb-6 text-xl leading-[normal] font-medium tracking-[-0.50px] text-white">
