@@ -36,12 +36,14 @@ const HeroSection = () => {
           <div className="space-y-8 text-center lg:col-span-8 lg:text-left">
             <div className="animate-fade-in [--animation-delay:600ms]">
               <h1 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
-                Executive Airport & City Rides in Los Angeles and Surrounding
+                Executive Airport & City Rides in{" "}
+                <br className="hidden xl:block" /> Los Angeles and Surrounding
                 Cities
               </h1>
             </div>
             <p className="animate-fade-in text-lg leading-relaxed font-normal tracking-[-0.50px] text-white [--animation-delay:800ms]">
-              Experience premium transportation with our professional drivers.
+              Experience premium transportation with our professional drivers.{" "}
+              <br />
               Safe, comfortable, and always on time.
             </p>
             <Card className="animate-fade-in rounded-[34px] border-0 bg-[#ffffff33] shadow-[0px_-1.5px_0px_#ffffff66] backdrop-blur-[5px] backdrop-brightness-[100%] [--animation-delay:1000ms] [-webkit-backdrop-filter:blur(5px)_brightness(100%)] lg:w-5/6 xl:w-4/6">
