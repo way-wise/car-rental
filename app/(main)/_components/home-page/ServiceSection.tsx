@@ -172,7 +172,7 @@ const ServiceSection = () => {
               record with zero accidents. I know every road in Los Angeles and
               surrounding cities like the back of my hand, and my car is always
               clean and ready. For me, your safety, time, and trust come
-              first—that&apos;ss my promise to you.
+              first—that&apos;s my promise to you.
             </p>
 
             <div className="relative h-[300px] w-full md:h-[400px]">
