@@ -1,3 +1,4 @@
+"use client";
 import {
   Accordion,
   AccordionContent,
@@ -5,10 +6,13 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { CallModal } from "@/components/ui/call-modal";
 import { Phone } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 const FaqSection = () => {
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const faqItems = [
     {
       question: "How far in advance should I book?",
@@ -112,7 +116,10 @@ const FaqSection = () => {
                 </Button>
               </Link>
               <div className="w-full sm:w-[300px]">
-                <Button className="group h-[60px] w-full cursor-pointer rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:border-white hover:bg-primary">
+                <Button
+                  onClick={() => setIsCallModalOpen(true)}
+                  className="group h-[60px] w-full cursor-pointer rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:border-white hover:bg-primary"
+                >
                   <span className="text-xl leading-[26px] font-semibold tracking-[0] text-[#dc143c] group-hover:text-white">
                     Book Now
                   </span>
@@ -122,6 +129,12 @@ const FaqSection = () => {
           </div>
         </div>
       </div>
+      <CallModal
+        isOpen={isCallModalOpen}
+        onClose={() => setIsCallModalOpen(false)}
+        phoneNumber="+1-310-756-8533"
+        title="Call Us Now"
+      />
     </section>
   );
 };

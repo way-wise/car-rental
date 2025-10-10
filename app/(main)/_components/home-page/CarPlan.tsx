@@ -1,10 +1,14 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CallModal } from "@/components/ui/call-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Phone } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 const CarPlan = () => {
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const carImages = [
     "/assets/images/inside.png",
     "/assets/images/Black1.png",
@@ -178,7 +182,10 @@ const CarPlan = () => {
                           </span>
                         )}
                       </div>
-                      <Button className="h-[40px] w-[150px] rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out hover:bg-white hover:text-[#dc143c]">
+                      <Button
+                        onClick={() => setIsCallModalOpen(true)}
+                        className="h-[40px] w-[150px] rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out hover:bg-white hover:text-[#dc143c]"
+                      >
                         <span className="text-sm leading-[20.8px] font-semibold tracking-[0] text-[#dc143c]">
                           Book Now
                         </span>
@@ -205,6 +212,12 @@ const CarPlan = () => {
           </div>
         </div>
       </div>
+      <CallModal
+        isOpen={isCallModalOpen}
+        onClose={() => setIsCallModalOpen(false)}
+        phoneNumber="+1-310-756-8533"
+        title="Call Us Now"
+      />
     </section>
   );
 };
