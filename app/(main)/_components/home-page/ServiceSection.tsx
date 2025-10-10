@@ -212,7 +212,7 @@ const ServiceSection = () => {
       <CallModal
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
-        phoneNumber="+1-310-756-8533"
+        phoneNumber="+1-310-756-5533"
         title="Please call to confirm the booking!"
       />
     </section>

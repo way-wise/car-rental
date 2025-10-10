@@ -21,7 +21,7 @@ interface CallModalProps {
 export const CallModal = ({
   isOpen,
   onClose,
-  phoneNumber = "+1 (555) 123-4567",
+  phoneNumber = "+1-310-756-5533",
   title = "Call Us Now",
   description = "",
 }: CallModalProps) => {
