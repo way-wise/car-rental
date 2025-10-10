@@ -37,7 +37,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className={`min-h-screen bg-[url(/assets/images/hero-bg.png)] bg-cover bg-center py-20`}
+      className={`min-h-screen bg-[url(/assets/images/hero-bg.png)] bg-cover bg-center pt-40 pb-20`}
     >
       {/* Content Container */}
       <div className="container py-0">
