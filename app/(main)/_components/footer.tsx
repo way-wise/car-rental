@@ -1,5 +1,4 @@
 import { MailIcon, MapPinnedIcon, PhoneIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
@@ -15,7 +14,7 @@ const Footer = () => {
           <div className="lg:col-span-4">
             <div className="mb-6 flex items-center gap-3">
               <Link href="/" className="flex items-center space-x-3">
-                <div className="flex items-center justify-center rounded">
+                {/* <div className="flex items-center justify-center rounded">
                   <Image
                     src="/logo.svg"
                     alt="logo"
@@ -23,8 +22,11 @@ const Footer = () => {
                     height={40}
                     className="w-14"
                   />
+                </div> */}
+                <div className="rounded-xl bg-[#dc143c] p-3 text-4xl text-white shadow-md">
+                  eL
                 </div>
-                <span className="text-xl font-semibold text-white">
+                <span className="text-2xl font-semibold text-white">
                   Escalade4lax
                 </span>
               </Link>
@@ -103,9 +105,9 @@ const Footer = () => {
                     href="https://maps.app.goo.gl/ZzjMftLv3kumh1DZ7"
                     className="text-sm leading-[14px] font-normal tracking-[-0.07px] text-white transition-colors hover:text-[#dc143c]"
                   >
-                    Saddleback Ridge Rd, Santa Clarita,
+                    <span> Saddleback Ridge Rd, Santa Clarita,</span>
                     <br />
-                    CA 91351
+                    <span className="mt-1"> CA 91351</span>
                   </Link>
                 </div>
               </div>
