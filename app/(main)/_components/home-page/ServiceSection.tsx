@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Building2, Car, ClipboardClock, Plane } from "lucide-react";
 import { TiStarFullOutline } from "react-icons/ti";
 
 import Image from "next/image";
@@ -9,7 +8,7 @@ const serviceCards = [
     title: "Airport Pick & Drop",
     description:
       "Reliable pickup and drop-off services to Los Angeles and surrounding cities airports. Never miss a flight again.",
-    icon: <Plane />,
+    icon: "/assets/images/Airplane.svg",
     bgColor: "bg-white",
     subTitle: "Catch your flight without the rush",
     textColor: "text-black",
@@ -19,7 +18,7 @@ const serviceCards = [
     title: "Corporate Rides",
     description:
       "Professional transportation for your daily office commute. Comfortable and punctual service.",
-    icon: <Building2 />,
+    icon: "/assets/images/Building.svg",
     bgColor: "bg-[#db143c]",
     subTitle: "Smooth rides for busy professionals",
     textColor: "text-white",
@@ -29,7 +28,7 @@ const serviceCards = [
     title: "City Pick & Drop",
     description:
       "Explore Los Angeles and surrounding cities with our hourly rental service. Perfect for meetings and sightseeing.",
-    icon: <Car />,
+    icon: "/assets/images/car.svg",
     bgColor: "bg-white",
     subTitle: "Move freely across the city",
     textColor: "text-black",
@@ -39,7 +38,7 @@ const serviceCards = [
     title: "Hourly Service",
     description:
       "Enjoy the freedom of booking a luxury ride by the hour — ideal for errands, client visits, or waiting-time flexibility.",
-    icon: <ClipboardClock />,
+    icon: "/assets/images/watch.svg",
     bgColor: "bg-white",
     subTitle: "Flexible rides on your schedule.",
     textColor: "text-black",
@@ -95,8 +94,15 @@ const ServiceSection = () => {
                   className={`${service.bgColor} group rounded-[10px] border-0 bg-primary transition-all duration-300 ease-in-out hover:bg-white`}
                 >
                   <CardContent className="flex h-full flex-col items-center justify-center p-4 group-hover:text-black xl:p-8">
-                    <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#FFE8EC] font-normal text-primary">
-                      {service.icon}
+                    <div className="flex h-22 w-22 items-center justify-center rounded-full bg-[#FFE8EC] font-normal text-primary">
+                      <Image
+                        src={service.icon}
+                        alt={service.title}
+                        width={64}
+                        height={64}
+                        unoptimized
+                        className="h-16 w-16"
+                      />
                     </div>
                     <h3
                       className={`mb-2 text-center text-xl leading-[normal] font-semibold tracking-[-0.50px] text-white transition-all duration-300 ease-in-out group-hover:text-black`}
@@ -164,16 +170,16 @@ const ServiceSection = () => {
               first—that&apos;ss my promise to you.
             </p>
 
-            <div className="relative">
+            <div className="relative h-[400px] w-full">
               <Image
-                className="h-[400px] w-full rounded-[20px] object-cover"
+                className="t-cover h-[400px] w-full"
                 alt="Driver"
                 src="/assets/images/driver.png"
                 width={400}
                 height={400}
                 unoptimized
               />
-              <div className="absolute right-0 bottom-16 flex h-[60px] w-60 items-center justify-center gap-1 rounded-lg bg-white shadow-[0px_0px_6px_#00000033]">
+              <div className="absolute right-[10px] bottom-16 flex h-[60px] w-60 items-center justify-center gap-1 rounded-l-lg bg-white shadow-[0px_0px_6px_#00000033]">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <TiStarFullOutline
                     className="h-6 w-6 text-[#FF6600]"
@@ -186,7 +192,7 @@ const ServiceSection = () => {
               </div>
             </div>
 
-            <Button className="mx-auto flex w-full rounded-[40px] bg-primary py-6 shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]">
+            <Button className="mx-auto flex w-full rounded-[40px] bg-primary py-6 shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234] lg:py-7">
               <span className="text-base leading-[20.8px] font-semibold tracking-[0] text-white">
                 Book Your Ride
               </span>
