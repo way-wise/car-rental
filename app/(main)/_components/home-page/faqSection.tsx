@@ -58,36 +58,6 @@ const FaqSection = () => {
       {/* Content */}
       <div className="relative z-10 container py-20">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
-          {/* Contact Section */}
-          <div className="flex flex-col justify-center space-y-8 text-center">
-            <div>
-              <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
-                Have A Question?
-              </h2>
-              <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-white">
-                Need more details before booking? Just give us a call—we&apos;ll
-                handle everything for you.
-              </p>
-            </div>
-            <div className="flex w-full flex-col items-center justify-center gap-5 sm:flex-row lg:flex-col xl:flex-row">
-              <Link href="tel:+1-310-756-5533" className="w-full sm:w-[300px]">
-                <Button className="h-[60px] w-full cursor-pointer rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]">
-                  <Phone className="h-12 w-12" />
-                  <span className="text-xl leading-[26px] font-bold tracking-[0] text-white">
-                    +1-310-756-5533
-                  </span>
-                </Button>
-              </Link>
-              <div className="w-full sm:w-[300px]">
-                <Button className="group h-[60px] w-full cursor-pointer rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:border-white hover:bg-primary">
-                  <span className="text-xl leading-[26px] font-semibold tracking-[0] text-[#dc143c] group-hover:text-white">
-                    Book Now
-                  </span>
-                </Button>
-              </div>
-            </div>
-          </div>
-
           {/* FAQ Section */}
           <div className="space-y-8">
             <div className="text-center">
@@ -120,6 +90,35 @@ const FaqSection = () => {
                 </AccordionItem>
               ))}
             </Accordion>
+          </div>
+          {/* Contact Section */}
+          <div className="flex flex-col justify-center space-y-8 text-center">
+            <div>
+              <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
+                Have A Question?
+              </h2>
+              <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-white">
+                Need more details before booking? Just give us a call—we&apos;ll
+                handle everything for you.
+              </p>
+            </div>
+            <div className="flex w-full flex-col items-center justify-center gap-5 sm:flex-row lg:flex-col xl:flex-row">
+              <Link href="tel:+1-310-756-5533" className="w-full sm:w-[300px]">
+                <Button className="h-[60px] w-full cursor-pointer rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]">
+                  <Phone className="h-12 w-12" />
+                  <span className="text-xl leading-[26px] font-bold tracking-[0] text-white">
+                    +1-310-756-5533
+                  </span>
+                </Button>
+              </Link>
+              <div className="w-full sm:w-[300px]">
+                <Button className="group h-[60px] w-full cursor-pointer rounded-[40px] border border-[#dc143c] bg-white shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:border-white hover:bg-primary">
+                  <span className="text-xl leading-[26px] font-semibold tracking-[0] text-[#dc143c] group-hover:text-white">
+                    Book Now
+                  </span>
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

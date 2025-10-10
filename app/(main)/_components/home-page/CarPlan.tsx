@@ -14,10 +14,10 @@ const CarPlan = () => {
     {
       title: (
         <>
-          <span className="block lg:hidden">Airport Pick & Drop</span>
+          <span className="block lg:hidden">Airport to Home</span>
           <span className="hidden lg:inline">
-            Airport Pick
-            <br />& Drop
+            Airport to
+            <br /> Home
           </span>
         </>
       ),
@@ -37,11 +37,11 @@ const CarPlan = () => {
     {
       title: (
         <>
-          <span className="block lg:hidden">Corporate Rides</span>
+          <span className="block lg:hidden">Home to Airport</span>
           <span className="hidden lg:inline">
-            Corporate
+            Home to
             <br />
-            Rides
+            Airport
           </span>
         </>
       ),
@@ -61,11 +61,8 @@ const CarPlan = () => {
     {
       title: (
         <>
-          <span className="block lg:hidden">City Pick & Drop</span>
-          <span className="hidden lg:inline">
-            City Pick
-            <br />& Drop
-          </span>
+          <span className="block lg:hidden">City Rides</span>
+          <span className="hidden lg:inline">City Rides</span>
         </>
       ),
       description:
@@ -140,13 +137,13 @@ const CarPlan = () => {
                   <CardContent className="flex h-full flex-col p-0 sm:flex-row">
                     <div className="flex flex-1 flex-col items-center justify-center p-4">
                       <h3
-                        className={`mb-2 text-center text-xl leading-8 font-semibold tracking-[-0.50px] whitespace-pre-line text-black transition-all duration-300 ease-in-out group-hover:text-[#dc143c]`}
+                        className={`mb-2 text-center text-3xl leading-8 font-semibold tracking-[-0.50px] whitespace-pre-line text-black transition-all duration-300 ease-in-out group-hover:text-[#dc143c]`}
                       >
                         {plan.title}
                       </h3>
-                      <p className="text-center text-sm leading-[22px] font-normal tracking-[0] text-[#303740]">
+                      {/* <p className="text-center text-sm leading-[22px] font-normal tracking-[0] text-[#303740]">
                         {plan.description}
-                      </p>
+                      </p> */}
                     </div>
                     <div className="h-0 w-px self-center bg-[#ececec] lg:h-32" />
                     <div className="flex flex-1 flex-col justify-center px-4 sm:py-4 lg:p-4">
@@ -165,8 +162,8 @@ const CarPlan = () => {
                     <div className="flex w-full flex-col items-center justify-center rounded-[0px_10px_10px_0px] bg-[#f1f1f1] py-2 transition-all duration-300 ease-in-out group-hover:bg-primary sm:w-[180px]">
                       {plan.isPopular && (
                         <>
-                          <Badge className="mb-2 h-[25px] w-[110px] rounded-[40px] border-1 bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-all duration-300 ease-in-out group-hover:border-white group-hover:bg-primary">
-                            <span className="text-xs leading-[15.6px] font-semibold tracking-[0] text-white">
+                          <Badge className="mb-2 px-2 py-1 transition-all duration-300 ease-in-out group-hover:border-white group-hover:bg-primary">
+                            <span className="text-xs font-semibold text-white">
                               Most Popular
                             </span>
                           </Badge>
