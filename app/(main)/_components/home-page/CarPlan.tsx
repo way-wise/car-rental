@@ -217,7 +217,7 @@ const CarPlan = () => {
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
         phoneNumber="+1-310-756-8533"
-        title="Call Us Now"
+        title="Please call to confirm the booking!"
       />
     </section>
   );

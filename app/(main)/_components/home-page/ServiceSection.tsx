@@ -174,9 +174,9 @@ const ServiceSection = () => {
               first—that&apos;ss my promise to you.
             </p>
 
-            <div className="relative h-[400px] w-full">
+            <div className="relative h-[300px] w-full md:h-[400px]">
               <Image
-                className="t-cover h-[400px] w-full"
+                className="t-cover h-[300px] w-full md:h-[400px]"
                 alt="Driver"
                 src="/assets/images/driver.png"
                 width={400}
@@ -212,7 +212,7 @@ const ServiceSection = () => {
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
         phoneNumber="+1-310-756-8533"
-        title="Call Us Now"
+        title="Please call to confirm the booking!"
       />
     </section>
   );
