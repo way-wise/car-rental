@@ -10,14 +10,28 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { TiStarFullOutline } from "react-icons/ti";
 
 const Testimonial = () => {
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true }),
   );
+  const [api, setApi] = React.useState<any>();
+  const [current, setCurrent] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   const testimonials = [
     {
@@ -111,8 +125,9 @@ const Testimonial = () => {
                 Trusted by hundreds of satisfied customers
               </p>
             </div>
-            <div className="relative">
+            <div className="relative pb-20">
               <Carousel
+                setApi={setApi}
                 plugins={[plugin.current]}
                 className="w-full"
                 onMouseEnter={plugin.current.stop}
@@ -122,17 +137,20 @@ const Testimonial = () => {
                   {testimonials.map((testimonial) => (
                     <CarouselItem key={testimonial.id}>
                       <div className="p-1">
-                        <Card className="rounded-[20px] border-0 bg-white">
+                        <Card className="rounded-[20px] border-0 bg-white shadow-2xl drop-shadow-xl lg:px-8">
                           <CardContent className="flex h-full flex-col items-center justify-center p-8">
-                            <img
-                              className="mb-8 h-[21px] w-[126px]"
-                              alt="Stars"
-                              src={testimonial.stars}
-                            />
+                            <div className="mt-16 mb-8 flex items-center gap-1">
+                              {Array.from({ length: 5 }).map((_, index) => (
+                                <TiStarFullOutline
+                                  className="h-7 w-7 text-[#FF6600]"
+                                  key={index}
+                                />
+                              ))}
+                            </div>
                             <p className="mb-12 text-center text-xl leading-8 font-normal tracking-[-0.50px] text-black">
                               &quot;{testimonial.content}&quot;
                             </p>
-                            <div className="flex items-center gap-5">
+                            <div className="mb-4 flex items-center gap-5">
                               <img
                                 className="h-16 w-16 rounded-full"
                                 alt={testimonial.name}
@@ -153,14 +171,42 @@ const Testimonial = () => {
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="absolute bottom-0 left-4 border-black text-black hover:border-primary hover:bg-primary hover:text-white" />
-                <CarouselNext className="absolute right-4 bottom-0 border-black text-black hover:border-primary hover:bg-primary hover:text-white" />
+                <div className="absolute -bottom-20 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => api?.scrollPrev()}
+                      className="h-10 w-10 rounded-full border border-white bg-transparent p-2 text-white transition-colors hover:border-primary hover:bg-primary hover:text-white"
+                    >
+                      <ChevronLeft className="h-full w-full" />
+                    </button>
+                    <button
+                      onClick={() => api?.scrollNext()}
+                      className="h-10 w-10 rounded-full border border-white bg-transparent p-2 text-white transition-colors hover:border-primary hover:bg-primary hover:text-white"
+                    >
+                      <ChevronRight className="h-full w-full" />
+                    </button>
+                  </div>
+                  <div className="flex gap-2">
+                    {testimonials.slice(0, 5).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => api?.scrollTo(index)}
+                        className={`transition-all duration-300 ${
+                          current === index
+                            ? "h-2 w-8 rounded-full bg-primary"
+                            : "h-2 w-2 rounded-full bg-white"
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
               </Carousel>
             </div>
           </div>
           {/* How It Works Section */}
-          <div className="space-y-12 pl-2">
-            <div className="text-center lg:text-left">
+          <div className="space-y-12 pl-2 lg:max-w-[450px]">
+            <div className="text-center">
               <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
                 How It Works
               </h2>
@@ -168,10 +214,13 @@ const Testimonial = () => {
                 Three simple steps to your perfect ride
               </p>
             </div>
-            <div className="space-y-12">
+            <div className="space-y-8">
               {howItWorksSteps.map((step, index) => (
-                <div key={index} className="relative flex items-start gap-6">
-                  <div className="relative flex-shrink-0">
+                <div
+                  key={index}
+                  className="justify-centergap-6 relative flex flex-col items-center"
+                >
+                  <div className="relative mb-3 flex-shrink-0">
                     <div className="flex h-24 w-24 items-center justify-center rounded-[45px] bg-primary text-[40px] font-semibold text-white">
                       {step.icon}
                     </div>
@@ -182,10 +231,10 @@ const Testimonial = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-2xl leading-[normal] font-medium tracking-[-0.50px] text-white">
+                    <h3 className="text-center text-2xl leading-[normal] font-medium tracking-[-0.50px] text-white">
                       {step.title}
                     </h3>
-                    <p className="mt-2 text-base leading-[normal] font-normal tracking-[0] text-white">
+                    <p className="mt-2 text-center text-base leading-[normal] font-normal tracking-[0] text-white">
                       {step.description}
                     </p>
                   </div>
