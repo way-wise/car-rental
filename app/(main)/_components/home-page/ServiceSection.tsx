@@ -60,6 +60,7 @@ const driverBadges = [
   },
   {
     icon: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/icon-1.svg",
+    // icon: <Shield />,
     title: "Insured &",
     subtitle: "Background Checked",
   },
@@ -176,14 +177,14 @@ const ServiceSection = () => {
 
             <div className="relative h-[300px] w-full md:h-[400px]">
               <Image
-                className="t-cover h-[300px] w-full md:h-[400px]"
+                className="h-[300px] w-full md:h-[400px]"
                 alt="Driver"
                 src="/assets/images/driver.png"
                 width={400}
                 height={400}
                 unoptimized
               />
-              <div className="absolute right-[10px] bottom-16 flex h-[60px] w-60 items-center justify-center gap-1 rounded-l-lg bg-white shadow-[0px_0px_6px_#00000033]">
+              <div className="absolute right-[5px] bottom-16 flex h-[60px] w-60 items-center justify-center gap-1 rounded-l-lg bg-white shadow-[0px_0px_6px_#00000033] md:right-[9px]">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <TiStarFullOutline
                     className="h-6 w-6 text-[#FF6600]"

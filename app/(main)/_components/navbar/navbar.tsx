@@ -137,11 +137,11 @@ const Navbar = ({ session }: { session: Session }) => {
               ))}
               {/* Phone Button */}
               <div className="flex items-center gap-4 xl:ml-28">
-                <Link href="tel:+1-310-756-8533" className="hidden lg:block">
+                <Link href="tel:+1-310-756-5533" className="hidden lg:block">
                   <button className="flex cursor-pointer items-center space-x-2 rounded-full bg-primary px-6 py-3 text-white transition-colors hover:bg-primary/90">
                     <Phone className="h-4 w-4" />
                     <span className="inline font-semibold text-nowrap">
-                      +1-310-756-8533
+                      +1-310-756-5533
                     </span>
                   </button>
                 </Link>
@@ -214,6 +214,7 @@ const Navbar = ({ session }: { session: Session }) => {
                 <button className="flex w-full cursor-pointer items-center justify-center space-x-2 rounded-lg bg-primary px-4 py-3 text-white transition-colors hover:bg-primary/90">
                   <Phone className="h-5 w-5" />
                   <span>+1-310-756-8533</span>
+                  
                 </button>
               </Link>
             </div> */}
