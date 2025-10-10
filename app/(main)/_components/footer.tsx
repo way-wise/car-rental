@@ -107,7 +107,8 @@ const Footer = () => {
                   >
                     <span> Saddleback Ridge Rd, Santa Clarita,</span>
                     <br />
-                    <span className="mt-1"> CA 91351</span>
+                    <br />
+                    <span className=""> CA 91351</span>
                   </Link>
                 </div>
               </div>
