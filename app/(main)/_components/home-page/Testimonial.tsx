@@ -205,7 +205,7 @@ const Testimonial = () => {
             </div>
           </div>
           {/* How It Works Section */}
-          <div className="space-y-12 pl-2 lg:max-w-[450px]">
+          <div className="mx-auto space-y-12 pl-2 lg:max-w-[450px]">
             <div className="text-center">
               <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-5xl">
                 How It Works

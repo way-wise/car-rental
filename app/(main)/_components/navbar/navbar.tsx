@@ -160,11 +160,7 @@ const Navbar = ({ session }: { session: Session }) => {
       </div>
 
       {/* Mobile Sidebar */}
-      <Drawer
-        open={mobileMenuOpen}
-        onOpenChange={setMobileMenuOpen}
-        direction="left"
-      >
+      <Drawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
         <DrawerContent>
           <DrawerHeader className="border-b-0 bg-black p-2">
             <div className="flex items-center justify-between">
