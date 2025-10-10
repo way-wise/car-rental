@@ -129,7 +129,8 @@ const CarPlan = () => {
               </h2>
               <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-black md:px-4">
                 No hidden fees, no surge pricing. Just honest, upfront rates for
-                professional transportation services across California.
+                professional transportation services across in Los Angeles and
+                Surrounding Cities.
               </p>
             </div>
             <div className="space-y-12">

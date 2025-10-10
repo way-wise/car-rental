@@ -40,7 +40,7 @@ const Navbar = ({ session }: { session: Session }) => {
 
     {
       title: "About Driver",
-      url: "#about-driver",
+      url: "#services",
     },
     {
       title: "Pricing",
