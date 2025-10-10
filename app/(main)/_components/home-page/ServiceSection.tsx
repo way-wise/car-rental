@@ -1,8 +1,10 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { CallModal } from "@/components/ui/call-modal";
 import { Card, CardContent } from "@/components/ui/card";
-import { TiStarFullOutline } from "react-icons/ti";
-
 import Image from "next/image";
+import { useState } from "react";
+import { TiStarFullOutline } from "react-icons/ti";
 const serviceCards = [
   {
     title: "Airport Pick & Drop",
@@ -64,6 +66,8 @@ const driverBadges = [
 ];
 
 const ServiceSection = () => {
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
+
   return (
     <section
       id="services"
@@ -192,7 +196,10 @@ const ServiceSection = () => {
               </div>
             </div>
 
-            <Button className="mx-auto flex w-full rounded-[40px] bg-primary py-6 shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234] lg:py-7">
+            <Button
+              onClick={() => setIsCallModalOpen(true)}
+              className="mx-auto flex w-full rounded-[40px] bg-primary py-6 shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234] lg:py-7"
+            >
               <span className="text-base leading-[20.8px] font-semibold tracking-[0] text-white">
                 Book Your Ride
               </span>
@@ -200,6 +207,13 @@ const ServiceSection = () => {
           </div>
         </div>
       </div>
+      {/* Booking Modal */}
+      <CallModal
+        isOpen={isCallModalOpen}
+        onClose={() => setIsCallModalOpen(false)}
+        phoneNumber="+1-310-756-8533"
+        title="Call Us Now"
+      />
     </section>
   );
 };
