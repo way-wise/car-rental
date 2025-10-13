@@ -1,6 +1,7 @@
 "use client";
 import { BookingModal, type BookingData } from "@/components/ui/booking-modal";
 import { Button } from "@/components/ui/button";
+import { CallModal } from "@/components/ui/call-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
@@ -21,6 +22,7 @@ const HeroSection = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
 
   // Modal states
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -217,7 +219,7 @@ const HeroSection = () => {
                   </div>
                 </div>
                 <Button
-                  onClick={handleBooking}
+                  onClick={() => setIsCallModalOpen(true)}
                   disabled={isLoading}
                   className="h-[50px] w-full rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234] disabled:opacity-50"
                 >
@@ -232,6 +234,12 @@ const HeroSection = () => {
           {/* Right Content - Decorative Images */}
         </div>
       </div>
+      <CallModal
+        isOpen={isCallModalOpen}
+        onClose={() => setIsCallModalOpen(false)}
+        phoneNumber="+1-310-756-5533"
+        title="Please call to confirm the booking!"
+      />
 
       {/* Booking Modal */}
       <BookingModal
