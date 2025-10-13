@@ -197,7 +197,7 @@ const HeroSection = () => {
                       value={userEmail}
                       onChange={(e) => setUserEmail(e.target.value)}
                       placeholder="Enter your email"
-                      className="h-[44px] border-white/20 bg-white/10 text-white placeholder:text-white/60"
+                      className="h-[44px] border-white/20 bg-white text-white"
                       required
                     />
                   </div>
@@ -213,7 +213,7 @@ const HeroSection = () => {
                       value={userName}
                       onChange={(e) => setUserName(e.target.value)}
                       placeholder="Enter your name"
-                      className="h-[44px] border-white/20 bg-white/10 text-white placeholder:text-white/60"
+                      className="h-[44px] border-white/20 bg-white text-white"
                     />
                   </div>
                 </div>
