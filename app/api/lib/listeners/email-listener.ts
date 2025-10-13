@@ -19,10 +19,12 @@ emailEvents.on(
   EmailEventType.BOOKING_CONFIRMATION_USER,
   async ({ email, bookingDetails }) => {
     try {
+      console.log("📧 Attempting to send booking confirmation to user:", email);
       await sendBookingConfirmationToUser(email, bookingDetails);
       console.log("✅ Booking confirmation email sent to user:", email);
     } catch (err) {
-      console.error("❌ Failed to send booking confirmation to user", err);
+      console.error("❌ Failed to send booking confirmation to user:", email);
+      console.error("Error details:", err);
       // Optional: push to retry queue, Sentry, or log to DB
     }
   },
@@ -32,10 +34,12 @@ emailEvents.on(
   EmailEventType.BOOKING_CONFIRMATION_ADMIN,
   async ({ bookingDetails }) => {
     try {
+      console.log("📧 Attempting to send booking confirmation to admin");
       await sendBookingConfirmationToAdmin(bookingDetails);
       console.log("✅ Booking confirmation email sent to admin");
     } catch (err) {
-      console.error("❌ Failed to send booking confirmation to admin", err);
+      console.error("❌ Failed to send booking confirmation to admin");
+      console.error("Error details:", err);
       // Optional: push to retry queue, Sentry, or log to DB
     }
   },

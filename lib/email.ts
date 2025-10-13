@@ -1,5 +1,20 @@
 import nodemailer from "nodemailer";
 
+// Validate email configuration
+if (
+  !process.env.SMTP_HOST ||
+  !process.env.SMTP_PORT ||
+  !process.env.SMTP_USER ||
+  !process.env.SMTP_PASS
+) {
+  console.error("❌ Missing SMTP configuration in environment variables");
+  console.error("Required: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS");
+}
+
+if (!process.env.EMAIL_FROM) {
+  console.error("❌ EMAIL_FROM is not set in environment variables");
+}
+
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST!,
   port: parseInt(process.env.SMTP_PORT!),
@@ -8,6 +23,22 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER!,
     pass: process.env.SMTP_PASS!,
   },
+});
+
+// Verify SMTP connection on startup
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("❌ SMTP connection failed:", error.message);
+    console.error("Please check your email configuration in .env file");
+  } else {
+    console.log("✅ SMTP connection verified successfully");
+    console.log(`📧 Emails will be sent from: ${process.env.EMAIL_FROM}`);
+    if (process.env.SMTP_HOST?.includes("mailtrap")) {
+      console.log(
+        "⚠️  Using Mailtrap - emails won't reach real inboxes (testing mode)",
+      );
+    }
+  }
 });
 
 export async function sendVerificationEmail(
