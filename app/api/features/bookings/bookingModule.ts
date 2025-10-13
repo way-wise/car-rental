@@ -1,3 +1,4 @@
+import { createBookingSchema } from "@/schema/bookingSchema";
 import { paginationQuerySchema } from "@/schema/paginationSchema";
 import { validateInput } from "@api/lib/validateInput";
 import { Hono } from "hono";
@@ -5,6 +6,47 @@ import { object, string } from "yup";
 import { bookingService } from "./bookingService";
 
 const app = new Hono();
+
+/*
+  @route    POST: /bookings
+  @access   public
+  @desc     Create a new booking with Stripe payment integration
+*/
+app.post("/", async (c) => {
+  const body = await c.req.json();
+
+  const validatedData = await validateInput({
+    type: "form",
+    schema: createBookingSchema,
+    data: body,
+  });
+
+  const result = await bookingService.createBooking(validatedData);
+
+  return c.json(result, 201);
+});
+
+/*
+  @route    POST: /bookings/confirm
+  @access   public
+  @desc     Confirm booking after successful payment
+*/
+app.post("/confirm", async (c) => {
+  const body = await c.req.json();
+
+  const validatedData = await validateInput({
+    type: "form",
+    schema: object({
+      bookingId: string().required("Booking ID is required"),
+      paymentIntentId: string().required("Payment Intent ID is required"),
+    }),
+    data: body,
+  });
+
+  const result = await bookingService.confirmBooking(validatedData);
+
+  return c.json(result, 200);
+});
 
 /*
   @route    GET: /bookings/stats

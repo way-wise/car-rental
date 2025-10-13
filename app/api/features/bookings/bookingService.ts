@@ -1,7 +1,16 @@
+import { emailEvents, EmailEventType } from "@/app/api/lib/events/email_event";
 import { getPaginationQuery } from "@/app/api/lib/pagination";
 import prisma from "@/lib/prisma";
+import {
+  createAndConfirmPaymentIntent,
+  createPaymentIntent,
+  getOrCreateStripeCustomer,
+  stripe,
+} from "@/lib/stripe";
 import type { PaginationQuery } from "@/schema/paginationSchema";
+import { hashPassword } from "better-auth/crypto";
 import { HTTPException } from "hono/http-exception";
+import { ulid } from "ulid";
 
 export const bookingService = {
   // Get all bookings with pagination and search
@@ -237,6 +246,309 @@ export const bookingService = {
       pendingBookings,
       failedBookings,
       totalIncome: totalIncomeResult._sum.amount || 0,
+    };
+  },
+
+  // Create a new booking with Stripe payment integration
+  createBooking: async (data: {
+    pickupLocation: string;
+    dropLocation: string;
+    date: string;
+    time: string;
+    userEmail: string;
+    userName?: string;
+  }) => {
+    const { pickupLocation, dropLocation, date, time, userEmail, userName } =
+      data;
+
+    // Step 1: Check if user exists, create if not
+    let user = await prisma.users.findUnique({
+      where: { email: userEmail },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        stripeCustomerId: true,
+        defaultPaymentMethod: true,
+      },
+    });
+
+    // Create user if doesn't exist
+    if (!user) {
+      // Generate random password for new users
+      const randomPassword = `temp_${ulid()}_${Math.random().toString(36).slice(2)}`;
+      const hashedPassword = await hashPassword(randomPassword);
+
+      const now = new Date();
+
+      // Create user with account
+      user = await prisma.users.create({
+        data: {
+          id: ulid(),
+          email: userEmail,
+          name: userName || userEmail.split("@")[0],
+          emailVerified: false,
+          createdAt: now,
+          updatedAt: now,
+          accounts: {
+            create: {
+              id: ulid(),
+              accountId: ulid(),
+              providerId: "credential",
+              password: hashedPassword,
+              createdAt: now,
+              updatedAt: now,
+            },
+          },
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          stripeCustomerId: true,
+          defaultPaymentMethod: true,
+        },
+      });
+    }
+
+    // Step 2: Get or create Stripe customer
+    const stripeCustomerId = await getOrCreateStripeCustomer(
+      user.id,
+      user.email,
+      user.name,
+      user.stripeCustomerId,
+    );
+
+    // Update user with Stripe customer ID if it was just created
+    if (!user.stripeCustomerId) {
+      await prisma.users.update({
+        where: { id: user.id },
+        data: { stripeCustomerId },
+      });
+    }
+
+    // Step 3: Create booking record
+    const bookingDate = new Date(date);
+    const booking = await prisma.bookings.create({
+      data: {
+        id: ulid(),
+        userId: user.id,
+        pickupLocation,
+        dropLocation,
+        bookingDate,
+        bookingTime: time,
+        paymentStatus: "pending",
+        amount: 10000, // $100.00 in cents
+      },
+      select: {
+        id: true,
+        pickupLocation: true,
+        dropLocation: true,
+        bookingDate: true,
+        bookingTime: true,
+        amount: true,
+        paymentStatus: true,
+      },
+    });
+
+    // Step 4: Handle payment based on whether user has saved payment method
+    let paymentIntent;
+    let instantPayment = false;
+
+    if (user.defaultPaymentMethod) {
+      // User has saved payment method - charge instantly (off-session)
+      try {
+        paymentIntent = await createAndConfirmPaymentIntent(
+          booking.amount,
+          "usd",
+          stripeCustomerId,
+          booking.id,
+          user.defaultPaymentMethod,
+        );
+
+        // Check if payment succeeded
+        if (paymentIntent.status === "succeeded") {
+          instantPayment = true;
+
+          // Update booking with payment status
+          await prisma.bookings.update({
+            where: { id: booking.id },
+            data: {
+              stripePaymentIntentId: paymentIntent.id,
+              paymentStatus: "succeeded",
+            },
+          });
+
+          // Send booking confirmation emails
+          const bookingDetails = {
+            bookingId: booking.id,
+            userName: user.name,
+            userEmail: user.email,
+            pickupLocation: booking.pickupLocation,
+            dropLocation: booking.dropLocation,
+            bookingDate: booking.bookingDate.toISOString(),
+            bookingTime: booking.bookingTime,
+            amount: booking.amount,
+          };
+
+          // Emit email events
+          emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_USER, {
+            email: user.email,
+            bookingDetails,
+          });
+
+          emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_ADMIN, {
+            bookingDetails,
+          });
+
+          // Return success without clientSecret
+          return {
+            success: true,
+            instantPayment: true,
+            paymentStatus: "succeeded",
+            bookingId: booking.id,
+            booking: {
+              id: booking.id,
+              pickupLocation: booking.pickupLocation,
+              dropLocation: booking.dropLocation,
+              bookingDate: booking.bookingDate,
+              bookingTime: booking.bookingTime,
+              amount: booking.amount,
+              paymentStatus: "succeeded" as const,
+            },
+          };
+        }
+      } catch (error: any) {
+        console.error("Off-session payment failed:", error);
+        // Fall back to normal flow if saved card fails
+        // (card may be expired, insufficient funds, etc.)
+      }
+    }
+
+    // If no saved payment method OR saved payment failed, use normal flow
+    if (!instantPayment) {
+      paymentIntent = await createPaymentIntent(
+        booking.amount,
+        "usd",
+        stripeCustomerId,
+        booking.id,
+        undefined, // Don't use saved method if it failed
+      );
+
+      // Update booking with payment intent ID
+      await prisma.bookings.update({
+        where: { id: booking.id },
+        data: {
+          stripePaymentIntentId: paymentIntent.id,
+        },
+      });
+
+      // Return client secret for user to enter card
+      return {
+        success: true,
+        instantPayment: false,
+        clientSecret: paymentIntent.client_secret,
+        bookingId: booking.id,
+        booking: {
+          id: booking.id,
+          pickupLocation: booking.pickupLocation,
+          dropLocation: booking.dropLocation,
+          bookingDate: booking.bookingDate,
+          bookingTime: booking.bookingTime,
+          amount: booking.amount,
+          paymentStatus: booking.paymentStatus,
+        },
+      };
+    }
+  },
+
+  // Confirm booking after successful payment
+  confirmBooking: async (data: {
+    bookingId: string;
+    paymentIntentId: string;
+  }) => {
+    const { bookingId, paymentIntentId } = data;
+
+    if (!bookingId || !paymentIntentId) {
+      throw new HTTPException(400, {
+        message: "Missing bookingId or paymentIntentId",
+      });
+    }
+
+    // Retrieve PaymentIntent from Stripe to get payment method
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    // Get the payment method ID
+    const paymentMethodId =
+      typeof paymentIntent.payment_method === "string"
+        ? paymentIntent.payment_method
+        : paymentIntent.payment_method?.id;
+
+    // Update booking with payment status
+    const booking = await prisma.bookings.update({
+      where: {
+        id: bookingId,
+      },
+      data: {
+        paymentStatus: "succeeded",
+        stripePaymentIntentId: paymentIntentId,
+      },
+      select: {
+        id: true,
+        userId: true,
+        paymentStatus: true,
+        pickupLocation: true,
+        dropLocation: true,
+        bookingDate: true,
+        bookingTime: true,
+        amount: true,
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    // Save payment method as user's default if available
+    if (paymentMethodId && booking.userId) {
+      await prisma.users.update({
+        where: {
+          id: booking.userId,
+        },
+        data: {
+          defaultPaymentMethod: paymentMethodId,
+        },
+      });
+    }
+
+    // Send booking confirmation emails
+    const bookingDetails = {
+      bookingId: booking.id,
+      userName: booking.user.name,
+      userEmail: booking.user.email,
+      pickupLocation: booking.pickupLocation,
+      dropLocation: booking.dropLocation,
+      bookingDate: booking.bookingDate.toISOString(),
+      bookingTime: booking.bookingTime,
+      amount: booking.amount,
+    };
+
+    // Emit email events
+    emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_USER, {
+      email: booking.user.email,
+      bookingDetails,
+    });
+
+    emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_ADMIN, {
+      bookingDetails,
+    });
+
+    return {
+      success: true,
+      booking,
+      paymentMethodSaved: !!paymentMethodId,
     };
   },
 };
