@@ -1,7 +1,6 @@
 "use client";
 import { BookingModal, type BookingData } from "@/components/ui/booking-modal";
 import { Button } from "@/components/ui/button";
-import { CallModal } from "@/components/ui/call-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
@@ -25,7 +24,6 @@ const HeroSection = () => {
 
   // Modal states
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleBooking = async () => {
@@ -75,8 +73,8 @@ const HeroSection = () => {
           toast.success(
             "Booking confirmed! Payment processed with your saved card.",
           );
-          // Show success modal or redirect to bookings page
-          setIsCallModalOpen(true); // Or redirect to success page
+          // Redirect to success page with hard redirect
+          window.location.href = `/payment-success?bookingId=${data.bookingId}`;
         } else {
           // Normal flow - need to collect payment
           toast.success("Booking created! Redirecting to payment...");
@@ -88,9 +86,7 @@ const HeroSection = () => {
           );
 
           // Navigate to checkout page with booking ID and client secret
-          router.push(
-            `/checkout?bookingId=${data.bookingId}&clientSecret=${data.clientSecret}`,
-          );
+          window.location.href = `/checkout?bookingId=${data.bookingId}&clientSecret=${data.clientSecret}`;
         }
       } else {
         toast.error(data.error || "Failed to create booking");
@@ -242,15 +238,6 @@ const HeroSection = () => {
         isOpen={isBookingModalOpen}
         onClose={() => setIsBookingModalOpen(false)}
         onSubmit={handleModalBooking}
-      />
-
-      {/* Call Modal */}
-      <CallModal
-        isOpen={isCallModalOpen}
-        onClose={() => setIsCallModalOpen(false)}
-        phoneNumber="+1-310-756-5533"
-        title="Please call to confirm the booking!"
-        // description="Speak directly with our customer service team for immediate assistance"
       />
     </section>
   );

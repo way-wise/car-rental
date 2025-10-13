@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("bookingId");
 
@@ -23,10 +23,16 @@ export default function PaymentSuccessPage() {
             Your booking has been confirmed
           </p>
 
-          {bookingId && (
+          {bookingId ? (
             <div className="mb-8 rounded-lg bg-muted p-4">
               <p className="text-sm font-medium">Booking ID</p>
               <p className="font-mono text-lg">{bookingId}</p>
+            </div>
+          ) : (
+            <div className="mb-8 rounded-lg bg-muted p-4">
+              <p className="text-sm text-muted-foreground">
+                Your booking has been confirmed successfully
+              </p>
             </div>
           )}
 
@@ -40,15 +46,37 @@ export default function PaymentSuccessPage() {
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <Button asChild size="lg">
-              <Link href="/">Return Home</Link>
+            <Button size="lg" onClick={() => (window.location.href = "/")}>
+              Return Home
             </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/profile">View My Bookings</Link>
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={() => (window.location.href = "/profile")}
+            >
+              View My Bookings
             </Button>
           </div>
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container mx-auto flex min-h-screen max-w-2xl items-center justify-center py-12">
+          <Card className="w-full">
+            <CardContent className="py-12 text-center">
+              <p>Loading...</p>
+            </CardContent>
+          </Card>
+        </div>
+      }
+    >
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }

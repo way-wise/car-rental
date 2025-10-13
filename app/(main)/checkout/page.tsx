@@ -7,8 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/date-format";
 import { ArrowLeft, Calendar, Clock, MapPin } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 interface BookingDetails {
   id: string;
@@ -21,8 +21,7 @@ interface BookingDetails {
   clientSecret: string;
 }
 
-export default function CheckoutPage() {
-  const router = useRouter();
+function CheckoutContent() {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("bookingId");
   const clientSecret = searchParams.get("clientSecret");
@@ -60,8 +59,8 @@ export default function CheckoutPage() {
     if (bookingId) {
       sessionStorage.removeItem(`booking_${bookingId}`);
     }
-    // Redirect to success page
-    router.push(`/payment-success?bookingId=${bookingId}`);
+    // Redirect to success page with hard redirect
+    window.location.href = `/payment-success?bookingId=${bookingId}`;
   };
 
   if (isLoading) {
@@ -87,7 +86,9 @@ export default function CheckoutPage() {
             <p className="mb-6 text-muted-foreground">
               {error || "Unable to load booking details"}
             </p>
-            <Button onClick={() => router.push("/")}>Return Home</Button>
+            <Button onClick={() => (window.location.href = "/")}>
+              Return Home
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -96,7 +97,11 @@ export default function CheckoutPage() {
 
   return (
     <div className="container mx-auto max-w-4xl py-12">
-      <Button variant="ghost" onClick={() => router.back()} className="mb-6">
+      <Button
+        variant="ghost"
+        onClick={() => window.history.back()}
+        className="mb-6"
+      >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back
       </Button>
@@ -178,5 +183,23 @@ export default function CheckoutPage() {
         </Card>
       </div>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="container mx-auto max-w-4xl py-12">
+          <div className="mb-8 h-10 w-64 animate-pulse rounded bg-muted" />
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="h-[400px] animate-pulse rounded-xl bg-muted" />
+            <div className="h-[400px] animate-pulse rounded-xl bg-muted" />
+          </div>
+        </div>
+      }
+    >
+      <CheckoutContent />
+    </Suspense>
   );
 }

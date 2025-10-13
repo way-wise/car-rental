@@ -34,6 +34,7 @@ export function PaymentForm({
     setIsProcessing(true);
 
     try {
+      // Step 1: Confirm payment with Stripe
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
@@ -45,16 +46,46 @@ export function PaymentForm({
       if (error) {
         toast.error(error.message || "Payment failed");
         setIsProcessing(false);
-      } else if (paymentIntent && paymentIntent.status === "succeeded") {
-        toast.success("Payment successful!");
-        if (onSuccess) {
-          onSuccess();
-        } else {
-          // Redirect to success page
-          window.location.href = `/payment-success?bookingId=${bookingId}`;
+        return;
+      }
+
+      if (paymentIntent && paymentIntent.status === "succeeded") {
+        // Step 2: Update booking status and save payment method
+        try {
+          const response = await fetch("/api/bookings/confirm", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              bookingId,
+              paymentIntentId: paymentIntent.id,
+            }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            toast.success("Payment successful!");
+
+            // Step 3: Redirect or call onSuccess
+            if (onSuccess) {
+              onSuccess();
+            } else {
+              window.location.href = `/payment-success?bookingId=${bookingId}`;
+            }
+          } else {
+            toast.error("Payment succeeded but booking update failed");
+            setIsProcessing(false);
+          }
+        } catch (confirmError) {
+          console.error("Booking confirmation error:", confirmError);
+          toast.error("Payment succeeded but booking update failed");
+          setIsProcessing(false);
         }
       }
     } catch (err: any) {
+      console.error("Payment error:", err);
       toast.error("An error occurred during payment");
       setIsProcessing(false);
     }

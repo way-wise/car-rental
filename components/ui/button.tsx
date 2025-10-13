@@ -50,7 +50,8 @@ function Button({
     asChild?: boolean;
     isLoading?: boolean;
   }) {
-  const Comp = asChild ? Slot : "button";
+  // When loading, force to button element to show spinner
+  const Comp = asChild && !isLoading ? Slot : "button";
 
   return (
     <Comp
