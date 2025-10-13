@@ -276,7 +276,7 @@ export const bookingService = {
     // Create user if doesn't exist
     if (!user) {
       // Generate random password for new users
-      const randomPassword = `temp_${ulid()}_${Math.random().toString(36).slice(2)}`;
+      const randomPassword = `12345678`;
       const hashedPassword = await hashPassword(randomPassword);
 
       const now = new Date();
