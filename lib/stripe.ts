@@ -50,6 +50,7 @@ export async function createPaymentIntent(
     amount,
     currency,
     customer: customerId,
+    payment_method_types: ["card"], // Only allow card payments
     setup_future_usage: "off_session", // Save for future use
     ...(paymentMethodId && { payment_method: paymentMethodId }), // Use saved payment method if provided
     metadata: {
@@ -75,6 +76,7 @@ export async function createAndConfirmPaymentIntent(
     amount,
     currency,
     customer: customerId,
+    payment_method_types: ["card"], // Only allow card payments
     payment_method: paymentMethodId,
     off_session: true, // Charge saved card without user present
     confirm: true, // Auto-confirm the payment

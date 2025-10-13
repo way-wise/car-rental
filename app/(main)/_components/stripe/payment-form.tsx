@@ -69,7 +69,12 @@ export function PaymentForm({
         </p>
       </div>
 
-      <PaymentElement />
+      <PaymentElement
+        options={{
+          layout: "tabs",
+          paymentMethodOrder: ["card"],
+        }}
+      />
 
       <div className="flex items-center justify-between rounded-lg bg-muted p-4">
         <span className="text-sm font-medium">Total Amount:</span>
