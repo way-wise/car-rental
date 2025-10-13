@@ -1,15 +1,13 @@
 "use client";
 
+import ProfileSkleton from "@/components/skeleton/ProfileSkleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import ProfileSkleton from "@/components/skeleton/ProfileSkleton";
 import { useUserProfile } from "@/hooks/useUserProfile";
-import { UserProfile, UserReward } from "@/lib/dataTypes";
 import { useState } from "react";
-import { ProfileTabs } from "./ProfileTabs";
-import { StatsCards } from "./StatsCards";
-import { Modal } from "@/components/ui/modal";
-import { useForm } from "react-hook-form";
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import {
   Form,
   FormControl,
@@ -20,25 +18,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Edit, Lock, Mail, Trophy } from "lucide-react";
-import { formatDate } from "@/lib/date-format";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Modal } from "@/components/ui/modal";
 import { changePassword } from "@/lib/auth-client";
+import { formatDate } from "@/lib/date-format";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Calendar, Edit, Lock, Mail, Trophy } from "lucide-react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 // Main Profile Page Component
 const ProfileSection = () => {
-  const { user, videos, rewards, stats, isLoading, error, mutate, libVideos } =
-    useUserProfile();
+  const { user, isLoading, error, mutate } = useUserProfile();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] =
     useState(false);
-  const [activeTab, setActiveTab] = useState("overview");
 
   // Edit Profile Form
   const profileForm = useForm({
@@ -206,31 +202,6 @@ const ProfileSection = () => {
           </div>
         </CardContent>
       </Card>
-
-      <StatsCards stats={stats} isLoading={isLoading} />
-
-      <ProfileTabs
-        user={user as UserProfile}
-        videos={videos.map((video) => ({
-          ...video,
-          createdAt:
-            video.createdAt instanceof Date
-              ? video.createdAt.toISOString()
-              : video.createdAt,
-        }))}
-        libVideos={libVideos.map((video) => ({
-          ...video,
-          createdAt:
-            video.createdAt instanceof Date
-              ? video.createdAt.toISOString()
-              : video.createdAt,
-        }))}
-        rewards={rewards as UserReward[]}
-        stats={stats}
-        isLoading={isLoading}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
 
       {/* Edit Profile Modal */}
       <Modal
