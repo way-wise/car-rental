@@ -89,3 +89,16 @@ model bookings {
 
   @@index([userId])
 }
+
+model maintenance {
+  id               String   @id @default(ulid())
+  currentOdometer  Float
+  previousOdometer Float
+  fuelVolume       Float
+  fuelUnitPrice    Float
+  fuelCost         Float // calculated: fuelVolume * fuelUnitPrice
+  mileage          Float // calculated: currentOdometer - previousOdometer
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
