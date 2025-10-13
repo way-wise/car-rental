@@ -16,7 +16,7 @@ const Topbar = () => {
         <div className="flex items-center gap-1">
           <MailIcon className="h-4 w-4 text-white" />
           <Link
-            href="mailto:seungyoon2@gmail.com"
+            href="mailto:seung@waywise.pro"
             className="text-sm text-white transition-colors hover:text-[#dc143c]"
           >
             seung@waywise.pro

@@ -1,3 +1,4 @@
+import { emailEvents, EmailEventType } from "@/app/api/lib/events/email_event";
 import prisma from "@/lib/prisma";
 import {
   createAndConfirmPaymentIntent,
@@ -144,6 +145,28 @@ export async function POST(request: NextRequest) {
               stripePaymentIntentId: paymentIntent.id,
               paymentStatus: "succeeded",
             },
+          });
+
+          // Send booking confirmation emails
+          const bookingDetails = {
+            bookingId: booking.id,
+            userName: user.name,
+            userEmail: user.email,
+            pickupLocation: booking.pickupLocation,
+            dropLocation: booking.dropLocation,
+            bookingDate: booking.bookingDate.toISOString(),
+            bookingTime: booking.bookingTime,
+            amount: booking.amount,
+          };
+
+          // Emit email events
+          emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_USER, {
+            email: user.email,
+            bookingDetails,
+          });
+
+          emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_ADMIN, {
+            bookingDetails,
           });
 
           // Return success without clientSecret

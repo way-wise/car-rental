@@ -8,6 +8,9 @@ import authModule from "../features/auth/authModule";
 import signUploadModule from "../features/sign-upload/signUploadModule";
 import userModule from "../features/users/userModule";
 
+// Import email listeners to register event handlers
+import "../lib/listeners/email-listener";
+
 // Hono init
 const app = new Hono().basePath("/api");
 

@@ -4,4 +4,6 @@ export const emailEvents = new EventEmitter();
 
 export enum EmailEventType {
   VERIFY_EMAIL = "verify-email",
+  BOOKING_CONFIRMATION_USER = "booking-confirmation-user",
+  BOOKING_CONFIRMATION_ADMIN = "booking-confirmation-admin",
 }

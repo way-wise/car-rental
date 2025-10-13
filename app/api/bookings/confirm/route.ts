@@ -1,3 +1,4 @@
+import { emailEvents, EmailEventType } from "@/app/api/lib/events/email_event";
 import prisma from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
@@ -49,6 +50,12 @@ export async function POST(request: NextRequest) {
         bookingDate: true,
         bookingTime: true,
         amount: true,
+        user: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
       },
     });
 
@@ -63,6 +70,28 @@ export async function POST(request: NextRequest) {
         },
       });
     }
+
+    // Send booking confirmation emails
+    const bookingDetails = {
+      bookingId: booking.id,
+      userName: booking.user.name,
+      userEmail: booking.user.email,
+      pickupLocation: booking.pickupLocation,
+      dropLocation: booking.dropLocation,
+      bookingDate: booking.bookingDate.toISOString(),
+      bookingTime: booking.bookingTime,
+      amount: booking.amount,
+    };
+
+    // Emit email events
+    emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_USER, {
+      email: booking.user.email,
+      bookingDetails,
+    });
+
+    emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_ADMIN, {
+      bookingDetails,
+    });
 
     return NextResponse.json(
       {
