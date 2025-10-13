@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserProfile } from "@/lib/dataTypes";
 import { formatDate } from "@/lib/date-format";
-import { Calendar, Edit, Lock, Mail, Trophy } from "lucide-react";
+import { Calendar, Edit, Lock, Mail } from "lucide-react";
 import Image from "next/image";
 
 export const ProfileHeader = ({
@@ -92,12 +92,6 @@ export const ProfileHeader = ({
               <span>
                 Member since{" "}
                 {user?.createdAt ? formatDate(user.createdAt) : "N/A"}
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Trophy className="h-4 w-4 text-yellow-500" />
-              <span className="font-semibold">
-                {user?.totalPoints || 0} Points
               </span>
             </div>
           </div>

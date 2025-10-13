@@ -28,6 +28,7 @@ app.get("/", async (c) => {
       paginationQuerySchema &&
       object({
         search: string().optional(),
+        userId: string().optional(),
       }),
     data: c.req.query(),
   });

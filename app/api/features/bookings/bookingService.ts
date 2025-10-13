@@ -5,12 +5,17 @@ import { HTTPException } from "hono/http-exception";
 
 export const bookingService = {
   // Get all bookings with pagination and search
-  getBookings: async (query: PaginationQuery) => {
+  getBookings: async (query: PaginationQuery & { userId?: string }) => {
     const { skip, take, page, limit } = getPaginationQuery(query);
 
     const [bookings, total] = await prisma.$transaction([
       prisma.bookings.findMany({
         where: {
+          ...(query.userId
+            ? {
+                userId: query.userId,
+              }
+            : {}),
           ...(query.search
             ? {
                 OR: [
@@ -70,6 +75,11 @@ export const bookingService = {
       }),
       prisma.bookings.count({
         where: {
+          ...(query.userId
+            ? {
+                userId: query.userId,
+              }
+            : {}),
           ...(query.search
             ? {
                 OR: [
