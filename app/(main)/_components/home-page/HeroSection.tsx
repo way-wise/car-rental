@@ -4,30 +4,103 @@ import { Button } from "@/components/ui/button";
 import { CallModal } from "@/components/ui/call-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Input } from "@/components/ui/input";
 import { LocationAutocomplete } from "@/components/ui/location-autocomplete";
 import { TimePicker } from "@/components/ui/time-picker";
-import { CalendarIcon, ClockIcon, MapPinIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, Mail, MapPinIcon, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const HeroSection = () => {
+  const router = useRouter();
+
   // Form state
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropLocation, setDropLocation] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userName, setUserName] = useState("");
 
   // Modal states
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleBooking = () => {
-    const bookingData = {
-      pickupLocation,
-      dropLocation,
-      selectedDate: selectedDate ? selectedDate.toISOString() : "",
-      selectedTime,
-    };
-    console.log("Booking Data:", bookingData);
+  const handleBooking = async () => {
+    // Validation
+    if (
+      !pickupLocation ||
+      !dropLocation ||
+      !selectedDate ||
+      !selectedTime ||
+      !userEmail
+    ) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pickupLocation,
+          dropLocation,
+          date: selectedDate.toISOString(),
+          time: selectedTime,
+          userEmail,
+          userName: userName || undefined,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Reset form first
+        setPickupLocation("");
+        setDropLocation("");
+        setSelectedDate(undefined);
+        setSelectedTime("");
+        setUserEmail("");
+        setUserName("");
+
+        // Check if payment was instant (saved card charged)
+        if (data.instantPayment && data.paymentStatus === "succeeded") {
+          toast.success(
+            "Booking confirmed! Payment processed with your saved card.",
+          );
+          // Show success modal or redirect to bookings page
+          setIsCallModalOpen(true); // Or redirect to success page
+        } else {
+          // Normal flow - need to collect payment
+          toast.success("Booking created! Redirecting to payment...");
+
+          // Store booking details in session storage for checkout page
+          sessionStorage.setItem(
+            `booking_${data.bookingId}`,
+            JSON.stringify(data.booking),
+          );
+
+          // Navigate to checkout page with booking ID and client secret
+          router.push(
+            `/checkout?bookingId=${data.bookingId}&clientSecret=${data.clientSecret}`,
+          );
+        }
+      } else {
+        toast.error(data.error || "Failed to create booking");
+      }
+    } catch (error) {
+      console.error("Booking error:", error);
+      toast.error("An error occurred while creating your booking");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleModalBooking = (bookingData: BookingData) => {
@@ -115,13 +188,45 @@ const HeroSection = () => {
                       selectedDate={selectedDate}
                     />
                   </div>
+                  <div>
+                    <div className="mb-2 flex items-center gap-2">
+                      <Mail className="h-4 w-4 text-white" />
+                      <label className="text-base leading-[normal] font-normal tracking-[0] text-white">
+                        Email *
+                      </label>
+                    </div>
+                    <Input
+                      type="email"
+                      value={userEmail}
+                      onChange={(e) => setUserEmail(e.target.value)}
+                      placeholder="Enter your email"
+                      className="h-[44px] border-white/20 bg-white/10 text-white placeholder:text-white/60"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 flex items-center gap-2">
+                      <User className="h-4 w-4 text-white" />
+                      <label className="text-base leading-[normal] font-normal tracking-[0] text-white">
+                        Name (Optional)
+                      </label>
+                    </div>
+                    <Input
+                      type="text"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                      placeholder="Enter your name"
+                      className="h-[44px] border-white/20 bg-white/10 text-white placeholder:text-white/60"
+                    />
+                  </div>
                 </div>
                 <Button
-                  onClick={() => setIsCallModalOpen(true)}
-                  className="h-[50px] w-full rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234]"
+                  onClick={handleBooking}
+                  disabled={isLoading}
+                  className="h-[50px] w-full rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234] disabled:opacity-50"
                 >
                   <span className="text-base leading-[20.8px] font-semibold tracking-[0] text-white">
-                    Book Now
+                    {isLoading ? "Processing..." : "Book Now"}
                   </span>
                 </Button>
               </CardContent>

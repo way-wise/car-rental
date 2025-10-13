@@ -10,19 +10,22 @@ datasource db {
 }
 
 model users {
-  id            String     @id @default(ulid())
-  email         String     @unique
-  name          String
-  emailVerified Boolean
-  image         String?
-  role          String?
-  banned        Boolean?
-  banReason     String?
-  banExpires    Int?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      sessions[]
-  accounts      accounts[]
+  id                   String     @id @default(ulid())
+  email                String     @unique
+  name                 String
+  emailVerified        Boolean
+  image                String?
+  role                 String?
+  banned               Boolean?
+  banReason            String?
+  banExpires           Int?
+  stripeCustomerId     String?    @unique
+  defaultPaymentMethod String? // Stripe payment method ID
+  createdAt            DateTime
+  updatedAt            DateTime
+  sessions             sessions[]
+  accounts             accounts[]
+  bookings             bookings[]
 }
 
 model sessions {
@@ -68,4 +71,21 @@ model verifications {
   updatedAt  DateTime?
 
   @@index([identifier])
+}
+
+model bookings {
+  id                    String   @id @default(ulid())
+  userId                String
+  user                  users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pickupLocation        String
+  dropLocation          String
+  bookingDate           DateTime
+  bookingTime           String
+  stripePaymentIntentId String?  @unique
+  paymentStatus         String   @default("pending") // pending, succeeded, failed
+  amount                Int // amount in cents
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([userId])
 }
