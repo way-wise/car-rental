@@ -176,4 +176,57 @@ export const bookingService = {
 
     return booking;
   },
+
+  // Get booking statistics
+  getBookingStats: async () => {
+    const [
+      totalBookings,
+      successfulBookings,
+      pendingBookings,
+      failedBookings,
+      totalIncomeResult,
+    ] = await prisma.$transaction([
+      // Total bookings count
+      prisma.bookings.count(),
+
+      // Successful bookings count
+      prisma.bookings.count({
+        where: {
+          paymentStatus: "succeeded",
+        },
+      }),
+
+      // Pending bookings count
+      prisma.bookings.count({
+        where: {
+          paymentStatus: "pending",
+        },
+      }),
+
+      // Failed bookings count
+      prisma.bookings.count({
+        where: {
+          paymentStatus: "failed",
+        },
+      }),
+
+      // Total income (sum of successful payments)
+      prisma.bookings.aggregate({
+        where: {
+          paymentStatus: "succeeded",
+        },
+        _sum: {
+          amount: true,
+        },
+      }),
+    ]);
+
+    return {
+      totalBookings,
+      successfulBookings,
+      pendingBookings,
+      failedBookings,
+      totalIncome: totalIncomeResult._sum.amount || 0,
+    };
+  },
 };

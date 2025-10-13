@@ -7,6 +7,16 @@ import { bookingService } from "./bookingService";
 const app = new Hono();
 
 /*
+  @route    GET: /bookings/stats
+  @access   private
+  @desc     Get booking statistics
+*/
+app.get("/stats", async (c) => {
+  const result = await bookingService.getBookingStats();
+  return c.json(result);
+});
+
+/*
   @route    GET: /bookings
   @access   private
   @desc     Get all bookings with pagination and search

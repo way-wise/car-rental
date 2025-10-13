@@ -62,7 +62,10 @@ export const BookingsTable = () => {
   // Get bookings data
   const url = `/api/bookings?page=${pagination.pageIndex}&limit=${pagination.pageSize}${debouncedSearch.trim() ? `&search=${encodeURIComponent(debouncedSearch.trim())}` : ""}`;
   const { isValidating, data } = useSWR(url);
-  console.log(data);
+
+  // Get booking statistics
+  const { data: stats } = useSWR("/api/bookings/stats");
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     setPagination({
@@ -133,6 +136,14 @@ export const BookingsTable = () => {
   // Format amount from cents to dollars
   const formatAmount = (cents: number) => {
     return `$${(cents / 100).toFixed(2)}`;
+  };
+
+  // Get summary stats from backend
+  const summaryStats = {
+    totalBookings: stats?.totalBookings || 0,
+    totalIncome: stats?.totalIncome || 0,
+    pendingBookings: stats?.pendingBookings || 0,
+    successfulBookings: stats?.successfulBookings || 0,
   };
 
   // Table columns
@@ -265,6 +276,130 @@ export const BookingsTable = () => {
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-medium">Bookings</h1>
       </div>
+
+      {/* Summary Stats Boxes */}
+      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Total Bookings */}
+        <div className="rounded-xl border bg-card p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Total Bookings
+              </p>
+              <h3 className="mt-2 text-3xl font-bold">
+                {summaryStats.totalBookings}
+              </h3>
+            </div>
+            <div className="rounded-full bg-blue-500/10 p-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-blue-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Total Income */}
+        <div className="rounded-xl border bg-card p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Total Income
+              </p>
+              <h3 className="mt-2 text-3xl font-bold">
+                {formatAmount(summaryStats.totalIncome)}
+              </h3>
+            </div>
+            <div className="rounded-full bg-green-500/10 p-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-green-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Successful Bookings */}
+        <div className="rounded-xl border bg-card p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Successful
+              </p>
+              <h3 className="mt-2 text-3xl font-bold">
+                {summaryStats.successfulBookings}
+              </h3>
+            </div>
+            <div className="rounded-full bg-emerald-500/10 p-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-emerald-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Pending Bookings */}
+        <div className="rounded-xl border bg-card p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Pending
+              </p>
+              <h3 className="mt-2 text-3xl font-bold">
+                {summaryStats.pendingBookings}
+              </h3>
+            </div>
+            <div className="rounded-full bg-orange-500/10 p-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-orange-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="rounded-xl border bg-card p-6">
         <div className="flex items-center justify-between gap-4 pb-6">
           <Input
