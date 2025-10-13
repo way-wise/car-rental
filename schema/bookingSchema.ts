@@ -1,5 +1,30 @@
-import { object, string } from "yup";
+import { InferType, mixed, number, object, string } from "yup";
 
+// Booking Schema for frontend
+export const bookingSchema = object({
+  id: string(),
+  userId: string(),
+  pickupLocation: string().required(),
+  dropLocation: string().required(),
+  bookingDate: mixed(),
+  bookingTime: string().required(),
+  stripePaymentIntentId: string().nullable(),
+  paymentStatus: string()
+    .oneOf(["pending", "succeeded", "failed"])
+    .default("pending"),
+  amount: number().required(),
+  createdAt: mixed(),
+  updatedAt: mixed(),
+  user: object({
+    id: string(),
+    name: string(),
+    email: string(),
+  }).optional(),
+});
+
+export type Booking = InferType<typeof bookingSchema>;
+
+// Create booking schema (for booking creation)
 export const createBookingSchema = object({
   pickupLocation: string()
     .required("Pickup location is required")

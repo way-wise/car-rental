@@ -2,7 +2,6 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table";
 import {
   DropdownMenu,
@@ -30,7 +29,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { Ban, Eye, MoreVertical, Plus, Trash } from "lucide-react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import useSWR, { mutate } from "swr";
@@ -62,7 +61,7 @@ export const UsersTable = () => {
   // Get users data
   const url = `/api/users?page=${pagination.pageIndex}&limit=${pagination.pageSize}${debouncedSearch.trim() ? `&search=${encodeURIComponent(debouncedSearch.trim())}` : ""}`;
   const { isValidating, data } = useSWR(url);
-
+  console.log(data);
   // Add User Form
   const addUserForm = useForm({
     resolver: yupResolver(signUpSchema),

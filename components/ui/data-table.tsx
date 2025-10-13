@@ -1,13 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { PaginatedData } from "@/lib/dataTypes";
 import {
   type ColumnDef,
@@ -48,7 +41,9 @@ export const DataTable = <TData, TValue>({
   const table = useReactTable({
     data: data?.data || [],
     columns,
-    pageCount: data?.meta?.totalPages || Math.ceil((data?.meta?.total || 0) / pagination.pageSize),
+    pageCount:
+      data?.meta?.totalPages ||
+      Math.ceil((data?.meta?.total || 0) / pagination.pageSize),
     state: {
       rowSelection,
       pagination: {
@@ -170,7 +165,8 @@ export const DataTable = <TData, TValue>({
       <div className="flex flex-wrap items-center justify-center gap-4 pt-6 sm:justify-between">
         {/* Pagination range indicator (e.g., '1-10 of 50') */}
         <div className="text-sm text-muted-foreground">
-          Showing {Math.max(1, (pagination.pageIndex - 1) * pagination.pageSize + 1)}
+          Showing{" "}
+          {Math.max(1, (pagination.pageIndex - 1) * pagination.pageSize + 1)}
           &nbsp;&minus;&nbsp;
           {Math.min(
             pagination.pageIndex * pagination.pageSize,

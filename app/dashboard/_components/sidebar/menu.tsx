@@ -18,6 +18,11 @@ const SidebarMenu = () => {
       icon: <UsersRound className="icon" />,
       url: "/dashboard/users",
     },
+    {
+      title: "Bookings",
+      icon: <UsersRound className="icon" />,
+      url: "/dashboard/bookings",
+    },
   ];
 
   return (
