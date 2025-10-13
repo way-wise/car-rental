@@ -8,6 +8,7 @@ import { useState } from "react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { DataTable } from "@/components/ui/data-table";
 import {
   Form,
   FormControl,
@@ -21,11 +22,14 @@ import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
 import { changePassword } from "@/lib/auth-client";
 import { formatDate } from "@/lib/date-format";
+import { Booking } from "@/schema/bookingSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { Calendar, Edit, Lock, Mail } from "lucide-react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import useSWR from "swr";
 import { z } from "zod";
 
 // Main Profile Page Component
@@ -35,6 +39,16 @@ const ProfileSection = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] =
     useState(false);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 1,
+    pageSize: 5,
+  });
+
+  // Get user's bookings
+  const bookingsUrl = user?.id
+    ? `/api/bookings?page=${pagination.pageIndex}&limit=${pagination.pageSize}&userId=${user.id}`
+    : null;
+  const { data: bookingsData, isValidating } = useSWR(bookingsUrl);
 
   // Edit Profile Form
   const profileForm = useForm({
@@ -68,6 +82,77 @@ const ProfileSection = () => {
       confirmPassword: "",
     },
   });
+
+  // Format amount from cents to dollars
+  const formatAmount = (cents: number) => {
+    return `$${(cents / 100).toFixed(2)}`;
+  };
+
+  // Table columns for bookings
+  const columns: ColumnDef<Booking>[] = [
+    {
+      header: "Pickup Location",
+      accessorKey: "pickupLocation",
+      cell: ({ row }) => (
+        <div className="max-w-[200px] truncate">
+          {row.original.pickupLocation}
+        </div>
+      ),
+    },
+    {
+      header: "Drop Location",
+      accessorKey: "dropLocation",
+      cell: ({ row }) => (
+        <div className="max-w-[200px] truncate">
+          {row.original.dropLocation}
+        </div>
+      ),
+    },
+    {
+      header: "Booking Date",
+      accessorKey: "bookingDate",
+      cell: ({ row }) => (
+        <div>
+          <div>{formatDate(row.original.bookingDate)}</div>
+          <div className="text-sm text-muted-foreground">
+            {row.original.bookingTime}
+          </div>
+        </div>
+      ),
+    },
+    {
+      header: "Amount",
+      accessorKey: "amount",
+      cell: ({ row }) => (
+        <div className="font-medium">{formatAmount(row.original.amount)}</div>
+      ),
+    },
+    {
+      header: "Payment Status",
+      accessorKey: "paymentStatus",
+      cell: ({ row }) => {
+        const status = row.original.paymentStatus;
+        return (
+          <Badge
+            variant={
+              status === "succeeded"
+                ? "success"
+                : status === "failed"
+                  ? "destructive"
+                  : "secondary"
+            }
+          >
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </Badge>
+        );
+      },
+    },
+    {
+      header: "Created At",
+      accessorKey: "createdAt",
+      cell: ({ row }) => formatDate(row.original.createdAt),
+    },
+  ];
 
   const handleSaveProfile = async (formData: Record<string, unknown>) => {
     try {
@@ -339,6 +424,20 @@ const ProfileSection = () => {
           </form>
         </Form>
       </Modal>
+
+      {/* Bookings History Table */}
+      <Card className="mt-6">
+        <CardContent className="p-6">
+          <h3 className="mb-4 text-lg font-semibold">My Bookings</h3>
+          <DataTable
+            data={bookingsData}
+            columns={columns}
+            isPending={isValidating}
+            pagination={pagination}
+            onPaginationChange={setPagination}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 };
