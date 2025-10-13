@@ -275,39 +275,92 @@ export async function POST(request: NextRequest) {
 
 /**
  * GET /api/bookings
- * Retrieve bookings (optional: add pagination and filtering)
+ * Retrieve bookings with pagination and search
  */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const userEmail = searchParams.get("userEmail");
 
-    const bookings = await prisma.bookings.findMany({
-      where: userEmail
-        ? {
-            user: {
-              email: userEmail,
+    // Get pagination params
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const search = searchParams.get("search") || "";
+
+    // Calculate skip and take
+    const take = limit;
+    const skip = (page - 1) * take;
+
+    // Build where clause
+    const where = search
+      ? {
+          OR: [
+            {
+              pickupLocation: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
             },
-          }
-        : undefined,
-      include: {
-        user: {
-          select: {
-            id: true,
-            email: true,
-            name: true,
+            {
+              dropLocation: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
+            },
+            {
+              user: {
+                name: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+            },
+            {
+              user: {
+                email: {
+                  contains: search,
+                  mode: "insensitive" as const,
+                },
+              },
+            },
+            {
+              paymentStatus: {
+                contains: search,
+                mode: "insensitive" as const,
+              },
+            },
+          ],
+        }
+      : {};
+
+    const [bookings, total] = await prisma.$transaction([
+      prisma.bookings.findMany({
+        where,
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              image: true,
+            },
           },
         },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 50,
-    });
+        skip,
+        take,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      prisma.bookings.count({ where }),
+    ]);
 
     return NextResponse.json({
-      success: true,
-      bookings,
+      data: bookings,
+      meta: {
+        page,
+        limit,
+        total,
+      },
     });
   } catch (error: any) {
     console.error("Error fetching bookings:", error);
