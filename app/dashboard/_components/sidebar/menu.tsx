@@ -1,4 +1,4 @@
-import { Home, LayoutGrid, UsersRound } from "lucide-react";
+import { Calendar, Home, LayoutGrid, UsersRound, Workflow } from "lucide-react";
 import MenuItem from "./menu-item";
 
 const SidebarMenu = () => {
@@ -20,8 +20,13 @@ const SidebarMenu = () => {
     },
     {
       title: "Bookings",
-      icon: <UsersRound className="icon" />,
+      icon: <Calendar className="icon" />,
       url: "/dashboard/bookings",
+    },
+    {
+      title: "Maintenance",
+      icon: <Workflow className="icon" />,
+      url: "/dashboard/maintenance",
     },
   ];
 
