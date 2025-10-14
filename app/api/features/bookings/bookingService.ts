@@ -57,12 +57,6 @@ export const bookingService = {
                       },
                     },
                   },
-                  {
-                    paymentStatus: {
-                      contains: query.search,
-                      mode: "insensitive",
-                    },
-                  },
                 ],
               }
             : {}),
@@ -121,12 +115,6 @@ export const bookingService = {
                       },
                     },
                   },
-                  {
-                    paymentStatus: {
-                      contains: query.search,
-                      mode: "insensitive",
-                    },
-                  },
                 ],
               }
             : {}),
@@ -179,7 +167,10 @@ export const bookingService = {
   },
 
   // Update booking payment status
-  updateBookingStatus: async (id: string, paymentStatus: string) => {
+  updateBookingStatus: async (
+    id: string,
+    paymentStatus: "pending" | "succeeded" | "failed" | "canceled" | "refunded",
+  ) => {
     const booking = await prisma.bookings.update({
       where: { id },
       data: { paymentStatus },
@@ -198,7 +189,10 @@ export const bookingService = {
   },
 
   // Update booking status (upcoming, ongoing, completed)
-  updateBookingLifecycleStatus: async (id: string, bookingStatus: string) => {
+  updateBookingLifecycleStatus: async (
+    id: string,
+    bookingStatus: "upcoming" | "ongoing" | "completed" | "canceled",
+  ) => {
     const booking = await prisma.bookings.update({
       where: { id },
       data: { bookingStatus },
@@ -267,6 +261,59 @@ export const bookingService = {
       failedBookings,
       totalIncome: totalIncomeResult._sum.amount || 0,
     };
+  },
+
+  // Get bookings for calendar view
+  getBookingsByDateRange: async (query: {
+    startDate: string;
+    endDate: string;
+  }) => {
+    const { startDate, endDate } = query;
+
+    const bookings = await prisma.bookings.findMany({
+      where: {
+        bookingDate: {
+          gte: new Date(startDate),
+          lte: new Date(endDate),
+        },
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        bookingDate: "asc",
+      },
+    });
+
+    // Group bookings by date
+    const bookingsByDate: Record<
+      string,
+      {
+        count: number;
+        bookings: typeof bookings;
+      }
+    > = {};
+
+    bookings.forEach((booking) => {
+      const dateKey = booking.bookingDate.toISOString().split("T")[0];
+      if (!bookingsByDate[dateKey]) {
+        bookingsByDate[dateKey] = {
+          count: 0,
+          bookings: [],
+        };
+      }
+      bookingsByDate[dateKey].count += 1;
+      bookingsByDate[dateKey].bookings.push(booking);
+    });
+
+    return bookingsByDate;
   },
 
   // Create a new booking with Stripe payment integration

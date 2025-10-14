@@ -255,6 +255,15 @@ export const FuelReportsTable = () => {
       ),
     },
     {
+      header: "Avg Mileage",
+      accessorKey: "avgMileage",
+      cell: ({ row }) => (
+        <div className="font-medium text-blue-600">
+          {formatNumber(row.original.mileage / row.original.fuelVolume)} km/L
+        </div>
+      ),
+    },
+    {
       header: "Date",
       accessorKey: "createdAt",
       cell: ({ row }) => formatDate(row.original.createdAt),

@@ -59,6 +59,25 @@ app.get("/stats", async (c) => {
 });
 
 /*
+  @route    GET: /bookings/calendar
+  @access   private
+  @desc     Get bookings for calendar view by date range
+*/
+app.get("/calendar", async (c) => {
+  const validatedQuery = await validateInput({
+    type: "query",
+    schema: object({
+      startDate: string().required("Start date is required"),
+      endDate: string().required("End date is required"),
+    }),
+    data: c.req.query(),
+  });
+
+  const result = await bookingService.getBookingsByDateRange(validatedQuery);
+  return c.json(result);
+});
+
+/*
   @route    GET: /bookings
   @access   private
   @desc     Get all bookings with pagination and search

@@ -1,4 +1,5 @@
 import {
+  BookAlertIcon,
   Calendar,
   FileText,
   Home,
@@ -28,8 +29,13 @@ const SidebarMenu = () => {
     },
     {
       title: "Bookings",
-      icon: <Calendar className="icon" />,
+      icon: <BookAlertIcon className="icon" />,
       url: "/dashboard/bookings",
+    },
+    {
+      title: "Calendar",
+      icon: <Calendar className="icon" />,
+      url: "/dashboard/calendar",
     },
     {
       title: "Fuel Reports",

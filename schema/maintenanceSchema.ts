@@ -27,7 +27,7 @@ export const createMaintenanceSchema = object({
     .positive("Odometer reading must be positive"),
   details: string()
     .required("Details are required")
-    .min(10, "Details must be at least 10 characters"),
+    .min(2, "Details must be at least 10 characters"),
   serviceProvider: string().optional(),
   nextServiceDue: string().optional(),
   notes: string().optional(),
