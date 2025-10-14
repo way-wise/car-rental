@@ -7,10 +7,7 @@ import { headers } from "next/headers";
 
 // Auth Config
 export const auth = betterAuth({
-  trustedOrigins: [
-    "http://localhost:3000",
-    "https://bulletproof.waywisetech.com",
-  ],
+  trustedOrigins: ["http://localhost:3000"],
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
@@ -26,12 +23,12 @@ export const auth = betterAuth({
   verification: {
     modelName: "verifications",
   },
-  socialProviders: {
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    },
-  },
+  // socialProviders: {
+  //   google: {
+  //     clientId: process.env.GOOGLE_CLIENT_ID as string,
+  //     clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+  //   },
+  // },
   emailAndPassword: {
     enabled: true,
   },
