@@ -8,11 +8,19 @@ import {
   DrawerDescription,
   DrawerHeader,
 } from "@/components/ui/drawer";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import type { auth } from "@/lib/auth";
 import { signOut } from "@/lib/auth-client";
 import { handleSmoothScroll } from "@/lib/smoothScroll";
 import { useProgress } from "@bprogress/next";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, Phone, UserRound, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -27,6 +35,8 @@ const Navbar = ({ session }: { session: Session }) => {
 
   const { start, stop } = useProgress();
   const router = useRouter();
+
+  const user = session?.user;
   // Navigation Links
   const menuList = [
     {
@@ -51,7 +61,7 @@ const Navbar = ({ session }: { session: Session }) => {
       url: "#faq",
     },
   ];
-  const handleSignoutMobile = async () => {
+  const handleSignout = async () => {
     await signOut({
       fetchOptions: {
         onRequest: () => {
@@ -60,6 +70,7 @@ const Navbar = ({ session }: { session: Session }) => {
         onSuccess: () => {
           router.refresh();
           stop();
+          toast.success("Logged out successfully");
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
@@ -135,6 +146,92 @@ const Navbar = ({ session }: { session: Session }) => {
                   {menu.title}
                 </Link>
               ))}
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-transparent px-0 font-normal text-white hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent data-[state=open]:text-primary">
+                      <UserRound className="h-5 w-5" />
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[200px] gap-2 p-2">
+                        {user ? (
+                          <>
+                            <li>
+                              <NavigationMenuLink asChild>
+                                <Link
+                                  href="/profile"
+                                  className={`block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent ${
+                                    pathname === "/profile"
+                                      ? "bg-accent font-semibold text-primary"
+                                      : ""
+                                  }`}
+                                >
+                                  <div className="text-sm font-medium">
+                                    Profile
+                                  </div>
+                                </Link>
+                              </NavigationMenuLink>
+                            </li>
+                            {user.role === "admin" && (
+                              <li>
+                                <NavigationMenuLink asChild>
+                                  <Link
+                                    href="/dashboard"
+                                    className={`block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent ${
+                                      pathname.startsWith("/dashboard")
+                                        ? "bg-accent font-semibold text-primary"
+                                        : ""
+                                    }`}
+                                  >
+                                    <div className="text-sm font-medium">
+                                      Dashboard
+                                    </div>
+                                  </Link>
+                                </NavigationMenuLink>
+                              </li>
+                            )}
+                            <li>
+                              <button
+                                onClick={handleSignout}
+                                className="w-full rounded-md p-3 text-left text-sm leading-none font-medium transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent"
+                              >
+                                Logout
+                              </button>
+                            </li>
+                          </>
+                        ) : (
+                          <>
+                            <li>
+                              <NavigationMenuLink asChild>
+                                <Link
+                                  href="/auth/sign-in"
+                                  className="block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent"
+                                >
+                                  <div className="text-sm font-medium">
+                                    Sign In
+                                  </div>
+                                </Link>
+                              </NavigationMenuLink>
+                            </li>
+                            <li>
+                              <NavigationMenuLink asChild>
+                                <Link
+                                  href="/auth/sign-up"
+                                  className="block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent"
+                                >
+                                  <div className="text-sm font-medium">
+                                    Sign Up
+                                  </div>
+                                </Link>
+                              </NavigationMenuLink>
+                            </li>
+                          </>
+                        )}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
               {/* Phone Button */}
               <div className="flex items-center gap-4 xl:ml-28">
                 <Link href="tel:+1-310-756-5533" className="hidden lg:block">
@@ -208,16 +305,55 @@ const Navbar = ({ session }: { session: Session }) => {
               ))}
             </nav>
 
-            {/* Mobile Phone Button */}
-            {/* <div className="mt-8 border-t border-gray-800 pt-6 hi">
-              <Link href="tel:+1-310-756-5533">
-                <button className="flex w-full cursor-pointer items-center justify-center space-x-2 rounded-lg bg-primary px-4 py-3 text-white transition-colors hover:bg-primary/90">
-                  <Phone className="h-5 w-5" />
-                  <span>+1-310-756-5533</span>
-                  
-                </button>
-              </Link>
-            </div> */}
+            {/* Mobile Auth Menu */}
+            <div className="mt-8 space-y-2 border-t border-gray-800 pt-6">
+              {user ? (
+                <>
+                  <Link
+                    href="/profile"
+                    className="block rounded-md py-3 text-lg font-medium transition-colors hover:text-primary"
+                    onClick={closeMobileMenu}
+                  >
+                    Profile
+                  </Link>
+                  {user.role === "admin" && (
+                    <Link
+                      href="/dashboard"
+                      className="block rounded-md py-3 text-lg font-medium transition-colors hover:text-primary"
+                      onClick={closeMobileMenu}
+                    >
+                      Dashboard
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => {
+                      handleSignout();
+                      closeMobileMenu();
+                    }}
+                    className="w-full rounded-md py-3 text-left text-lg font-medium transition-colors hover:text-primary"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/auth/sign-in"
+                    className="block rounded-md py-3 text-lg font-medium transition-colors hover:text-primary"
+                    onClick={closeMobileMenu}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth/sign-up"
+                    className="block rounded-md py-3 text-lg font-medium transition-colors hover:text-primary"
+                    onClick={closeMobileMenu}
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
         </DrawerContent>
       </Drawer>
