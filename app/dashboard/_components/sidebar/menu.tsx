@@ -1,4 +1,11 @@
-import { Calendar, FileText, Home, LayoutGrid, UsersRound } from "lucide-react";
+import {
+  Calendar,
+  FileText,
+  Home,
+  LayoutGrid,
+  UsersRound,
+  Workflow,
+} from "lucide-react";
 import MenuItem from "./menu-item";
 
 const SidebarMenu = () => {
@@ -27,6 +34,11 @@ const SidebarMenu = () => {
       title: "Fuel Reports",
       icon: <FileText className="icon" />,
       url: "/dashboard/fuel-reports",
+    },
+    {
+      title: "Maintenance",
+      icon: <Workflow className="icon" />,
+      url: "/dashboard/maintenance",
     },
   ];
 
