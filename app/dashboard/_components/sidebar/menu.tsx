@@ -3,6 +3,7 @@ import {
   FileText,
   Home,
   LayoutGrid,
+  Settings,
   UsersRound,
   Workflow,
 } from "lucide-react";
@@ -39,6 +40,11 @@ const SidebarMenu = () => {
       title: "Maintenance",
       icon: <Workflow className="icon" />,
       url: "/dashboard/maintenance",
+    },
+    {
+      title: "Settings",
+      icon: <Settings className="icon" />,
+      url: "/dashboard/settings",
     },
   ];
 
