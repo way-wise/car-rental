@@ -221,7 +221,7 @@ const ProfileSection = () => {
   }
 
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-8">
+    <div className="container mx-auto min-h-screen max-w-6xl px-4 py-8">
       <Card className="mb-6">
         <CardContent className="p-6">
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:gap-6">

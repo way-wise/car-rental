@@ -1,7 +1,11 @@
 import SignupForm from "./signup-form";
 
 const SignupPage = () => {
-  return <SignupForm />;
+  return (
+    <div className="min-h-[70vh]">
+      <SignupForm />
+    </div>
+  );
 };
 
 export default SignupPage;

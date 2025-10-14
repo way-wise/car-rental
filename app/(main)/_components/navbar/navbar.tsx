@@ -108,7 +108,9 @@ const Navbar = ({ session }: { session: Session }) => {
   }, []);
 
   return (
-    <nav className="fixed top-0 z-20 w-full bg-transparent transition-all duration-300">
+    <nav
+      className={`top-0 z-20 w-full transition-all duration-300 ${pathname === "/" ? "fixed bg-transparent" : "sticky bg-black/80 backdrop-blur-sm"}`}
+    >
       <Topbar />
       <div
         className={` ${isScrolled ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"}`}

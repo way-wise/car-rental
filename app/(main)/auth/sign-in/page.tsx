@@ -1,7 +1,11 @@
 import SigninForm from "./signin-form";
 
 const SignInPage = () => {
-  return <SigninForm />;
+  return (
+    <div className="min-h-[70vh]">
+      <SigninForm />
+    </div>
+  );
 };
 
 export default SignInPage;
