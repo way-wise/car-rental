@@ -119,7 +119,11 @@ export const distanceService = {
 
     return {
       ...distanceInfo,
-      pricing,
+      pricing: {
+        ...pricing,
+        pricePerKilometer: pricing.pricePerKilometer ?? undefined,
+        pricePerHour: pricing.pricePerHour ?? undefined,
+      },
     };
   },
 };
