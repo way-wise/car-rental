@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Modal } from "@/components/ui/modal";
 import { Textarea } from "@/components/ui/textarea";
 import { formatDate } from "@/lib/date-format";
-import { Maintenance } from "@/schema/maintenanceSchema";
+import { FuelReports } from "@/schema/fuelReportsSchema";
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { Edit, Eye, MoreVertical, Plus, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -30,14 +30,14 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import useSWR, { mutate } from "swr";
 
-export const MaintenanceTable = () => {
+export const FuelReportsTable = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [viewDetailsModalOpen, setViewDetailsModalOpen] = useState(false);
-  const [maintenanceId, setMaintenanceId] = useState<string | undefined>("");
-  const [selectedMaintenance, setSelectedMaintenance] =
-    useState<Maintenance | null>(null);
+  const [fuelReportsId, setFuelReportsId] = useState<string | undefined>("");
+  const [selectedFuelReports, setSelectedFuelReports] =
+    useState<FuelReports | null>(null);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 1,
     pageSize: 10,
@@ -54,12 +54,12 @@ export const MaintenanceTable = () => {
     return () => clearTimeout(timer);
   }, [search]);
 
-  // Get maintenance data
-  const url = `/api/maintenance?page=${pagination.pageIndex}&limit=${pagination.pageSize}${debouncedSearch.trim() ? `&search=${encodeURIComponent(debouncedSearch.trim())}` : ""}`;
+  // Get fuel reports data
+  const url = `/api/fuel-reports?page=${pagination.pageIndex}&limit=${pagination.pageSize}${debouncedSearch.trim() ? `&search=${encodeURIComponent(debouncedSearch.trim())}` : ""}`;
   const { isValidating, data } = useSWR(url);
 
-  // Get maintenance statistics
-  const { data: stats } = useSWR("/api/maintenance/stats");
+  // Get fuel reports statistics
+  const { data: stats } = useSWR("/api/fuel-reports/stats");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -94,10 +94,10 @@ export const MaintenanceTable = () => {
   // Delete Form
   const deleteForm = useForm();
 
-  // Handle Create Maintenance
-  const handleCreateMaintenance = async (values: any) => {
+  // Handle Create Fuel Reports
+  const handleCreateFuelReports = async (values: any) => {
     try {
-      const response = await fetch("/api/maintenance", {
+      const response = await fetch("/api/fuel-reports", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,24 +114,24 @@ export const MaintenanceTable = () => {
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        toast.error(result.error || "Failed to create maintenance record");
+        toast.error(result.error || "Failed to create fuel reports record");
         return;
       }
 
-      toast.success("Maintenance record created successfully");
+      toast.success("Fuel reports record created successfully");
       setCreateModalOpen(false);
       createForm.reset();
       mutate(url);
-      mutate("/api/maintenance/stats");
+      mutate("/api/fuel-reports/stats");
     } catch (error: any) {
-      toast.error(error.message || "Failed to create maintenance record");
+      toast.error(error.message || "Failed to create fuel reports record");
     }
   };
 
-  // Handle Update Maintenance
-  const handleUpdateMaintenance = async (values: any) => {
+  // Handle Update Fuel Reports
+  const handleUpdateFuelReports = async (values: any) => {
     try {
-      const response = await fetch(`/api/maintenance/${maintenanceId}`, {
+      const response = await fetch(`/api/fuel-reports/${fuelReportsId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -156,40 +156,40 @@ export const MaintenanceTable = () => {
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        toast.error(result.error || "Failed to update maintenance record");
+        toast.error(result.error || "Failed to update fuel reports record");
         return;
       }
 
-      toast.success("Maintenance record updated successfully");
+      toast.success("Fuel reports record updated successfully");
       setUpdateModalOpen(false);
       updateForm.reset();
       mutate(url);
-      mutate("/api/maintenance/stats");
+      mutate("/api/fuel-reports/stats");
     } catch (error: any) {
-      toast.error(error.message || "Failed to update maintenance record");
+      toast.error(error.message || "Failed to update fuel reports record");
     }
   };
 
-  // Handle Delete Maintenance
-  const handleDeleteMaintenance = async () => {
+  // Handle Delete Fuel Reports
+  const handleDeleteFuelReports = async () => {
     try {
-      const response = await fetch(`/api/maintenance/${maintenanceId}`, {
+      const response = await fetch(`/api/fuel-reports/${fuelReportsId}`, {
         method: "DELETE",
       });
 
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        toast.error(result.error || "Failed to delete maintenance record");
+        toast.error(result.error || "Failed to delete fuel reports record");
         return;
       }
 
-      toast.success("Maintenance record deleted successfully");
+      toast.success("Fuel reports record deleted successfully");
       setDeleteModalOpen(false);
       mutate(url);
-      mutate("/api/maintenance/stats");
+      mutate("/api/fuel-reports/stats");
     } catch (error: any) {
-      toast.error(error.message || "Failed to delete maintenance record");
+      toast.error(error.message || "Failed to delete fuel reports record");
     }
   };
 
@@ -207,7 +207,7 @@ export const MaintenanceTable = () => {
   };
 
   // Table columns
-  const columns: ColumnDef<Maintenance>[] = [
+  const columns: ColumnDef<FuelReports>[] = [
     {
       header: "Current Odometer",
       accessorKey: "currentOdometer",
@@ -274,7 +274,7 @@ export const MaintenanceTable = () => {
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem
                   onClick={() => {
-                    setSelectedMaintenance(row.original);
+                    setSelectedFuelReports(row.original);
                     setViewDetailsModalOpen(true);
                   }}
                 >
@@ -283,7 +283,7 @@ export const MaintenanceTable = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => {
-                    setMaintenanceId(id);
+                    setFuelReportsId(id);
                     updateForm.setValue(
                       "currentOdometer",
                       row.original.currentOdometer.toString(),
@@ -310,7 +310,7 @@ export const MaintenanceTable = () => {
                 <DropdownMenuItem
                   variant="destructive"
                   onClick={() => {
-                    setMaintenanceId(id);
+                    setFuelReportsId(id);
                     setDeleteModalOpen(true);
                   }}
                 >
@@ -328,7 +328,7 @@ export const MaintenanceTable = () => {
   return (
     <>
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-medium">Maintenance Records</h1>
+        <h1 className="text-2xl font-medium">Fuel Reports Records</h1>
         <Button onClick={() => setCreateModalOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />
           Add Record
@@ -477,15 +477,15 @@ export const MaintenanceTable = () => {
         />
       </div>
 
-      {/* Create Maintenance Modal */}
+      {/* Create Fuel Reports Modal */}
       <Modal
         isOpen={createModalOpen}
         onClose={() => setCreateModalOpen(false)}
-        title="Add Maintenance Record"
+        title="Add Fuel Reports Record"
         isPending={createForm.formState.isSubmitting}
       >
         <Form {...createForm}>
-          <form onSubmit={createForm.handleSubmit(handleCreateMaintenance)}>
+          <form onSubmit={createForm.handleSubmit(handleCreateFuelReports)}>
             <FormFieldset disabled={createForm.formState.isSubmitting}>
               <div className="grid grid-cols-2 gap-4">
                 <FormField
@@ -602,15 +602,15 @@ export const MaintenanceTable = () => {
         </Form>
       </Modal>
 
-      {/* Update Maintenance Modal */}
+      {/* Update Fuel Reports Modal */}
       <Modal
         isOpen={updateModalOpen}
         onClose={() => setUpdateModalOpen(false)}
-        title="Update Maintenance Record"
+        title="Update Fuel Reports Record"
         isPending={updateForm.formState.isSubmitting}
       >
         <Form {...updateForm}>
-          <form onSubmit={updateForm.handleSubmit(handleUpdateMaintenance)}>
+          <form onSubmit={updateForm.handleSubmit(handleUpdateFuelReports)}>
             <FormFieldset disabled={updateForm.formState.isSubmitting}>
               <div className="grid grid-cols-2 gap-4">
                 <FormField
@@ -727,19 +727,19 @@ export const MaintenanceTable = () => {
         </Form>
       </Modal>
 
-      {/* Delete Maintenance Modal */}
+      {/* Delete Fuel Reports Modal */}
       <Modal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
-        title="Delete Maintenance Record"
+        title="Delete Fuel Reports Record"
         isPending={deleteForm.formState.isSubmitting}
       >
         <Form {...deleteForm}>
-          <form onSubmit={deleteForm.handleSubmit(handleDeleteMaintenance)}>
+          <form onSubmit={deleteForm.handleSubmit(handleDeleteFuelReports)}>
             <FormFieldset disabled={deleteForm.formState.isSubmitting}>
               <p className="text-muted-foreground">
                 This action cannot be undone. This will permanently delete the
-                maintenance record.
+                fuel reports record.
               </p>
               <div className="flex justify-end gap-3 py-5">
                 <Button
@@ -762,17 +762,17 @@ export const MaintenanceTable = () => {
         </Form>
       </Modal>
 
-      {/* View Maintenance Details Modal */}
+      {/* View Fuel Reports Details Modal */}
       <Modal
         isOpen={viewDetailsModalOpen}
         onClose={() => setViewDetailsModalOpen(false)}
         title=""
         isPending={false}
       >
-        {selectedMaintenance && (
+        {selectedFuelReports && (
           <div>
             <div className="flex items-center justify-between pb-2">
-              <h1 className="text-2xl font-medium">Maintenance Details</h1>
+              <h1 className="text-2xl font-medium">Fuel Reports Details</h1>
               <div className="flex justify-end">
                 <Button
                   className="mt-[-20px] p-2 text-[32px] font-medium"
@@ -795,7 +795,7 @@ export const MaintenanceTable = () => {
                       Current Odometer:
                     </span>
                     <span className="text-sm font-medium">
-                      {formatNumber(selectedMaintenance.currentOdometer)} km
+                      {formatNumber(selectedFuelReports.currentOdometer)} km
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -803,7 +803,7 @@ export const MaintenanceTable = () => {
                       Previous Odometer:
                     </span>
                     <span className="text-sm font-medium">
-                      {formatNumber(selectedMaintenance.previousOdometer)} km
+                      {formatNumber(selectedFuelReports.previousOdometer)} km
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -811,7 +811,7 @@ export const MaintenanceTable = () => {
                       Mileage:
                     </span>
                     <span className="text-sm font-semibold text-blue-600">
-                      {formatNumber(selectedMaintenance.mileage)} km
+                      {formatNumber(selectedFuelReports.mileage)} km
                     </span>
                   </div>
                 </div>
@@ -826,7 +826,7 @@ export const MaintenanceTable = () => {
                       Fuel Volume:
                     </span>
                     <span className="text-sm font-medium">
-                      {formatNumber(selectedMaintenance.fuelVolume)} L
+                      {formatNumber(selectedFuelReports.fuelVolume)} L
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -834,7 +834,7 @@ export const MaintenanceTable = () => {
                       Fuel Unit Price:
                     </span>
                     <span className="text-sm font-medium">
-                      ${formatNumber(selectedMaintenance.fuelUnitPrice)}
+                      ${formatNumber(selectedFuelReports.fuelUnitPrice)}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -842,18 +842,18 @@ export const MaintenanceTable = () => {
                       Total Fuel Cost:
                     </span>
                     <span className="text-lg font-semibold text-green-600">
-                      ${formatNumber(selectedMaintenance.fuelCost)}
+                      ${formatNumber(selectedFuelReports.fuelCost)}
                     </span>
                   </div>
                 </div>
               </div>
 
               {/* Notes */}
-              {selectedMaintenance.notes && (
+              {selectedFuelReports.notes && (
                 <div>
                   <h3 className="mb-3 text-sm font-semibold">Notes</h3>
                   <div className="rounded-lg border p-4">
-                    <p className="text-sm">{selectedMaintenance.notes}</p>
+                    <p className="text-sm">{selectedFuelReports.notes}</p>
                   </div>
                 </div>
               )}
@@ -867,7 +867,7 @@ export const MaintenanceTable = () => {
                       Created At:
                     </span>
                     <span className="text-sm font-medium">
-                      {formatDate(selectedMaintenance.createdAt)}
+                      {formatDate(selectedFuelReports.createdAt)}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -875,7 +875,7 @@ export const MaintenanceTable = () => {
                       Updated At:
                     </span>
                     <span className="text-sm font-medium">
-                      {formatDate(selectedMaintenance.updatedAt)}
+                      {formatDate(selectedFuelReports.updatedAt)}
                     </span>
                   </div>
                 </div>

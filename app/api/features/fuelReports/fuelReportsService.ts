@@ -4,13 +4,13 @@ import type { PaginationQuery } from "@/schema/paginationSchema";
 import { HTTPException } from "hono/http-exception";
 import { ulid } from "ulid";
 
-export const maintenanceService = {
-  // Get all maintenance records with pagination and search
-  getMaintenanceRecords: async (query: PaginationQuery) => {
+export const fuelReportsService = {
+  // Get all fuel reports records with pagination and search
+  getFuelReportsRecords: async (query: PaginationQuery) => {
     const { skip, take, page, limit } = getPaginationQuery(query);
 
     const [records, total] = await prisma.$transaction([
-      prisma.maintenance.findMany({
+      prisma.fuelReports.findMany({
         where: query.search
           ? {
               OR: [
@@ -34,7 +34,7 @@ export const maintenanceService = {
           createdAt: "desc",
         },
       }),
-      prisma.maintenance.count({
+      prisma.fuelReports.count({
         where: query.search
           ? {
               OR: [
@@ -65,23 +65,23 @@ export const maintenanceService = {
     };
   },
 
-  // Get a single maintenance record by ID
-  getMaintenanceById: async (id: string) => {
-    const record = await prisma.maintenance.findUnique({
+  // Get a single fuel reports record by ID
+  getFuelReportsById: async (id: string) => {
+    const record = await prisma.fuelReports.findUnique({
       where: { id },
     });
 
     if (!record) {
       throw new HTTPException(404, {
-        message: "Maintenance record not found",
+        message: "Fuel reports record not found",
       });
     }
 
     return record;
   },
 
-  // Create a new maintenance record
-  createMaintenance: async (data: {
+  // Create a new fuel reports record
+  createFuelReports: async (data: {
     currentOdometer: number;
     previousOdometer: number;
     fuelVolume: number;
@@ -107,7 +107,7 @@ export const maintenanceService = {
     const fuelCost = fuelVolume * fuelUnitPrice;
     const mileage = currentOdometer - previousOdometer;
 
-    const record = await prisma.maintenance.create({
+    const record = await prisma.fuelReports.create({
       data: {
         id: ulid(),
         currentOdometer,
@@ -123,8 +123,8 @@ export const maintenanceService = {
     return record;
   },
 
-  // Update a maintenance record
-  updateMaintenance: async (
+  // Update a fuel reports record
+  updateFuelReports: async (
     id: string,
     data: {
       currentOdometer?: number;
@@ -134,13 +134,13 @@ export const maintenanceService = {
       notes?: string;
     },
   ) => {
-    const existingRecord = await prisma.maintenance.findUnique({
+    const existingRecord = await prisma.fuelReports.findUnique({
       where: { id },
     });
 
     if (!existingRecord) {
       throw new HTTPException(404, {
-        message: "Maintenance record not found",
+        message: "Fuel reports record not found",
       });
     }
 
@@ -163,7 +163,7 @@ export const maintenanceService = {
     const fuelCost = fuelVolume * fuelUnitPrice;
     const mileage = currentOdometer - previousOdometer;
 
-    const record = await prisma.maintenance.update({
+    const record = await prisma.fuelReports.update({
       where: { id },
       data: {
         currentOdometer,
@@ -179,42 +179,42 @@ export const maintenanceService = {
     return record;
   },
 
-  // Delete a maintenance record
-  deleteMaintenance: async (id: string) => {
-    const record = await prisma.maintenance.delete({
+  // Delete a fuel reports record
+  deleteFuelReports: async (id: string) => {
+    const record = await prisma.fuelReports.delete({
       where: { id },
     });
 
     return record;
   },
 
-  // Get maintenance statistics
-  getMaintenanceStats: async () => {
+  // Get fuel reports statistics
+  getFuelReportsStats: async () => {
     const [
       totalRecords,
       totalFuelCostResult,
       totalMileageResult,
       avgFuelPriceResult,
     ] = await prisma.$transaction([
-      // Total maintenance records count
-      prisma.maintenance.count(),
+      // Total fuel reports records count
+      prisma.fuelReports.count(),
 
       // Total fuel cost
-      prisma.maintenance.aggregate({
+      prisma.fuelReports.aggregate({
         _sum: {
           fuelCost: true,
         },
       }),
 
       // Total mileage
-      prisma.maintenance.aggregate({
+      prisma.fuelReports.aggregate({
         _sum: {
           mileage: true,
         },
       }),
 
       // Average fuel price
-      prisma.maintenance.aggregate({
+      prisma.fuelReports.aggregate({
         _avg: {
           fuelUnitPrice: true,
         },

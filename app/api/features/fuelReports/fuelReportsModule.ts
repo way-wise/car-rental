@@ -1,45 +1,45 @@
-import { createMaintenanceSchema } from "@/schema/maintenanceSchema";
+import { createFuelReportsSchema } from "@/schema/fuelReportsSchema";
 import { paginationQuerySchema } from "@/schema/paginationSchema";
 import { validateInput } from "@api/lib/validateInput";
 import { Hono } from "hono";
 import { number, object, string } from "yup";
-import { maintenanceService } from "./maintenanceService";
+import { fuelReportsService } from "./fuelReportsService";
 
 const app = new Hono();
 
 /*
-  @route    POST: /maintenance
+  @route    POST: /fuel-reports
   @access   private
-  @desc     Create a new maintenance record
+  @desc     Create a new fuel reports record
 */
 app.post("/", async (c) => {
   const body = await c.req.json();
 
   const validatedData = await validateInput({
     type: "form",
-    schema: createMaintenanceSchema,
+    schema: createFuelReportsSchema,
     data: body,
   });
 
-  const result = await maintenanceService.createMaintenance(validatedData);
+  const result = await fuelReportsService.createFuelReports(validatedData);
 
   return c.json({ success: true, data: result }, 201);
 });
 
 /*
-  @route    GET: /maintenance/stats
+      @route    GET: /fuel-reports/stats
   @access   private
-  @desc     Get maintenance statistics
+  @desc     Get fuel reports statistics
 */
 app.get("/stats", async (c) => {
-  const result = await maintenanceService.getMaintenanceStats();
+  const result = await fuelReportsService.getFuelReportsStats();
   return c.json(result);
 });
 
 /*
-  @route    GET: /maintenance
+  @route    GET: /fuel-reports
   @access   private
-  @desc     Get all maintenance records with pagination and search
+  @desc     Get all fuel reports records with pagination and search
 */
 app.get("/", async (c) => {
   const validatedQuery = await validateInput({
@@ -52,15 +52,15 @@ app.get("/", async (c) => {
     data: c.req.query(),
   });
 
-  const result = await maintenanceService.getMaintenanceRecords(validatedQuery);
+  const result = await fuelReportsService.getFuelReportsRecords(validatedQuery);
 
   return c.json(result);
 });
 
 /*
-  @route    GET: /maintenance/:id
+  @route    GET: /fuel-reports/:id
   @access   private
-  @desc     Get a single maintenance record by ID
+  @desc     Get a single fuel reports record by ID
 */
 app.get("/:id", async (c) => {
   const validatedParam = await validateInput({
@@ -71,14 +71,14 @@ app.get("/:id", async (c) => {
     data: c.req.param(),
   });
 
-  const result = await maintenanceService.getMaintenanceById(validatedParam.id);
+  const result = await fuelReportsService.getFuelReportsById(validatedParam.id);
   return c.json(result);
 });
 
 /*
-  @route    PUT: /maintenance/:id
+  @route    PUT: /fuel-reports/:id
   @access   private
-  @desc     Update a maintenance record
+  @desc     Update a fuel reports record
 */
 app.put("/:id", async (c) => {
   const validatedParam = await validateInput({
@@ -102,7 +102,7 @@ app.put("/:id", async (c) => {
     data: body,
   });
 
-  const result = await maintenanceService.updateMaintenance(
+  const result = await fuelReportsService.updateFuelReports(
     validatedParam.id,
     validatedData,
   );
@@ -111,9 +111,9 @@ app.put("/:id", async (c) => {
 });
 
 /*
-  @route    DELETE: /maintenance/:id
+  @route    DELETE: /fuel-reports/:id
   @access   private
-  @desc     Delete a maintenance record
+  @desc     Delete a fuel reports record
 */
 app.delete("/:id", async (c) => {
   const validatedParam = await validateInput({
@@ -124,10 +124,10 @@ app.delete("/:id", async (c) => {
     data: c.req.param(),
   });
 
-  await maintenanceService.deleteMaintenance(validatedParam.id);
+  await fuelReportsService.deleteFuelReports(validatedParam.id);
   return c.json({
     success: true,
-    message: "Maintenance record deleted successfully",
+    message: "Fuel reports record deleted successfully",
   });
 });
 

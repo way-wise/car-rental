@@ -90,7 +90,7 @@ model bookings {
   @@index([userId])
 }
 
-model maintenance {
+model fuelReports {
   id               String   @id @default(ulid())
   currentOdometer  Float
   previousOdometer Float
