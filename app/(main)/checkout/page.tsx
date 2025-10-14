@@ -30,6 +30,14 @@ interface DistanceInfo {
     text: string;
     value: number; // in seconds
   };
+  pricing: {
+    calculatedPrice: number; // in cents
+    pricingType: string;
+    basePrice: number;
+    minimumPrice: number;
+    pricePerKilometer?: number;
+    pricePerHour?: number;
+  };
 }
 
 function CheckoutContent() {
@@ -46,7 +54,7 @@ function CheckoutContent() {
   const calculateDistance = async (pickup: string, drop: string) => {
     setIsLoadingDistance(true);
     try {
-      const response = await fetch("/api/distance/calculate", {
+      const response = await fetch("/api/distance/calculate-with-pricing", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,6 +71,7 @@ function CheckoutContent() {
         setDistanceInfo({
           distance: data.distance,
           duration: data.duration,
+          pricing: data.pricing,
         });
       } else {
         console.error("Distance calculation failed:", data.error);
@@ -222,6 +231,30 @@ function CheckoutContent() {
                 )}
               </div>
             </div>
+
+            {distanceInfo?.pricing && (
+              <div className="flex items-start gap-3">
+                <div className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
+                  <span className="text-xs font-bold text-white">$</span>
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium">Dynamic Pricing</p>
+                  <div className="text-sm text-muted-foreground">
+                    <p className="font-semibold text-green-600">
+                      ${(distanceInfo.pricing.calculatedPrice / 100).toFixed(2)}
+                    </p>
+                    <p className="text-xs">
+                      {distanceInfo.pricing.pricingType === "kilometer"
+                        ? `$${distanceInfo.pricing.pricePerKilometer}/km + $${distanceInfo.pricing.basePrice} base`
+                        : `$${distanceInfo.pricing.pricePerHour}/hour + $${distanceInfo.pricing.basePrice} base`}
+                    </p>
+                    <p className="text-xs">
+                      Min: ${distanceInfo.pricing.minimumPrice}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="border-t pt-4">
               <div className="flex items-center justify-between">

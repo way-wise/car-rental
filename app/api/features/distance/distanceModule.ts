@@ -33,4 +33,27 @@ app.post("/calculate", async (c) => {
   });
 });
 
+/*
+  @route    POST: /distance/calculate-with-pricing
+  @access   public
+  @desc     Calculate distance, duration, and pricing between two locations
+*/
+app.post("/calculate-with-pricing", async (c) => {
+  const body = await c.req.json();
+
+  const validatedData = await validateInput({
+    type: "form",
+    schema: calculateDistanceSchema,
+    data: body,
+  });
+
+  const result =
+    await distanceService.calculateDistanceWithPricing(validatedData);
+
+  return c.json({
+    success: true,
+    ...result,
+  });
+});
+
 export default app;

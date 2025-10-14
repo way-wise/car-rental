@@ -1,4 +1,5 @@
 import { HTTPException } from "hono/http-exception";
+import { settingsService } from "../settings/settingsService";
 
 export interface DistanceInfo {
   distance: {
@@ -8,6 +9,17 @@ export interface DistanceInfo {
   duration: {
     text: string;
     value: number; // in seconds
+  };
+}
+
+export interface DistanceWithPricing extends DistanceInfo {
+  pricing: {
+    calculatedPrice: number; // in cents
+    pricingType: string;
+    basePrice: number;
+    minimumPrice: number;
+    pricePerKilometer?: number;
+    pricePerHour?: number;
   };
 }
 
@@ -86,5 +98,28 @@ export const distanceService = {
         message: "Internal server error",
       });
     }
+  },
+
+  // Calculate distance with pricing
+  calculateDistanceWithPricing: async (data: {
+    pickupLocation: string;
+    dropLocation: string;
+  }): Promise<DistanceWithPricing> => {
+    const distanceInfo = await distanceService.calculateDistance(data);
+
+    // Convert meters to kilometers and seconds to hours
+    const distanceKm = distanceInfo.distance.value / 1000;
+    const durationHours = distanceInfo.duration.value / 3600;
+
+    // Calculate pricing
+    const pricing = await settingsService.calculatePrice(
+      distanceKm,
+      durationHours,
+    );
+
+    return {
+      ...distanceInfo,
+      pricing,
+    };
   },
 };

@@ -9,6 +9,7 @@ import bookingModule from "../features/bookings/bookingModule";
 import distanceModule from "../features/distance/distanceModule";
 import fuelReportsModule from "../features/fuelReports/fuelReportsModule";
 import maintenanceModule from "../features/maintenance/maintenanceModule";
+import settingsModule from "../features/settings/settingsModule";
 import signUploadModule from "../features/sign-upload/signUploadModule";
 import userModule from "../features/users/userModule";
 
@@ -32,6 +33,7 @@ app.route("/auth", authModule);
 app.route("/users", userModule);
 app.route("/bookings", bookingModule);
 app.route("/distance", distanceModule);
+app.route("/settings", settingsModule);
 app.route("/fuel-reports", fuelReportsModule);
 app.route("/maintenance", maintenanceModule);
 
