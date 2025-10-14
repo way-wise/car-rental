@@ -6,6 +6,7 @@ import { secureHeaders } from "hono/secure-headers";
 import { handle } from "hono/vercel";
 import authModule from "../features/auth/authModule";
 import bookingModule from "../features/bookings/bookingModule";
+import distanceModule from "../features/distance/distanceModule";
 import fuelReportsModule from "../features/fuelReports/fuelReportsModule";
 import maintenanceModule from "../features/maintenance/maintenanceModule";
 import signUploadModule from "../features/sign-upload/signUploadModule";
@@ -30,6 +31,7 @@ app.use(cors());
 app.route("/auth", authModule);
 app.route("/users", userModule);
 app.route("/bookings", bookingModule);
+app.route("/distance", distanceModule);
 app.route("/fuel-reports", fuelReportsModule);
 app.route("/maintenance", maintenanceModule);
 

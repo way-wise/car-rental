@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/date-format";
-import { ArrowLeft, Calendar, Clock, MapPin } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, MapPin, Route } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
@@ -21,6 +21,17 @@ interface BookingDetails {
   clientSecret: string;
 }
 
+interface DistanceInfo {
+  distance: {
+    text: string;
+    value: number; // in meters
+  };
+  duration: {
+    text: string;
+    value: number; // in seconds
+  };
+}
+
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("bookingId");
@@ -29,6 +40,39 @@ function CheckoutContent() {
   const [booking, setBooking] = useState<BookingDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [distanceInfo, setDistanceInfo] = useState<DistanceInfo | null>(null);
+  const [isLoadingDistance, setIsLoadingDistance] = useState(false);
+
+  const calculateDistance = async (pickup: string, drop: string) => {
+    setIsLoadingDistance(true);
+    try {
+      const response = await fetch("/api/distance/calculate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pickupLocation: pickup,
+          dropLocation: drop,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setDistanceInfo({
+          distance: data.distance,
+          duration: data.duration,
+        });
+      } else {
+        console.error("Distance calculation failed:", data.error);
+      }
+    } catch (error) {
+      console.error("Error calculating distance:", error);
+    } finally {
+      setIsLoadingDistance(false);
+    }
+  };
 
   useEffect(() => {
     if (!bookingId || !clientSecret) {
@@ -48,6 +92,9 @@ function CheckoutContent() {
         clientSecret,
       });
       setIsLoading(false);
+
+      // Calculate distance after booking is loaded
+      calculateDistance(bookingData.pickupLocation, bookingData.dropLocation);
     } else {
       setError("Booking details not found");
       setIsLoading(false);
@@ -152,6 +199,27 @@ function CheckoutContent() {
                 <p className="text-sm text-muted-foreground">
                   {booking.bookingTime}
                 </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <Route className="mt-1 h-5 w-5 text-muted-foreground" />
+              <div className="flex-1">
+                <p className="text-sm font-medium">Distance & Duration</p>
+                {isLoadingDistance ? (
+                  <p className="text-sm text-muted-foreground">
+                    Calculating...
+                  </p>
+                ) : distanceInfo ? (
+                  <div className="text-sm text-muted-foreground">
+                    <p>{distanceInfo.distance.text}</p>
+                    <p>{distanceInfo.duration.text}</p>
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Unable to calculate
+                  </p>
+                )}
               </div>
             </div>
 
