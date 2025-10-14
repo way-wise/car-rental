@@ -178,11 +178,30 @@ export const bookingService = {
     return booking;
   },
 
-  // Update booking status
+  // Update booking payment status
   updateBookingStatus: async (id: string, paymentStatus: string) => {
     const booking = await prisma.bookings.update({
       where: { id },
       data: { paymentStatus },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    return booking;
+  },
+
+  // Update booking status (upcoming, ongoing, completed)
+  updateBookingLifecycleStatus: async (id: string, bookingStatus: string) => {
+    const booking = await prisma.bookings.update({
+      where: { id },
+      data: { bookingStatus },
       include: {
         user: {
           select: {
@@ -256,11 +275,21 @@ export const bookingService = {
     dropLocation: string;
     date: string;
     time: string;
+    distance?: number;
+    duration?: number;
     userEmail: string;
     userName?: string;
   }) => {
-    const { pickupLocation, dropLocation, date, time, userEmail, userName } =
-      data;
+    const {
+      pickupLocation,
+      dropLocation,
+      date,
+      time,
+      distance,
+      duration,
+      userEmail,
+      userName,
+    } = data;
 
     // Step 1: Check if user exists, create if not
     let user = await prisma.users.findUnique({
@@ -346,7 +375,10 @@ export const bookingService = {
         dropLocation,
         bookingDate,
         bookingTime: time,
+        distance: distance,
+        duration: duration,
         paymentStatus: "pending",
+        bookingStatus: "upcoming",
         amount: dynamicAmount, // Dynamic amount based on distance/duration
       },
       select: {
@@ -355,8 +387,11 @@ export const bookingService = {
         dropLocation: true,
         bookingDate: true,
         bookingTime: true,
+        distance: true,
+        duration: true,
         amount: true,
         paymentStatus: true,
+        bookingStatus: true,
       },
     });
 
@@ -422,8 +457,11 @@ export const bookingService = {
               dropLocation: booking.dropLocation,
               bookingDate: booking.bookingDate,
               bookingTime: booking.bookingTime,
+              distance: booking.distance,
+              duration: booking.duration,
               amount: booking.amount,
               paymentStatus: "succeeded" as const,
+              bookingStatus: booking.bookingStatus,
             },
           };
         }
@@ -464,8 +502,11 @@ export const bookingService = {
           dropLocation: booking.dropLocation,
           bookingDate: booking.bookingDate,
           bookingTime: booking.bookingTime,
+          distance: booking.distance,
+          duration: booking.duration,
           amount: booking.amount,
           paymentStatus: booking.paymentStatus,
+          bookingStatus: booking.bookingStatus,
         },
       };
     }

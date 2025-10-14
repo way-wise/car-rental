@@ -81,8 +81,11 @@ model bookings {
   dropLocation          String
   bookingDate           DateTime
   bookingTime           String
+  distance              Float? // distance in kilometers
+  duration              Float? // duration in minutes
   stripePaymentIntentId String?  @unique
   paymentStatus         String   @default("pending") // pending, succeeded, failed
+  bookingStatus         String   @default("upcoming") // upcoming, ongoing, completed
   amount                Int // amount in cents
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt

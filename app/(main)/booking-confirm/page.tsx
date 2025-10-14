@@ -114,12 +114,19 @@ export default function BookingConfirmPage() {
     setIsConfirming(true);
 
     try {
+      // Prepare booking data with distance and duration
+      const bookingData = {
+        ...bookingDetails,
+        distance: distanceInfo ? distanceInfo.distance.value / 1000 : undefined, // Convert meters to kilometers
+        duration: distanceInfo ? distanceInfo.duration.value / 60 : undefined, // Convert seconds to minutes
+      };
+
       const response = await fetch("/api/bookings", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(bookingDetails),
+        body: JSON.stringify(bookingData),
       });
 
       const data = await response.json();

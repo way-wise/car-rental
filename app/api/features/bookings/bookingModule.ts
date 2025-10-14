@@ -149,4 +149,37 @@ app.patch("/:id/status", async (c) => {
   return c.json({ success: true, booking: result });
 });
 
+/*
+  @route    PATCH: /bookings/:id/booking-status
+  @access   private
+  @desc     Update booking lifecycle status (upcoming, ongoing, completed)
+*/
+app.patch("/:id/booking-status", async (c) => {
+  const validatedParam = await validateInput({
+    type: "param",
+    schema: object({
+      id: string().required(),
+    }),
+    data: c.req.param(),
+  });
+
+  const body = await c.req.json();
+  const validatedData = await validateInput({
+    type: "form",
+    schema: object({
+      bookingStatus: string()
+        .required()
+        .oneOf(["upcoming", "ongoing", "completed"]),
+    }),
+    data: body,
+  });
+
+  const result = await bookingService.updateBookingLifecycleStatus(
+    validatedParam.id,
+    validatedData.bookingStatus,
+  );
+
+  return c.json({ success: true, booking: result });
+});
+
 export default app;

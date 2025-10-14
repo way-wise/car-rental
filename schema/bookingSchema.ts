@@ -8,10 +8,15 @@ export const bookingSchema = object({
   dropLocation: string().required(),
   bookingDate: mixed(),
   bookingTime: string().required(),
+  distance: number().nullable(),
+  duration: number().nullable(),
   stripePaymentIntentId: string().nullable(),
   paymentStatus: string()
     .oneOf(["pending", "succeeded", "failed"])
     .default("pending"),
+  bookingStatus: string()
+    .oneOf(["upcoming", "ongoing", "completed"])
+    .default("upcoming"),
   amount: number().required(),
   createdAt: mixed(),
   updatedAt: mixed(),
@@ -34,6 +39,8 @@ export const createBookingSchema = object({
     .min(3, "Drop location must be at least 3 characters"),
   date: string().required("Date is required"),
   time: string().required("Time is required"),
+  distance: number().optional(),
+  duration: number().optional(),
   userEmail: string()
     .required("Email is required")
     .email("Must be a valid email"),
@@ -45,6 +52,8 @@ export type CreateBookingInput = {
   dropLocation: string;
   date: string;
   time: string;
+  distance?: number;
+  duration?: number;
   userEmail: string;
   userName?: string;
 };
