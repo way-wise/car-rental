@@ -19,14 +19,13 @@ import {
 } from "@/components/ui/form";
 import { FormError } from "@/components/ui/form-error";
 import { Input } from "@/components/ui/input";
-import { signIn, signUp } from "@/lib/auth-client";
+import { signUp } from "@/lib/auth-client";
 import { signUpSchema } from "@/schema/authSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 import { InferType } from "yup";
 
@@ -147,19 +146,6 @@ const SignupForm = () => {
               <span className="relative z-10 bg-card px-2 font-medium text-muted-foreground select-none">
                 OR
               </span>
-            </div>
-
-            <div className="flex flex-col items-center gap-3 md:flex-row">
-              <Button
-                type="button"
-                variant="secondary"
-                className="w-full"
-                disabled={pendingAuth}
-                onClick={() => signIn.social({ provider: "google" })}
-              >
-                <FaGoogle />
-                <span>Google</span>
-              </Button>
             </div>
           </form>
         </Form>

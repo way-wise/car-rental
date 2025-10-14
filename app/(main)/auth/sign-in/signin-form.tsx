@@ -26,7 +26,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 import { InferType } from "yup";
 
@@ -128,19 +127,6 @@ const SigninForm = () => {
               <span className="relative z-10 bg-card px-2 font-medium text-muted-foreground select-none">
                 OR
               </span>
-            </div>
-
-            <div className="space-y-3">
-              <Button
-                type="button"
-                variant="secondary"
-                className="w-full"
-                disabled={pendingAuth}
-                onClick={() => signIn.social({ provider: "google" })}
-              >
-                <FaGoogle />
-                <span>Login with Google</span>
-              </Button>
             </div>
           </form>
         </Form>
