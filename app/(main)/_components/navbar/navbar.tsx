@@ -21,6 +21,7 @@ import { signOut } from "@/lib/auth-client";
 import { handleSmoothScroll } from "@/lib/smoothScroll";
 import { useProgress } from "@bprogress/next";
 import { Menu, Phone, UserRound, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -119,18 +120,18 @@ const Navbar = ({ session }: { session: Session }) => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
-              {/* <div className="flex items-center justify-center rounded">
+              <div className="flex items-center justify-center rounded">
                 <Image
-                  src="/logo.svg"
+                  src="/logo.png"
                   alt="logo"
                   width={40}
                   height={40}
                   className="w-14"
                 />
-              </div> */}
-              <div className="rounded-xl bg-[#dc143c] p-3 text-4xl text-white shadow-md">
-                eL
               </div>
+              {/* <div className="rounded-xl bg-[#dc143c] p-3 text-4xl text-white shadow-md">
+                eL
+              </div> */}
               <span className="text-4xl font-semibold text-white">
                 Escalade4lax
               </span>
