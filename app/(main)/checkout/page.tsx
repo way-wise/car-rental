@@ -118,7 +118,6 @@ function CheckoutContent() {
     // Redirect to success page with hard redirect
     window.location.href = `/payment-success?bookingId=${bookingId}`;
   };
-
   if (isLoading) {
     return (
       <div className="container mx-auto max-w-4xl py-12">
@@ -232,29 +231,22 @@ function CheckoutContent() {
               </div>
             </div>
 
-            {distanceInfo?.pricing && (
-              <div className="flex items-start gap-3">
-                <div className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
-                  <span className="text-xs font-bold text-white">$</span>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Dynamic Pricing</p>
-                  <div className="text-sm text-muted-foreground">
-                    <p className="font-semibold text-green-600">
-                      ${(distanceInfo.pricing.calculatedPrice / 100).toFixed(2)}
-                    </p>
-                    <p className="text-xs">
-                      {distanceInfo.pricing.pricingType === "kilometer"
-                        ? `$${distanceInfo.pricing.pricePerKilometer}/km + $${distanceInfo.pricing.basePrice} base`
-                        : `$${distanceInfo.pricing.pricePerHour}/hour + $${distanceInfo.pricing.basePrice} base`}
-                    </p>
-                    <p className="text-xs">
-                      Min: ${distanceInfo.pricing.minimumPrice}
-                    </p>
-                  </div>
+            <div className="flex items-start gap-3">
+              <div className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
+                <span className="text-xs font-bold text-white">$</span>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium">Booking Amount</p>
+                <div className="text-sm text-muted-foreground">
+                  <p className="font-semibold text-green-600">
+                    ${(booking.amount / 100).toFixed(2)}
+                  </p>
+                  <p className="text-xs">
+                    Dynamic pricing based on distance & duration
+                  </p>
                 </div>
               </div>
-            )}
+            </div>
 
             <div className="border-t pt-4">
               <div className="flex items-center justify-between">

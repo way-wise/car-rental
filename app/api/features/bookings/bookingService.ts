@@ -11,6 +11,7 @@ import type { PaginationQuery } from "@/schema/paginationSchema";
 import { hashPassword } from "better-auth/crypto";
 import { HTTPException } from "hono/http-exception";
 import { ulid } from "ulid";
+import { distanceService } from "../distance/distanceService";
 
 export const bookingService = {
   // Get all bookings with pagination and search
@@ -327,7 +328,15 @@ export const bookingService = {
       });
     }
 
-    // Step 3: Create booking record
+    // Step 3: Calculate dynamic pricing based on distance
+    const distanceInfo = await distanceService.calculateDistanceWithPricing({
+      pickupLocation,
+      dropLocation,
+    });
+
+    const dynamicAmount = distanceInfo.pricing.calculatedPrice;
+
+    // Step 4: Create booking record with dynamic amount
     const bookingDate = new Date(date);
     const booking = await prisma.bookings.create({
       data: {
@@ -338,7 +347,7 @@ export const bookingService = {
         bookingDate,
         bookingTime: time,
         paymentStatus: "pending",
-        amount: 10000, // $100.00 in cents
+        amount: dynamicAmount, // Dynamic amount based on distance/duration
       },
       select: {
         id: true,
@@ -351,7 +360,7 @@ export const bookingService = {
       },
     });
 
-    // Step 4: Handle payment based on whether user has saved payment method
+    // Step 5: Handle payment based on whether user has saved payment method
     let paymentIntent;
     let instantPayment = false;
 
