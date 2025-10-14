@@ -1,6 +1,6 @@
 "use client";
+import { BookingModal } from "@/components/ui/booking-modal";
 import { Button } from "@/components/ui/button";
-import { CallModal } from "@/components/ui/call-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { useState } from "react";
@@ -209,11 +209,9 @@ const ServiceSection = () => {
         </div>
       </div>
       {/* Booking Modal */}
-      <CallModal
+      <BookingModal
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
-        phoneNumber="+1-310-756-5533"
-        title="Please call to confirm the booking!"
       />
     </section>
   );

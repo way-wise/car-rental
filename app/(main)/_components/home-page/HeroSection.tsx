@@ -1,16 +1,7 @@
 "use client";
 import { BookingFormCard } from "@/components/ui/booking-form-card";
-import { BookingModal, type BookingData } from "@/components/ui/booking-modal";
-import { useState } from "react";
 
 const HeroSection = () => {
-  // Modal states
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-
-  const handleModalBooking = (bookingData: BookingData) => {
-    console.log("Modal Booking Data:", bookingData);
-  };
-
   return (
     <section
       id="home"
@@ -44,13 +35,6 @@ const HeroSection = () => {
           {/* Right Content - Decorative Images */}
         </div>
       </div>
-
-      {/* Booking Modal */}
-      <BookingModal
-        isOpen={isBookingModalOpen}
-        onClose={() => setIsBookingModalOpen(false)}
-        onSubmit={handleModalBooking}
-      />
     </section>
   );
 };

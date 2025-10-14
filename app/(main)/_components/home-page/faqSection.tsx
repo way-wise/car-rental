@@ -5,8 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { BookingModal } from "@/components/ui/booking-modal";
 import { Button } from "@/components/ui/button";
-import { CallModal } from "@/components/ui/call-modal";
 import { Phone } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -129,11 +129,9 @@ const FaqSection = () => {
           </div>
         </div>
       </div>
-      <CallModal
+      <BookingModal
         isOpen={isCallModalOpen}
         onClose={() => setIsCallModalOpen(false)}
-        phoneNumber="+1-310-756-5533"
-        title="Please call to confirm the booking!"
       />
     </section>
   );
