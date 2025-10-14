@@ -300,3 +300,82 @@ Please review and process this booking.
     `,
   });
 }
+
+export async function sendNewUserCredentials(
+  to: string,
+  userName: string,
+  email: string,
+  password: string,
+) {
+  const loginUrl = `${process.env.APP_URL}/auth/sign-in`;
+
+  await transporter.sendMail({
+    from: process.env.EMAIL_FROM!,
+    to,
+    subject: "Welcome to Lee Car Rent - Your Login Credentials",
+    text: `
+Hello ${userName},
+
+Welcome to Lee Car Rent! Your account has been created successfully.
+
+Here are your login credentials:
+
+Email: ${email}
+Password: ${password}
+
+You can log in to your account at: ${loginUrl}
+
+For security reasons, we recommend changing your password after your first login.
+
+Best regards,
+Lee Car Rent Team
+    `,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
+        <div style="background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <h2 style="color: #0070f3; margin-bottom: 20px;">🎉 Welcome to Lee Car Rent!</h2>
+          
+          <p style="color: #374151; font-size: 16px; margin-bottom: 20px;">
+            Hello <strong>${userName}</strong>,
+          </p>
+          
+          <p style="color: #374151; font-size: 16px; margin-bottom: 30px;">
+            Your account has been created successfully. Here are your login credentials:
+          </p>
+
+          <div style="background-color: #f3f4f6; border-radius: 6px; padding: 20px; margin-bottom: 30px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 10px 0; color: #6b7280; font-size: 14px; width: 120px;">Email:</td>
+                <td style="padding: 10px 0; color: #111827; font-weight: 600; font-family: monospace; background-color: #e5e7eb; padding: 8px 12px; border-radius: 4px;">${email}</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #6b7280; font-size: 14px;">Password:</td>
+                <td style="padding: 10px 0; color: #111827; font-weight: 600; font-family: monospace; background-color: #e5e7eb; padding: 8px 12px; border-radius: 4px;">${password}</td>
+              </tr>
+            </table>
+          </div>
+
+          <a href="${loginUrl}" style="display: inline-block; margin-top: 10px; padding: 12px 24px; background: #0070f3; color: white; text-decoration: none; border-radius: 6px; font-weight: 500;">
+            Login to Your Account
+          </a>
+
+          <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin-top: 30px; border-radius: 4px;">
+            <p style="color: #92400e; font-size: 14px; margin: 0;">
+              <strong>⚠️ Security Reminder:</strong> For security reasons, we recommend changing your password after your first login.
+            </p>
+          </div>
+
+          <p style="color: #6b7280; font-size: 14px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+            Please keep this email safe for your records.
+          </p>
+
+          <p style="color: #374151; font-size: 14px; margin-top: 20px;">
+            Best regards,<br/>
+            <strong>Lee Car Rent Team</strong>
+          </p>
+        </div>
+      </div>
+    `,
+  });
+}

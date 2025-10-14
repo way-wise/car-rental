@@ -1,6 +1,7 @@
 import {
   sendBookingConfirmationToAdmin,
   sendBookingConfirmationToUser,
+  sendNewUserCredentials,
   sendVerificationEmail,
 } from "@/lib/email";
 import { emailEvents, EmailEventType } from "../events/email_event";
@@ -39,6 +40,21 @@ emailEvents.on(
       console.log("✅ Booking confirmation email sent to admin");
     } catch (err) {
       console.error("❌ Failed to send booking confirmation to admin");
+      console.error("Error details:", err);
+      // Optional: push to retry queue, Sentry, or log to DB
+    }
+  },
+);
+
+emailEvents.on(
+  EmailEventType.NEW_USER_CREDENTIALS,
+  async ({ email, userName, password }) => {
+    try {
+      console.log("📧 Attempting to send credentials to new user:", email);
+      await sendNewUserCredentials(email, userName, email, password);
+      console.log("✅ Credentials email sent to new user:", email);
+    } catch (err) {
+      console.error("❌ Failed to send credentials to new user:", email);
       console.error("Error details:", err);
       // Optional: push to retry queue, Sentry, or log to DB
     }
