@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { LocationAutocomplete } from "@/components/ui/location-autocomplete";
 import { TimePicker } from "@/components/ui/time-picker";
 import { CalendarIcon, ClockIcon, Mail, MapPinIcon, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -29,6 +30,8 @@ export const BookingFormCard = ({
   animationDelay = "1000ms",
   disabled = false,
 }: BookingFormCardProps) => {
+  const router = useRouter();
+
   // Form state
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropLocation, setDropLocation] = useState("");
@@ -47,7 +50,7 @@ export const BookingFormCard = ({
     setUserName("");
   };
 
-  const handleBooking = async () => {
+  const handleBooking = () => {
     // Validation
     if (
       !pickupLocation ||
@@ -60,59 +63,20 @@ export const BookingFormCard = ({
       return;
     }
 
-    setIsLoading(true);
+    // Store booking details in session storage for confirmation page
+    const bookingDetails = {
+      pickupLocation,
+      dropLocation,
+      date: selectedDate.toISOString(),
+      time: selectedTime,
+      userEmail,
+      userName: userName || undefined,
+    };
 
-    try {
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          pickupLocation,
-          dropLocation,
-          date: selectedDate.toISOString(),
-          time: selectedTime,
-          userEmail,
-          userName: userName || undefined,
-        }),
-      });
+    sessionStorage.setItem("pending_booking", JSON.stringify(bookingDetails));
 
-      const data = await response.json();
-
-      if (data.success) {
-        // Reset form first
-        resetForm();
-
-        // Check if payment was instant (saved card charged)
-        if (data.instantPayment && data.paymentStatus === "succeeded") {
-          toast.success(
-            "Booking confirmed! Payment processed with your saved card.",
-          );
-          // Redirect to success page with hard redirect
-          window.location.href = `/payment-success?bookingId=${data.bookingId}`;
-        } else {
-          // Normal flow - need to collect payment
-          toast.success("Booking created! Redirecting to payment...");
-
-          // Store booking details in session storage for checkout page
-          sessionStorage.setItem(
-            `booking_${data.bookingId}`,
-            JSON.stringify(data.booking),
-          );
-
-          // Navigate to checkout page with booking ID and client secret
-          window.location.href = `/checkout?bookingId=${data.bookingId}&clientSecret=${data.clientSecret}`;
-        }
-      } else {
-        toast.error(data.error || "Failed to create booking");
-      }
-    } catch (error) {
-      console.error("Booking error:", error);
-      toast.error("An error occurred while creating your booking");
-    } finally {
-      setIsLoading(false);
-    }
+    // Navigate to booking confirmation page using Next.js router
+    router.push("/booking-confirm");
   };
 
   const animationClass = showAnimation ? "animate-fade-in" : "";
