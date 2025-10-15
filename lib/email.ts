@@ -394,3 +394,66 @@ Lee Car Rent Team
     `,
   });
 }
+
+export async function sendPasswordResetEmail(
+  to: string,
+  userName: string,
+  resetUrl: string,
+) {
+  await transporter.sendMail({
+    from: process.env.EMAIL_FROM!,
+    to,
+    subject: "Reset Your Password - Lee Car Rent",
+    text: `
+Hello ${userName},
+
+You requested to reset your password for your Lee Car Rent account.
+
+Click the link below to reset your password:
+${resetUrl}
+
+This link will expire in 1 hour for security reasons.
+
+If you didn't request this password reset, please ignore this email and your password will remain unchanged.
+
+Best regards,
+Lee Car Rent Team
+    `,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
+        <div style="background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <h2 style="color: #dc2626; margin-bottom: 20px;">🔐 Password Reset Request</h2>
+          
+          <p style="color: #374151; font-size: 16px; margin-bottom: 20px;">
+            Hello <strong>${userName}</strong>,
+          </p>
+          
+          <p style="color: #374151; font-size: 16px; margin-bottom: 20px;">
+            You requested to reset your password for your Lee Car Rent account.
+          </p>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetUrl}" style="display: inline-block; padding: 12px 24px; background: #dc2626; color: white; text-decoration: none; border-radius: 6px; font-weight: 500;">
+              Reset My Password
+            </a>
+          </div>
+          
+          <div style="background-color: #fef2f2; border: 1px solid #fca5a5; border-radius: 6px; padding: 15px; margin: 20px 0;">
+            <p style="color: #991b1b; font-size: 14px; margin: 0;">
+              <strong>Security Note:</strong> This link will expire in 1 hour for security reasons.
+            </p>
+          </div>
+          
+          <p style="color: #6b7280; font-size: 14px; margin-bottom: 15px;">
+            If you didn't request this password reset, please ignore this email and your password will remain unchanged.
+          </p>
+          
+          <p style="color: #6b7280; font-size: 14px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+            Best regards,<br>
+            <strong>Lee Car Rent Team</strong>
+          </p>
+        </div>
+      </div>
+    `,
+  });
+}

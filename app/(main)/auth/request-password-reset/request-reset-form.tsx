@@ -19,60 +19,59 @@ import {
 } from "@/components/ui/form";
 import { FormError } from "@/components/ui/form-error";
 import { Input } from "@/components/ui/input";
-import { signIn } from "@/lib/auth-client";
-import { signInSchema } from "@/schema/authSchema";
+import { forgetPassword } from "@/lib/auth-client";
+import { requestPasswordResetSchema } from "@/schema/authSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { InferType } from "yup";
 
-const SigninForm = () => {
+const RequestPasswordResetForm = () => {
   const [pendingAuth, setPendingAuth] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>("");
-  const router = useRouter();
 
   const form = useForm({
-    resolver: yupResolver(signInSchema),
+    resolver: yupResolver(requestPasswordResetSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  const onSubmit = async (values: InferType<typeof signInSchema>) => {
-    await signIn.email(
-      {
-        email: values.email,
-        password: values.password,
-      },
-      {
-        onRequest: () => {
-          setPendingAuth(true);
-          setFormError("");
-        },
-        onSuccess: () => {
-          toast.success("Login successful");
-          router.push("/profile");
-          router.refresh();
-        },
-        onError: (ctx) => {
-          setFormError(ctx.error.message);
-        },
-      },
-    );
+  const onSubmit = async (
+    values: InferType<typeof requestPasswordResetSchema>,
+  ) => {
+    try {
+      setPendingAuth(true);
+      setFormError("");
 
-    setPendingAuth(false);
+      const { error } = await forgetPassword({
+        email: values.email,
+        redirectTo: "/auth/reset-password",
+      });
+
+      if (error) {
+        setFormError(error.message || "An error occurred");
+      } else {
+        setFormError(
+          "If this email exists in our system, check your email for the reset link",
+        );
+      }
+    } catch (error) {
+      setFormError(
+        error instanceof Error ? error.message : "An error occurred",
+      );
+    } finally {
+      setPendingAuth(false);
+    }
   };
 
   return (
     <Card>
       <CardHeader className="items-center">
-        <CardTitle className="text-2xl">Sign In</CardTitle>
+        <CardTitle className="text-2xl">Request Password Reset</CardTitle>
         <CardDescription className="text-center">
-          Enter your account details to login
+          Enter your account email
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -96,23 +95,6 @@ const SigninForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </FormFieldset>
             <FormError message={formError} />
             <Button
@@ -120,33 +102,17 @@ const SigninForm = () => {
               className="mt-4 w-full"
               isLoading={pendingAuth}
             >
-              Sign In
+              Send Reset Password Link
             </Button>
-
-            <div className="relative py-4 text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-              <span className="relative z-10 bg-card px-2 font-medium text-muted-foreground select-none">
-                OR
-              </span>
-            </div>
           </form>
         </Form>
-        <div className="mt-4 text-center text-sm">
-          <Link
-            href="/auth/request-password-reset"
-            className="text-blue-600 hover:underline"
-          >
-            Forgot your password?
-          </Link>
-        </div>
         <div className="mt-5 flex flex-wrap items-center justify-center gap-1 text-center text-sm">
-          <span className="text-muted-foreground">
-            Don&apos;t have an account?
-          </span>
+          <span className="text-muted-foreground">Remember Password?</span>
           <Link
-            href="/auth/sign-up"
+            href="/auth/sign-in"
             className="underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-hidden"
           >
-            Sign Up
+            Sign In
           </Link>
         </div>
       </CardContent>
@@ -154,4 +120,4 @@ const SigninForm = () => {
   );
 };
 
-export default SigninForm;
+export default RequestPasswordResetForm;

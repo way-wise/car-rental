@@ -2,6 +2,7 @@ import {
   sendBookingConfirmationToAdmin,
   sendBookingConfirmationToUser,
   sendNewUserCredentials,
+  sendPasswordResetEmail,
   sendVerificationEmail,
 } from "@/lib/email";
 import { emailEvents, EmailEventType } from "../events/email_event";
@@ -60,3 +61,17 @@ emailEvents.on(
     }
   },
 );
+
+emailEvents.on(EmailEventType.PASSWORD_RESET_EMAIL, async ({ email, url }) => {
+  try {
+    console.log("📧 Attempting to send password reset email to:", email);
+    // Extract user name from email (you might want to fetch from database)
+    const userName = email.split("@")[0];
+    await sendPasswordResetEmail(email, userName, url);
+    console.log("✅ Password reset email sent to:", email);
+  } catch (err) {
+    console.error("❌ Failed to send password reset email to:", email);
+    console.error("Error details:", err);
+    // Optional: push to retry queue, Sentry, or log to DB
+  }
+});

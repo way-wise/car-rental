@@ -30,8 +30,14 @@ export const auth = betterAuth({
   //   },
   // },
   emailAndPassword: {
-    
     enabled: true,
+    sendResetPassword: async ({ user, url, token }) => {
+      emailEvents.emit(EmailEventType.PASSWORD_RESET_EMAIL, {
+        email: user.email,
+        url,
+        token,
+      });
+    },
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url, token }) => {
