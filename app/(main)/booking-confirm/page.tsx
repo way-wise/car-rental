@@ -205,7 +205,7 @@ export default function BookingConfirmPage() {
   }
 
   return (
-    <div className="container mx-auto max-w-4xl py-12">
+    <div className="container mx-auto min-h-screen max-w-4xl py-12">
       <Button
         variant="ghost"
         onClick={handleBack}
@@ -221,109 +221,115 @@ export default function BookingConfirmPage() {
         <CardHeader>
           <CardTitle>Booking Details</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 px-1 sm:px-4">
           <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <MapPin className="mt-1 h-5 w-5 text-muted-foreground" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Pickup Location</p>
-                <p className="text-sm text-muted-foreground">
-                  {bookingDetails.pickupLocation}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <MapPin className="mt-1 h-5 w-5 text-muted-foreground" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Drop-off Location</p>
-                <p className="text-sm text-muted-foreground">
-                  {bookingDetails.dropLocation}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Calendar className="mt-1 h-5 w-5 text-muted-foreground" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Date</p>
-                <p className="text-sm text-muted-foreground">
-                  {formatDate(bookingDetails.date)}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Clock className="mt-1 h-5 w-5 text-muted-foreground" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Time</p>
-                <p className="text-sm text-muted-foreground">
-                  {bookingDetails.time}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Mail className="mt-1 h-5 w-5 text-muted-foreground" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Email</p>
-                <p className="text-sm text-muted-foreground">
-                  {bookingDetails.userEmail}
-                </p>
-              </div>
-            </div>
-
-            {bookingDetails.userName && (
-              <div className="flex items-start gap-3">
-                <User className="mt-1 h-5 w-5 text-muted-foreground" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Name</p>
-                  <p className="text-sm text-muted-foreground">
-                    {bookingDetails.userName}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-start gap-3">
-              <Route className="mt-1 h-5 w-5 text-muted-foreground" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Distance & Duration</p>
-                {isLoadingDistance ? (
-                  <p className="text-sm text-muted-foreground">
-                    Calculating...
-                  </p>
-                ) : distanceInfo ? (
-                  <div className="text-sm text-muted-foreground">
-                    <p>{distanceInfo.distance.text}</p>
-                    <p>{distanceInfo.duration.text}</p>
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    Unable to calculate
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {distanceInfo && (
-              <div className="flex items-start gap-3">
-                <div className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
-                  <span className="text-xs font-bold text-white">$</span>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Estimated Amount</p>
-                  <div className="text-sm text-muted-foreground">
-                    <p className="font-semibold text-green-600">
-                      ${(distanceInfo.pricing.calculatedPrice / 100).toFixed(2)}
+            <div className="flex w-full flex-col items-start justify-between gap-8 sm:flex-row">
+              <div className="w-full space-y-4 sm:w-1/2">
+                <div className="flex items-start gap-3">
+                  <MapPin className="mt-1 h-5 w-5 text-muted-foreground" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Pickup Location</p>
+                    <p className="text-sm text-muted-foreground">
+                      {bookingDetails.pickupLocation}
                     </p>
-                    <p className="text-xs">
-                      Dynamic pricing based on distance & duration
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <MapPin className="mt-1 h-5 w-5 text-muted-foreground" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Drop-off Location</p>
+                    <p className="text-sm text-muted-foreground">
+                      {bookingDetails.dropLocation}
                     </p>
                   </div>
                 </div>
               </div>
-            )}
+
+              <div className="flex w-full items-start space-y-4 gap-x-12 sm:w-1/2 sm:flex-col">
+                <div className="flex items-start gap-3">
+                  <Calendar className="mt-1 h-5 w-5 text-muted-foreground" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Date</p>
+                    <p className="text-sm text-muted-foreground">
+                      {formatDate(bookingDetails.date)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Clock className="mt-1 h-5 w-5 text-muted-foreground" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Time</p>
+                    <p className="text-sm text-muted-foreground">
+                      {bookingDetails.time}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-x-12">
+              {bookingDetails.userName && (
+                <div className="flex w-full items-start gap-3 sm:w-1/2">
+                  <User className="mt-1 h-5 w-5 text-muted-foreground" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Name</p>
+                    <p className="text-sm text-muted-foreground">
+                      {bookingDetails.userName}
+                    </p>
+                  </div>
+                </div>
+              )}
+              <div className="flex w-full items-start gap-3 sm:w-1/2">
+                <Mail className="mt-1 h-5 w-5 text-muted-foreground" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium">Email</p>
+                  <p className="text-sm text-muted-foreground">
+                    {bookingDetails.userEmail}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex items-start gap-x-4 sm:gap-x-12">
+              <div className="flex w-full items-start gap-3 sm:w-1/2">
+                <Route className="mt-1 h-5 w-5 text-muted-foreground" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium">Distance & Duration</p>
+                  {isLoadingDistance ? (
+                    <p className="text-sm text-muted-foreground">
+                      Calculating...
+                    </p>
+                  ) : distanceInfo ? (
+                    <div className="text-sm text-muted-foreground">
+                      <p>{distanceInfo.distance.text}</p>
+                      <p>{distanceInfo.duration.text}</p>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      Unable to calculate
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {distanceInfo && (
+                <div className="flex w-full items-start gap-3 sm:w-1/2">
+                  <div className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
+                    <span className="text-xs font-bold text-white">$</span>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium"> Amount</p>
+                    <div className="text-lg text-muted-foreground">
+                      <p className="font-semibold text-green-600">
+                        $
+                        {(distanceInfo.pricing.calculatedPrice / 100).toFixed(
+                          2,
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="border-t pt-6">
