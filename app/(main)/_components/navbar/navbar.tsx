@@ -122,9 +122,9 @@ const Navbar = ({ session }: { session: Session }) => {
                 className="w-40 lg:w-42 xl:w-52"
                 unoptimized
               />
-              <span className="hidden text-4xl font-semibold text-white lg:block">
+              {/* <span className="hidden text-4xl font-semibold text-white lg:block">
                 Escalade4lax
-              </span>
+              </span> */}
             </Link>
 
             {/* Desktop Menu */}

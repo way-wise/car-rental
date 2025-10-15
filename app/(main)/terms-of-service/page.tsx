@@ -1,3 +1,37 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "Read Escalade4lax's terms of service to understand the rules and guidelines for using our car rental platform and services.",
+  keywords: [
+    "terms of service",
+    "terms and conditions",
+    "user agreement",
+    "service terms",
+    "legal terms",
+    "escalade4lax terms",
+  ],
+  openGraph: {
+    title: "Terms of Service - Escalade4lax",
+    description:
+      "Read Escalade4lax's terms of service to understand the rules and guidelines for using our car rental platform and services.",
+    type: "website",
+  },
+  twitter: {
+    title: "Terms of Service - Escalade4lax",
+    description:
+      "Read Escalade4lax's terms of service to understand the rules and guidelines for using our car rental platform and services.",
+  },
+  alternates: {
+    canonical: "/terms-of-service",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 export default function TermsOfServicePage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">

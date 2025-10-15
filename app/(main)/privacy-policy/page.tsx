@@ -1,3 +1,37 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description:
+    "Read Escalade4lax's privacy policy to understand how we collect, use, and protect your personal information when using our car rental services.",
+  keywords: [
+    "privacy policy",
+    "data protection",
+    "personal information",
+    "privacy rights",
+    "data security",
+    "escalade4lax privacy",
+  ],
+  openGraph: {
+    title: "Privacy Policy - Escalade4lax",
+    description:
+      "Read Escalade4lax's privacy policy to understand how we collect, use, and protect your personal information when using our car rental services.",
+    type: "website",
+  },
+  twitter: {
+    title: "Privacy Policy - Escalade4lax",
+    description:
+      "Read Escalade4lax's privacy policy to understand how we collect, use, and protect your personal information when using our car rental services.",
+  },
+  alternates: {
+    canonical: "/privacy-policy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
