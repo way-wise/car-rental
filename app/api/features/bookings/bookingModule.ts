@@ -90,6 +90,8 @@ app.get("/", async (c) => {
       object({
         search: string().optional(),
         userId: string().optional(),
+        startDate: string().optional(),
+        endDate: string().optional(),
       }),
     data: c.req.query(),
   });

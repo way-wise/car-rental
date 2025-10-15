@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,6 +51,15 @@ export const BookingsTable = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
+  // date range filter
+  const [dateRange, setDateRange] = useState<{
+    from: Date | undefined;
+    to: Date | undefined;
+  }>({
+    from: undefined,
+    to: undefined,
+  });
+
   // Debounce search input
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -60,7 +70,28 @@ export const BookingsTable = () => {
   }, [search]);
 
   // Get bookings data
-  const url = `/api/bookings?page=${pagination.pageIndex}&limit=${pagination.pageSize}${debouncedSearch.trim() ? `&search=${encodeURIComponent(debouncedSearch.trim())}` : ""}`;
+  const buildUrl = () => {
+    const params = new URLSearchParams({
+      page: pagination.pageIndex.toString(),
+      limit: pagination.pageSize.toString(),
+    });
+
+    if (debouncedSearch.trim()) {
+      params.append("search", debouncedSearch.trim());
+    }
+
+    if (dateRange.from) {
+      params.append("startDate", dateRange.from.toISOString().split("T")[0]);
+    }
+
+    if (dateRange.to) {
+      params.append("endDate", dateRange.to.toISOString().split("T")[0]);
+    }
+
+    return `/api/bookings?${params.toString()}`;
+  };
+
+  const url = buildUrl();
   const { isValidating, data } = useSWR(url);
 
   // Get booking statistics
@@ -68,6 +99,17 @@ export const BookingsTable = () => {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    setPagination({
+      pageIndex: 1,
+      pageSize: 10,
+    });
+  };
+
+  const handleDateRangeChange = (range: {
+    from: Date | undefined;
+    to: Date | undefined;
+  }) => {
+    setDateRange(range);
     setPagination({
       pageIndex: 1,
       pageSize: 10,
@@ -405,14 +447,33 @@ export const BookingsTable = () => {
       </div>
 
       <div className="rounded-xl border bg-card p-6">
-        <div className="flex items-center justify-between gap-4 pb-6">
-          <Input
-            type="search"
-            placeholder="Search location, user, status..."
-            value={search}
-            onChange={handleSearchChange}
-            className="max-w-xs"
-          />
+        <div className="flex flex-col gap-4 pb-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <Input
+              type="search"
+              placeholder="Search location, user, status..."
+              value={search}
+              onChange={handleSearchChange}
+              className="max-w-xs"
+            />
+            <DateRangePicker
+              value={dateRange}
+              onChange={handleDateRangeChange}
+              placeholder="Filter by date range"
+              className="max-w-xs"
+            />
+          </div>
+          {(dateRange.from || dateRange.to) && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                handleDateRangeChange({ from: undefined, to: undefined })
+              }
+            >
+              Clear Date Filter
+            </Button>
+          )}
         </div>
         <DataTable
           data={data}

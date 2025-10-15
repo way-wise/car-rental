@@ -18,6 +18,38 @@ export const bookingService = {
   getBookings: async (query: PaginationQuery & { userId?: string }) => {
     const { skip, take, page, limit } = getPaginationQuery(query);
 
+    // Build date range filter
+    const dateFilter = (() => {
+      if (query.startDate && query.endDate) {
+        const startDate = new Date(query.startDate);
+        const endDate = new Date(query.endDate);
+        // Set end date to end of day
+        endDate.setHours(23, 59, 59, 999);
+        return {
+          bookingDate: {
+            gte: startDate,
+            lte: endDate,
+          },
+        };
+      } else if (query.startDate) {
+        const startDate = new Date(query.startDate);
+        return {
+          bookingDate: {
+            gte: startDate,
+          },
+        };
+      } else if (query.endDate) {
+        const endDate = new Date(query.endDate);
+        endDate.setHours(23, 59, 59, 999);
+        return {
+          bookingDate: {
+            lte: endDate,
+          },
+        };
+      }
+      return {};
+    })();
+
     const [bookings, total] = await prisma.$transaction([
       prisma.bookings.findMany({
         where: {
@@ -60,6 +92,7 @@ export const bookingService = {
                 ],
               }
             : {}),
+          ...dateFilter,
         },
         include: {
           user: {
@@ -118,6 +151,7 @@ export const bookingService = {
                 ],
               }
             : {}),
+          ...dateFilter,
         },
       }),
     ]);
