@@ -31,43 +31,25 @@ type Session = typeof auth.$Infer.Session;
 
 const Navbar = ({ session }: { session: Session }) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { start, stop } = useProgress();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
-  const { start, stop } = useProgress();
-  const router = useRouter();
-
   const user = session?.user;
-  // Navigation Links
-  const menuList = [
-    {
-      title: "Home",
-      url: "#home",
-    },
-    {
-      title: "Services",
-      url: "#services",
-    },
 
-    {
-      title: "About Driver",
-      url: "#services",
-    },
-    {
-      title: "Pricing",
-      url: "#pricing",
-    },
-    {
-      title: "FAQ",
-      url: "#faq",
-    },
+  const menuList = [
+    { title: "Home", url: "#home" },
+    { title: "Services", url: "#services" },
+    { title: "About Driver", url: "#about" },
+    { title: "Pricing", url: "#pricing" },
+    { title: "FAQ", url: "#faq" },
   ];
+
   const handleSignout = async () => {
     await signOut({
       fetchOptions: {
-        onRequest: () => {
-          start();
-        },
+        onRequest: () => start(),
         onSuccess: () => {
           router.refresh();
           stop();
@@ -81,77 +63,85 @@ const Navbar = ({ session }: { session: Session }) => {
     });
   };
 
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-  };
-
-  const handleNavClick = (
+  const handleNavClick = async (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
-    if (pathname === "/" && href.startsWith("#")) {
+    if (href.startsWith("#")) {
       e.preventDefault();
-      handleSmoothScroll(href);
-      closeMobileMenu();
+
+      if (pathname === "/") {
+        handleSmoothScroll(href);
+      } else {
+        sessionStorage.setItem("scrollTarget", href);
+        router.push("/");
+      }
+
+      setMobileMenuOpen(false);
     }
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
-    };
+    const target = sessionStorage.getItem("scrollTarget");
+    if (target) {
+      sessionStorage.removeItem("scrollTarget");
+      setTimeout(() => handleSmoothScroll(target), 500);
+    }
+  }, [pathname]);
 
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <nav
-      className={`top-0 z-20 w-full transition-all duration-300 ${pathname === "/" ? "fixed bg-transparent" : "sticky bg-black/90 backdrop-blur-sm"}`}
+      className={`top-0 z-20 w-full transition-all duration-300 ${
+        pathname === "/"
+          ? "fixed bg-transparent"
+          : "sticky bg-black/90 backdrop-blur-sm"
+      }`}
     >
       <Topbar />
+
       <div
-        className={` ${isScrolled ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"}`}
+        className={`${
+          isScrolled ? "bg-black/80 backdrop-blur-sm" : "bg-transparent"
+        }`}
       >
         <div className="container py-2 md:py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
-              <div className="flex items-center justify-center rounded py-2 md:py-0">
-                <Image
-                  src="/logo.png"
-                  alt="logo"
-                  width={40}
-                  height={40}
-                  className="w-40 lg:w-42 xl:w-52"
-                  unoptimized
-                />
-              </div>
-              {/* <div className="rounded-xl bg-[#dc143c] p-3 text-4xl text-white shadow-md">
-                eL
-              </div> */}
-              {/* <span className="hidden text-4xl font-semibold text-white md:block">
-                Escalade4lax
-              </span> */}
+              <Image
+                src="/logo.png"
+                alt="logo"
+                width={40}
+                height={40}
+                className="w-40 lg:w-42 xl:w-52"
+                unoptimized
+              />
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Menu */}
             <div className="hidden items-center space-x-8 lg:flex">
-              {menuList.map((menu, index) => (
+              {menuList.map((menu) => (
                 <Link
-                  key={index}
-                  href={menu.url!}
-                  className="text-lg font-semibold text-nowrap text-white transition-colors hover:text-primary"
-                  onClick={(e) => handleNavClick(e, menu.url!)}
+                  key={menu.title}
+                  href={menu.url}
+                  onClick={(e) => handleNavClick(e, menu.url)}
+                  className="text-lg font-semibold text-white transition-colors hover:text-primary"
                 >
                   {menu.title}
                 </Link>
               ))}
+
+              {/* Profile Menu */}
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent px-0 font-normal text-white hover:bg-transparent hover:text-primary data-[state=open]:bg-transparent data-[state=open]:text-primary">
+                    <NavigationMenuTrigger className="bg-transparent px-0 font-normal text-white hover:bg-transparent hover:text-primary data-[state=open]:text-primary">
                       <UserRound className="h-5 w-5" />
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -162,15 +152,13 @@ const Navbar = ({ session }: { session: Session }) => {
                               <NavigationMenuLink asChild>
                                 <Link
                                   href="/profile"
-                                  className={`block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent ${
+                                  className={`block rounded-md p-3 text-sm leading-none font-medium hover:bg-accent hover:text-primary ${
                                     pathname === "/profile"
                                       ? "bg-accent font-semibold text-primary"
                                       : ""
                                   }`}
                                 >
-                                  <div className="text-sm font-medium">
-                                    Profile
-                                  </div>
+                                  Profile
                                 </Link>
                               </NavigationMenuLink>
                             </li>
@@ -179,15 +167,13 @@ const Navbar = ({ session }: { session: Session }) => {
                                 <NavigationMenuLink asChild>
                                   <Link
                                     href="/dashboard"
-                                    className={`block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent ${
+                                    className={`block rounded-md p-3 text-sm leading-none font-medium hover:bg-accent hover:text-primary ${
                                       pathname.startsWith("/dashboard")
                                         ? "bg-accent font-semibold text-primary"
                                         : ""
                                     }`}
                                   >
-                                    <div className="text-sm font-medium">
-                                      Dashboard
-                                    </div>
+                                    Dashboard
                                   </Link>
                                 </NavigationMenuLink>
                               </li>
@@ -195,7 +181,7 @@ const Navbar = ({ session }: { session: Session }) => {
                             <li>
                               <button
                                 onClick={handleSignout}
-                                className="w-full rounded-md p-3 text-left text-sm leading-none font-medium transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent"
+                                className="w-full rounded-md p-3 text-left text-sm font-medium hover:bg-accent hover:text-primary"
                               >
                                 Logout
                               </button>
@@ -207,11 +193,9 @@ const Navbar = ({ session }: { session: Session }) => {
                               <NavigationMenuLink asChild>
                                 <Link
                                   href="/auth/sign-in"
-                                  className="block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent"
+                                  className="block rounded-md p-3 text-sm font-medium hover:bg-accent hover:text-primary"
                                 >
-                                  <div className="text-sm font-medium">
-                                    Sign In
-                                  </div>
+                                  Sign In
                                 </Link>
                               </NavigationMenuLink>
                             </li>
@@ -219,11 +203,9 @@ const Navbar = ({ session }: { session: Session }) => {
                               <NavigationMenuLink asChild>
                                 <Link
                                   href="/auth/sign-up"
-                                  className="block rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-accent hover:text-primary focus:bg-accent"
+                                  className="block rounded-md p-3 text-sm font-medium hover:bg-accent hover:text-primary"
                                 >
-                                  <div className="text-sm font-medium">
-                                    Sign Up
-                                  </div>
+                                  Sign Up
                                 </Link>
                               </NavigationMenuLink>
                             </li>
@@ -234,19 +216,17 @@ const Navbar = ({ session }: { session: Session }) => {
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
+
               {/* Phone Button */}
-              <div className="flex items-center gap-4 xl:ml-28">
-                <Link href="tel:+1-310-756-5533" className="hidden lg:block">
-                  <button className="flex cursor-pointer items-center space-x-2 rounded-full bg-primary px-6 py-3 text-white transition-colors hover:bg-primary/90">
-                    <Phone className="h-4 w-4" />
-                    <span className="inline font-semibold text-nowrap">
-                      +1-310-756-5533
-                    </span>
-                  </button>
-                </Link>
-                {/* Mobile Menu Button */}
-              </div>
+              <Link href="tel:+1-310-756-5533">
+                <button className="flex items-center space-x-2 rounded-full bg-primary px-6 py-3 text-white hover:bg-primary/90">
+                  <Phone className="h-4 w-4" />
+                  <span className="font-semibold">+1-310-756-5533</span>
+                </button>
+              </Link>
             </div>
+
+            {/* Mobile Button */}
             <button
               onClick={() => setMobileMenuOpen(true)}
               className="p-2 text-white lg:hidden"
@@ -257,32 +237,24 @@ const Navbar = ({ session }: { session: Session }) => {
         </div>
       </div>
 
-      {/* Mobile Sidebar */}
+      {/* Mobile Drawer */}
       <Drawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
         <DrawerContent>
-          <DrawerHeader className="h-24 border-b-0 bg-black px-2 py-4">
-            <div className="flex w-full items-center justify-between">
+          <DrawerHeader className="h-24 bg-black px-2 py-4">
+            <div className="flex items-center justify-between">
               <Link
                 href="/"
+                onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center space-x-3"
-                onClick={closeMobileMenu}
               >
-                <div className="flex items-center justify-center rounded p-2">
-                  <Image
-                    src="/logo.png"
-                    alt="logo"
-                    width={40}
-                    height={40}
-                    className="w-32"
-                    unoptimized
-                  />
-                </div>
-                {/* <div className="rounded-xl bg-[#dc143c] p-3 text-3xl text-white shadow-md">
-                  eL
-                </div> */}
-                {/* <span className="hidden text-2xl font-semibold text-white md:block">
-                  Escalade4lax
-                </span> */}
+                <Image
+                  src="/logo.png"
+                  alt="logo"
+                  width={40}
+                  height={40}
+                  className="w-32"
+                  unoptimized
+                />
               </Link>
               <DrawerClose className="p-2 text-white">
                 <X className="h-7 w-7" />
@@ -293,37 +265,35 @@ const Navbar = ({ session }: { session: Session }) => {
             </DrawerDescription>
           </DrawerHeader>
           <hr />
-          <div className="flex h-full flex-col overflow-y-auto bg-black px-6 text-white">
-            {/* Mobile Navigation Menu */}
+          <div className="flex h-full flex-col bg-black px-6 text-white">
             <nav className="space-y-4 pt-4">
-              {menuList.map((menu, index) => (
+              {menuList.map((menu) => (
                 <Link
-                  key={index}
-                  href={menu.url!}
-                  className="block py-3 text-lg font-medium transition-colors hover:text-primary"
-                  onClick={(e) => handleNavClick(e, menu.url!)}
+                  key={menu.title}
+                  href={menu.url}
+                  onClick={(e) => handleNavClick(e, menu.url)}
+                  className="block py-3 text-lg font-medium hover:text-primary"
                 >
                   {menu.title}
                 </Link>
               ))}
             </nav>
 
-            {/* Mobile Auth Menu */}
             <div className="mt-8 space-y-2 border-t border-gray-800 pt-6">
               {user ? (
                 <>
                   <Link
                     href="/profile"
-                    className="block rounded-md py-3 text-lg font-medium transition-colors hover:text-primary"
-                    onClick={closeMobileMenu}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-3 text-lg font-medium hover:text-primary"
                   >
                     Profile
                   </Link>
                   {user.role === "admin" && (
                     <Link
                       href="/dashboard"
-                      className="block rounded-md py-3 text-lg font-medium transition-colors hover:text-primary"
-                      onClick={closeMobileMenu}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block py-3 text-lg font-medium hover:text-primary"
                     >
                       Dashboard
                     </Link>
@@ -331,9 +301,9 @@ const Navbar = ({ session }: { session: Session }) => {
                   <button
                     onClick={() => {
                       handleSignout();
-                      closeMobileMenu();
+                      setMobileMenuOpen(false);
                     }}
-                    className="w-full rounded-md py-3 text-left text-lg font-medium transition-colors hover:text-primary"
+                    className="w-full py-3 text-left text-lg font-medium hover:text-primary"
                   >
                     Logout
                   </button>
@@ -342,15 +312,15 @@ const Navbar = ({ session }: { session: Session }) => {
                 <>
                   <Link
                     href="/auth/sign-in"
-                    className="block rounded-md py-3 text-lg font-medium transition-colors hover:text-primary"
-                    onClick={closeMobileMenu}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-3 text-lg font-medium hover:text-primary"
                   >
                     Sign In
                   </Link>
                   <Link
                     href="/auth/sign-up"
-                    className="block rounded-md py-3 text-lg font-medium transition-colors hover:text-primary"
-                    onClick={closeMobileMenu}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block py-3 text-lg font-medium hover:text-primary"
                   >
                     Sign Up
                   </Link>
