@@ -357,9 +357,9 @@ export const BookingCalendar = () => {
 
       {/* Booking Details Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-h-[80vh] max-w-4xl overflow-y-auto">
+        <DialogContent className="max-h-[80vh] !max-w-4xl overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="">
               Bookings for{" "}
               {selectedDate && formatDate(new Date(selectedDate + "T00:00:00"))}
             </DialogTitle>
