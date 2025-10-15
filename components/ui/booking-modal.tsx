@@ -11,7 +11,7 @@ interface BookingModalProps {
 export const BookingModal = ({ isOpen, onClose }: BookingModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-full border-none bg-black/50 p-0 sm:rounded-[40px]">
+      <DialogContent className="!w-full !max-w-3xl border-none bg-black/50 p-0 sm:rounded-[40px]">
         <div className="w-full">
           <BookingFormCard
             title="Reserve a Ride"
