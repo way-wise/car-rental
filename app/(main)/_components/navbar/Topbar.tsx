@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Topbar = () => {
   return (
-    <div className="bg-black/80 py-1 backdrop-blur-sm md:hidden">
+    <div className="bg-black/80 py-1 backdrop-blur-sm lg:hidden">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="tel:+1-310-756-5533" className="text-[12px]">

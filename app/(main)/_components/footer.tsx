@@ -1,4 +1,5 @@
 import { MailIcon, MapPinnedIcon, PhoneIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
@@ -14,21 +15,20 @@ const Footer = () => {
           <div className="lg:col-span-4">
             <div className="mb-6 flex items-center gap-3">
               <Link href="/" className="flex items-center space-x-3">
-                {/* <div className="flex items-center justify-center rounded">
+                <div className="flex items-center justify-center rounded py-2 md:py-0">
                   <Image
-                    src="/logo.svg"
+                    src="/logo.png"
                     alt="logo"
                     width={40}
                     height={40}
-                    className="w-14"
+                    className="w-40 lg:w-42 xl:w-52"
+                    unoptimized
                   />
-                </div> */}
-                <div className="rounded-xl bg-[#dc143c] p-3 text-4xl text-white shadow-md">
-                  eL
                 </div>
-                <span className="text-2xl font-semibold text-white">
+
+                {/* <span className="text-2xl font-semibold text-white">
                   Escalade4lax
-                </span>
+                </span> */}
               </Link>
             </div>
             <p className="text-sm leading-5 font-normal tracking-[0] text-white">

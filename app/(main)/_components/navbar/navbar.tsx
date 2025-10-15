@@ -108,7 +108,7 @@ const Navbar = ({ session }: { session: Session }) => {
 
   return (
     <nav
-      className={`top-0 z-20 w-full transition-all duration-300 ${pathname === "/" ? "fixed bg-transparent" : "sticky bg-black/80 backdrop-blur-sm"}`}
+      className={`top-0 z-20 w-full transition-all duration-300 ${pathname === "/" ? "fixed bg-transparent" : "sticky bg-black/90 backdrop-blur-sm"}`}
     >
       <Topbar />
       <div
@@ -118,22 +118,22 @@ const Navbar = ({ session }: { session: Session }) => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
-              <div className="flex items-center justify-center rounded p-2">
+              <div className="flex items-center justify-center rounded py-2 md:py-0">
                 <Image
                   src="/logo.png"
                   alt="logo"
                   width={40}
                   height={40}
-                  className="w-32"
+                  className="w-40 lg:w-42 xl:w-52"
                   unoptimized
                 />
               </div>
               {/* <div className="rounded-xl bg-[#dc143c] p-3 text-4xl text-white shadow-md">
                 eL
               </div> */}
-              <span className="text-4xl font-semibold text-white">
+              {/* <span className="hidden text-4xl font-semibold text-white md:block">
                 Escalade4lax
-              </span>
+              </span> */}
             </Link>
 
             {/* Desktop Navigation */}
@@ -267,21 +267,22 @@ const Navbar = ({ session }: { session: Session }) => {
                 className="flex items-center space-x-3"
                 onClick={closeMobileMenu}
               >
-                {/* <div className="flex items-center justify-center rounded">
+                <div className="flex items-center justify-center rounded p-2">
                   <Image
-                    src="/logo.svg"
+                    src="/logo.png"
                     alt="logo"
                     width={40}
                     height={40}
-                    className="w-16"
+                    className="w-32"
+                    unoptimized
                   />
-                </div> */}
-                <div className="rounded-xl bg-[#dc143c] p-3 text-3xl text-white shadow-md">
-                  eL
                 </div>
-                <span className="text-2xl font-semibold text-white">
+                {/* <div className="rounded-xl bg-[#dc143c] p-3 text-3xl text-white shadow-md">
+                  eL
+                </div> */}
+                {/* <span className="hidden text-2xl font-semibold text-white md:block">
                   Escalade4lax
-                </span>
+                </span> */}
               </Link>
               <DrawerClose className="p-2 text-white">
                 <X className="h-7 w-7" />

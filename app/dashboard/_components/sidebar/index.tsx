@@ -1,20 +1,22 @@
 "use client";
 
-import { useSidebar } from "@/providers/sidebar-provider";
-import SidebarMenu from "./menu";
-import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerContent,
-  DrawerTitle,
-  DrawerDescription,
   DrawerClose,
+  DrawerContent,
+  DrawerDescription,
   DrawerHeader,
+  DrawerTitle,
 } from "@/components/ui/drawer";
-import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useSidebar } from "@/providers/sidebar-provider";
 import { X } from "lucide-react";
-import { useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import SidebarMenu from "./menu";
 
 const Sidebar = () => {
   const { state, isMobile, openMobile, setOpenMobile } = useSidebar();
@@ -31,10 +33,25 @@ const Sidebar = () => {
     return (
       <Drawer open={openMobile} onOpenChange={setOpenMobile}>
         <DrawerContent>
-          <DrawerHeader>
+          <DrawerHeader className="bg-black">
             <div className="flex flex-col">
               <DrawerTitle className="text-xl font-medium">
-                Brand Logo
+                <Link href="/" className="flex items-center space-x-3">
+                  <div className="flex items-center justify-center rounded py-2 md:py-0">
+                    <Image
+                      src="/logo.png"
+                      alt="logo"
+                      width={40}
+                      height={40}
+                      className="w-32"
+                      unoptimized
+                    />
+                  </div>
+
+                  {/* <span className="text-2xl font-semibold text-white">
+                  Escalade4lax
+                </span> */}
+                </Link>
               </DrawerTitle>
               <DrawerDescription className="sr-only">
                 Mobile sidebar navigation
