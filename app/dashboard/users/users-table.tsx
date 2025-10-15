@@ -27,7 +27,7 @@ import { signUpSchema } from "@/schema/authSchema";
 import { User } from "@/schema/userSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
-import { Ban, Eye, MoreVertical, Plus, Trash } from "lucide-react";
+import { Ban, Eye, MoreVertical, Trash } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -290,10 +290,10 @@ export const UsersTable = () => {
     <>
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-medium">Users</h1>
-        <Button onClick={() => setAddUserModalOpen(true)}>
+        {/* <Button onClick={() => setAddUserModalOpen(true)}>
           <Plus />
           <span>Add User</span>
-        </Button>
+        </Button> */}
       </div>
       <div className="rounded-xl border bg-card p-6">
         <div className="flex items-center justify-between gap-4 pb-6">
