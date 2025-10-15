@@ -14,7 +14,8 @@ CREATE TYPE "PricingType" AS ENUM ('kilometer', 'hour');
 CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
+    "name" TEXT,
+    "phone" TEXT,
     "emailVerified" BOOLEAN NOT NULL DEFAULT false,
     "image" TEXT,
     "role" "UserRole" DEFAULT 'user',

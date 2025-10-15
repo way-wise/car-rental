@@ -207,3 +207,12 @@ async function main() {
 
 // Run the tests
 main().catch(console.error);
+
+// "scripts": {
+//   "dev": "next dev --turbopack",
+//   "build": "prisma generate && next build",
+//   "start": "next start",
+//   "lint": "next lint",
+//   "test:seo": "node scripts/test-seo.js",
+//   "postinstall": "prisma generate"
+// },
