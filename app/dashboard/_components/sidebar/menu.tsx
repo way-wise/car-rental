@@ -1,16 +1,43 @@
+import { signOut } from "@/lib/auth-client";
+import { useProgress } from "@bprogress/next";
 import {
   BookAlertIcon,
   Calendar,
   FileText,
   Home,
   LayoutGrid,
+  LogOut,
   Settings,
   UsersRound,
   Workflow,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import MenuItem from "./menu-item";
 
 const SidebarMenu = () => {
+  const router = useRouter();
+  const { start, stop } = useProgress();
+
+  const handleSignout = async () => {
+    await signOut({
+      fetchOptions: {
+        onRequest: () => {
+          start();
+        },
+        onSuccess: () => {
+          router.push("/auth/sign-in");
+          router.refresh();
+          stop();
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+          stop();
+        },
+      },
+    });
+  };
+
   const menuList = [
     {
       title: "Back to Home",
@@ -59,6 +86,14 @@ const SidebarMenu = () => {
       {menuList.map((menu, index) => {
         return <MenuItem key={index} {...menu} />;
       })}
+      <hr className="mt-10" />
+      <button
+        onClick={handleSignout}
+        className="mt-4 flex cursor-pointer items-center gap-2"
+      >
+        <LogOut aria-hidden="true" />
+        <span>Logout</span>
+      </button>
     </nav>
   );
 };
