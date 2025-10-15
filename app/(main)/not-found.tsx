@@ -22,11 +22,11 @@ export default function NotFound() {
               Page Not Found
             </h1>
             <p className="mb-2 text-lg text-gray-600">
-              Oops! It looks like you've taken a wrong turn.
+              Oops! It looks like you&apos;ve taken a wrong turn.
             </p>
             <p className="text-gray-500">
-              The page you're looking for seems to have driven away. Don't
-              worry, we'll help you get back on track!
+              The page you&apos;re looking for seems to have driven away.
+              Don&apos;t worry, we&apos;ll help you get back on track!
             </p>
           </div>
 

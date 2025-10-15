@@ -76,6 +76,7 @@ export const FuelReportsTable = () => {
       previousOdometer: "",
       fuelVolume: "",
       fuelUnitPrice: "",
+      fuelType: "",
       notes: "",
     },
   });
@@ -87,6 +88,7 @@ export const FuelReportsTable = () => {
       previousOdometer: "",
       fuelVolume: "",
       fuelUnitPrice: "",
+      fuelType: "",
       notes: "",
     },
   });
@@ -95,7 +97,14 @@ export const FuelReportsTable = () => {
   const deleteForm = useForm();
 
   // Handle Create Fuel Reports
-  const handleCreateFuelReports = async (values: any) => {
+  const handleCreateFuelReports = async (values: {
+    currentOdometer: string;
+    previousOdometer: string;
+    fuelVolume: string;
+    fuelUnitPrice: string;
+    fuelType: string;
+    notes: string;
+  }) => {
     try {
       const response = await fetch("/api/fuel-reports", {
         method: "POST",
@@ -123,13 +132,24 @@ export const FuelReportsTable = () => {
       createForm.reset();
       mutate(url);
       mutate("/api/fuel-reports/stats");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to create fuel reports record");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to create fuel reports record",
+      );
     }
   };
 
   // Handle Update Fuel Reports
-  const handleUpdateFuelReports = async (values: any) => {
+  const handleUpdateFuelReports = async (values: {
+    currentOdometer: string;
+    previousOdometer: string;
+    fuelVolume: string;
+    fuelUnitPrice: string;
+    fuelType: string;
+    notes: string;
+  }) => {
     try {
       const response = await fetch(`/api/fuel-reports/${fuelReportsId}`, {
         method: "PUT",
@@ -165,8 +185,12 @@ export const FuelReportsTable = () => {
       updateForm.reset();
       mutate(url);
       mutate("/api/fuel-reports/stats");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to update fuel reports record");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to update fuel reports record",
+      );
     }
   };
 
@@ -188,8 +212,12 @@ export const FuelReportsTable = () => {
       setDeleteModalOpen(false);
       mutate(url);
       mutate("/api/fuel-reports/stats");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to delete fuel reports record");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to delete fuel reports record",
+      );
     }
   };
 

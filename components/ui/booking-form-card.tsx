@@ -39,16 +39,14 @@ export const BookingFormCard = ({
   const [selectedTime, setSelectedTime] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userName, setUserName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  const resetForm = () => {
-    setPickupLocation("");
-    setDropLocation("");
-    setSelectedDate(undefined);
-    setSelectedTime("");
-    setUserEmail("");
-    setUserName("");
-  };
+  // const resetForm = () => {
+  //   setPickupLocation("");
+  //   setDropLocation("");
+  //   setSelectedDate(undefined);
+  //   setSelectedTime("");
+  //   setUserEmail("");
+  //   setUserName("");
+  // };
 
   const handleBooking = () => {
     // Validation
@@ -184,11 +182,11 @@ export const BookingFormCard = ({
           </div>
           <Button
             onClick={handleBooking}
-            disabled={isLoading || disabled}
+            disabled={disabled}
             className="h-[50px] w-full rounded-[40px] bg-primary shadow-[inset_0px_-1px_0px_#00000040] transition-colors hover:bg-[#c01234] disabled:opacity-50"
           >
             <span className="text-base leading-[20.8px] font-semibold tracking-[0] text-white">
-              {isLoading ? "Processing..." : buttonText}
+              {buttonText}
             </span>
           </Button>
         </CardContent>

@@ -13,14 +13,14 @@ import MenuItem from "./menu-item";
 const SidebarMenu = () => {
   const menuList = [
     {
-      title: "Dashboard",
-      icon: <LayoutGrid className="icon" />,
-      url: "/dashboard",
-    },
-    {
       title: "Back to Home",
       icon: <Home className="icon" />,
       url: "/",
+    },
+    {
+      title: "Dashboard",
+      icon: <LayoutGrid className="icon" />,
+      url: "/dashboard",
     },
     {
       title: "Users",

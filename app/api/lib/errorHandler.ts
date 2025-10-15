@@ -22,8 +22,6 @@ export class AppValidationError extends Error {
 
 // Global Error Handler
 export const errorHandler: ErrorHandler = (err, c) => {
-  const isProduction = process.env.NODE_ENV === "production";
-
   // Custom Validation Error
   if (err instanceof AppValidationError) {
     const error = {

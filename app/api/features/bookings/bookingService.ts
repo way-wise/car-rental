@@ -351,12 +351,10 @@ export const bookingService = {
     });
 
     // Track if user is newly created
-    let isNewUser = false;
     let plainPassword = "";
 
     // Create user if doesn't exist
     if (!user) {
-      isNewUser = true;
       // Generate random password for new users
       plainPassword = `12345678`;
       const hashedPassword = await hashPassword(plainPassword);
@@ -524,7 +522,7 @@ export const bookingService = {
             },
           };
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Off-session payment failed:", error);
         // Fall back to normal flow if saved card fails
         // (card may be expired, insufficient funds, etc.)

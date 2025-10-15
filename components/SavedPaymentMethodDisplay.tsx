@@ -55,7 +55,7 @@ export function SavedPaymentMethodDisplay({
       } else {
         toast.error(data.error || "Failed to remove payment method");
       }
-    } catch (error) {
+    } catch {
       toast.error("An error occurred");
     } finally {
       setIsRemoving(false);
@@ -109,7 +109,16 @@ export function SavedPaymentMethodDisplay({
  * Hook to fetch and display user's saved payment method
  */
 export function useSavedPaymentMethod(userId: string) {
-  const [paymentMethod, setPaymentMethod] = useState<any>(null);
+  const [paymentMethod, setPaymentMethod] = useState<{
+    id: string;
+    type: string;
+    card?: {
+      brand: string;
+      last4: string;
+      expMonth: number;
+      expYear: number;
+    };
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchPaymentMethod = async () => {

@@ -77,10 +77,10 @@ export const DataTable = <TData, TValue>({
     },
   });
 
-  // Handle limit change
-  const handleLimitChange = (value: string) => {
-    onPaginationChange({ pageIndex: 0, pageSize: Number(value) });
-  };
+  // Handle limit change - currently unused but kept for future functionality
+  // const handleLimitChange = (value: string) => {
+  //   onPaginationChange({ pageIndex: 0, pageSize: Number(value) });
+  // };
 
   return (
     <div className="relative">

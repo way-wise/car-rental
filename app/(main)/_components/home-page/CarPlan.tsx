@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CallModal } from "@/components/ui/call-modal";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, Phone } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -111,10 +112,12 @@ const CarPlan = () => {
                   key={index}
                   className="h-[250px] w-full overflow-hidden rounded-[20px] bg-[#131417] transition-transform hover:scale-105"
                 >
-                  <img
+                  <Image
                     className="h-full w-full object-cover"
                     alt={`Car ${index + 1}`}
                     src={image}
+                    width={400}
+                    height={250}
                   />
                 </div>
               ))}

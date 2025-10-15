@@ -72,6 +72,8 @@ export const MaintenanceTable = () => {
   // Create Form
   const createForm = useForm({
     defaultValues: {
+      vehicleId: "",
+      serviceType: "",
       maintenanceType: "",
       cost: "",
       odometerReading: "",
@@ -85,6 +87,8 @@ export const MaintenanceTable = () => {
   // Update Form
   const updateForm = useForm({
     defaultValues: {
+      vehicleId: "",
+      serviceType: "",
       maintenanceType: "",
       cost: "",
       odometerReading: "",
@@ -99,7 +103,17 @@ export const MaintenanceTable = () => {
   const deleteForm = useForm();
 
   // Handle Create Maintenance
-  const handleCreateMaintenance = async (values: any) => {
+  const handleCreateMaintenance = async (values: {
+    vehicleId: string;
+    serviceType: string;
+    maintenanceType: string;
+    cost: string;
+    odometerReading: string;
+    details: string;
+    serviceProvider: string;
+    nextServiceDue: string;
+    notes: string;
+  }) => {
     try {
       const response = await fetch("/api/maintenance", {
         method: "POST",
@@ -129,13 +143,27 @@ export const MaintenanceTable = () => {
       createForm.reset();
       mutate(url);
       mutate("/api/maintenance/stats");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to create maintenance record");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to create maintenance record",
+      );
     }
   };
 
   // Handle Update Maintenance
-  const handleUpdateMaintenance = async (values: any) => {
+  const handleUpdateMaintenance = async (values: {
+    vehicleId: string;
+    serviceType: string;
+    maintenanceType: string;
+    cost: string;
+    odometerReading: string;
+    details: string;
+    serviceProvider: string;
+    nextServiceDue: string;
+    notes: string;
+  }) => {
     try {
       const response = await fetch(`/api/maintenance/${maintenanceId}`, {
         method: "PUT",
@@ -167,8 +195,12 @@ export const MaintenanceTable = () => {
       updateForm.reset();
       mutate(url);
       mutate("/api/maintenance/stats");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to update maintenance record");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to update maintenance record",
+      );
     }
   };
 
@@ -190,8 +222,12 @@ export const MaintenanceTable = () => {
       setDeleteModalOpen(false);
       mutate(url);
       mutate("/api/maintenance/stats");
-    } catch (error: any) {
-      toast.error(error.message || "Failed to delete maintenance record");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to delete maintenance record",
+      );
     }
   };
 

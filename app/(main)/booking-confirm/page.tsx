@@ -14,7 +14,7 @@ import {
   User,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface BookingDetails {
@@ -55,39 +55,42 @@ export default function BookingConfirmPage() {
   const [isConfirming, setIsConfirming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const calculateDistance = async (pickup: string, drop: string) => {
-    setIsLoadingDistance(true);
-    try {
-      const response = await fetch("/api/distance/calculate-with-pricing", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          pickupLocation: pickup,
-          dropLocation: drop,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setDistanceInfo({
-          distance: data.distance,
-          duration: data.duration,
-          pricing: data.pricing,
+  const calculateDistance = useCallback(
+    async (pickup: string, drop: string) => {
+      setIsLoadingDistance(true);
+      try {
+        const response = await fetch("/api/distance/calculate-with-pricing", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pickupLocation: pickup,
+            dropLocation: drop,
+          }),
         });
-      } else {
-        console.error("Distance calculation failed:", data.error);
-        toast.error("Unable to calculate distance");
+
+        const data = await response.json();
+
+        if (data.success) {
+          setDistanceInfo({
+            distance: data.distance,
+            duration: data.duration,
+            pricing: data.pricing,
+          });
+        } else {
+          console.error("Distance calculation failed:", data.error);
+          toast.error("Unable to calculate distance");
+        }
+      } catch (error) {
+        console.error("Error calculating distance:", error);
+        toast.error("Error calculating distance");
+      } finally {
+        setIsLoadingDistance(false);
       }
-    } catch (error) {
-      console.error("Error calculating distance:", error);
-      toast.error("Error calculating distance");
-    } finally {
-      setIsLoadingDistance(false);
-    }
-  };
+    },
+    [],
+  );
 
   useEffect(() => {
     // Get booking details from session storage
@@ -106,7 +109,7 @@ export default function BookingConfirmPage() {
         router.push("/");
       }, 2000);
     }
-  }, []);
+  }, [router, calculateDistance]);
 
   const handleConfirmBooking = async () => {
     if (!bookingDetails) return;

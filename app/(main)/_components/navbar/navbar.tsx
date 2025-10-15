@@ -89,19 +89,17 @@ const Navbar = ({ session }: { session: Session }) => {
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
-    // Check if we're on the home page and it's a hash link
     if (pathname === "/" && href.startsWith("#")) {
       e.preventDefault();
       handleSmoothScroll(href);
-      closeMobileMenu(); // Close mobile menu if open
+      closeMobileMenu();
     }
   };
 
-  // Handle scroll effect for navbar transparency
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50); // Change navbar style after 50px scroll
+      setIsScrolled(scrollTop > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -120,13 +118,14 @@ const Navbar = ({ session }: { session: Session }) => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3">
-              <div className="flex items-center justify-center rounded">
+              <div className="flex items-center justify-center rounded p-2">
                 <Image
                   src="/logo.png"
                   alt="logo"
                   width={40}
                   height={40}
-                  className="w-14"
+                  className="w-32"
+                  unoptimized
                 />
               </div>
               {/* <div className="rounded-xl bg-[#dc143c] p-3 text-4xl text-white shadow-md">

@@ -95,7 +95,7 @@ export function PaymentModal({
           toast.error("Payment succeeded but booking update failed");
         }
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Payment error:", err);
       toast.error("An error occurred during payment");
     } finally {

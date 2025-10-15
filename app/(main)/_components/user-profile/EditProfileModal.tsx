@@ -5,13 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Spinner from "@/components/ui/spinner";
 import { uploadImageViaFileInput } from "@/lib/cloudinaryClient";
 import { UserProfile } from "@/lib/dataTypes";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface EditProfileModalProps {
   user: UserProfile;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (formData: any) => void;
+  onSave: (formData: { name: string; email: string; image: string }) => void;
 }
 
 export const EditProfileModal = ({
@@ -114,10 +115,12 @@ export const EditProfileModal = ({
               {/* Current Image Preview */}
               {formData.image && (
                 <div className="flex items-center space-x-3">
-                  <img
+                  <Image
                     src={formData.image}
                     alt="Profile"
                     className="h-16 w-16 rounded-full border object-cover"
+                    width={64}
+                    height={64}
                   />
                 </div>
               )}

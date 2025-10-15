@@ -64,13 +64,13 @@ export async function GET(request: NextRequest) {
           : null,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching payment method:", error);
     return NextResponse.json(
       {
         success: false,
         error: "Failed to fetch payment method",
-        message: error.message,
+        message: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );
@@ -121,13 +121,13 @@ export async function DELETE(request: NextRequest) {
       success: true,
       message: "Payment method removed successfully",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error removing payment method:", error);
     return NextResponse.json(
       {
         success: false,
         error: "Failed to remove payment method",
-        message: error.message,
+        message: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 },
     );

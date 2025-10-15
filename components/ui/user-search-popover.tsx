@@ -1,25 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
-import { useUserSuggestions } from "@/hooks/useUserSuggestions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, X } from "lucide-react";
+import { UserSuggestion, useUserSuggestions } from "@/hooks/useUserSuggestions";
 import { cn } from "@/lib/utils";
+import { User, X } from "lucide-react";
 
 interface UserSearchPopoverProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
-}
-
-interface UserSuggestion {
-  id: string;
-  name: string;
-  email: string;
-  image: string | null;
 }
 
 export function UserSearchPopover({
@@ -31,7 +24,7 @@ export function UserSearchPopover({
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState(value);
   const [selectedUser, setSelectedUser] = useState<UserSuggestion | null>(null);
-  const [hasUserSelected, setHasUserSelected] = useState(false);
+  // const [hasUserSelected, setHasUserSelected] = useState(false);
 
   const { suggestions, isLoading } = useUserSuggestions({
     searchQuery: inputValue,
@@ -48,7 +41,7 @@ export function UserSearchPopover({
       !newValue.toLowerCase().includes(selectedUser.name.toLowerCase())
     ) {
       setSelectedUser(null);
-      setHasUserSelected(false);
+      // setHasUserSelected(false);
       onChange(""); // Clear parent value when user clears selection
     }
 
@@ -62,7 +55,7 @@ export function UserSearchPopover({
     // If input is empty, clear everything
     if (newValue === "") {
       setSelectedUser(null);
-      setHasUserSelected(false);
+      // setHasUserSelected(false);
       onChange("");
     }
 
@@ -73,7 +66,7 @@ export function UserSearchPopover({
   const handleUserSelect = (user: UserSuggestion) => {
     setSelectedUser(user);
     setInputValue(user.name);
-    setHasUserSelected(true);
+    // setHasUserSelected(true);
     onChange(user.name); // Only update parent when user selects
     setOpen(false);
   };
@@ -81,7 +74,7 @@ export function UserSearchPopover({
   const handleClear = () => {
     setSelectedUser(null);
     setInputValue("");
-    setHasUserSelected(false);
+    // setHasUserSelected(false);
     onChange(""); // Clear parent value
     setOpen(false);
   };

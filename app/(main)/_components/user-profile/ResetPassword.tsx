@@ -21,11 +21,7 @@ interface ResetPasswordProps {
   onClose: () => void;
 }
 
-export const ResetPassword = ({
-  user,
-  isOpen,
-  onClose,
-}: ResetPasswordProps) => {
+export const ResetPassword = ({ isOpen, onClose }: ResetPasswordProps) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

@@ -8,17 +8,19 @@ import { LuCar } from "react-icons/lu";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
 import { TiStarFullOutline } from "react-icons/ti";
 
 const Testimonial = () => {
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true }),
   );
-  const [api, setApi] = React.useState<any>();
+  const [api, setApi] = React.useState<CarouselApi | undefined>();
   const [current, setCurrent] = React.useState(0);
 
   React.useEffect(() => {
@@ -151,10 +153,12 @@ const Testimonial = () => {
                               &quot;{testimonial.content}&quot;
                             </p>
                             <div className="mb-4 flex items-center gap-5">
-                              <img
+                              <Image
                                 className="h-16 w-16 rounded-full"
                                 alt={testimonial.name}
                                 src={testimonial.avatar}
+                                width={64}
+                                height={64}
                               />
                               <div>
                                 <div className="text-base leading-[normal] font-medium tracking-[-0.50px] text-[#dc143c]">

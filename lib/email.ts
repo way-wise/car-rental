@@ -26,7 +26,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Verify SMTP connection on startup
-transporter.verify((error, success) => {
+transporter.verify((error) => {
   if (error) {
     console.error("❌ SMTP connection failed:", error.message);
     console.error("Please check your email configuration in .env file");

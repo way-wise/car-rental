@@ -1,6 +1,20 @@
+interface CloudinaryResult {
+  event: string;
+  info?: {
+    secure_url: string;
+  };
+}
+
 declare global {
   interface Window {
-    cloudinary: any;
+    cloudinary: {
+      createUploadWidget: (
+        options: Record<string, unknown>,
+        callback: (error: unknown, result: CloudinaryResult) => void,
+      ) => {
+        open: () => void;
+      };
+    };
   }
 }
 
@@ -104,16 +118,16 @@ const createUploadWidget = (
           { quality: "auto", fetch_format: "auto" },
         ],
       },
-      (error: any, result: any) => {
+      (error: unknown, result: CloudinaryResult) => {
         if (error) {
           console.error("Cloudinary widget error:", error);
-          reject(new Error(error.message || "Upload failed"));
+          reject(new Error((error as Error).message || "Upload failed"));
           return;
         }
 
-        if (result.event === "success") {
-          resolve(result.info.secure_url);
-        } else if (result.event === "close") {
+        if (result?.event === "success") {
+          resolve(result.info?.secure_url || "");
+        } else if (result?.event === "close") {
           reject(new Error("Upload cancelled"));
         }
       },

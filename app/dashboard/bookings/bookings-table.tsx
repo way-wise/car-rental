@@ -94,8 +94,10 @@ export const BookingsTable = () => {
       toast.success("Booking deleted successfully");
       setDeleteModalOpen(false);
       mutate(url);
-    } catch (error: any) {
-      toast.error(error.message || "Failed to delete booking");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to delete booking",
+      );
     }
   };
 
@@ -128,8 +130,10 @@ export const BookingsTable = () => {
       setUpdateStatusModalOpen(false);
       updateStatusForm.reset();
       mutate(url);
-    } catch (error: any) {
-      toast.error(error.message || "Failed to update status");
+    } catch (error: unknown) {
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update status",
+      );
     }
   };
 

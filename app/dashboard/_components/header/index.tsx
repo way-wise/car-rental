@@ -1,7 +1,6 @@
-import SidebarToggle from "./sidebar-toggle";
-import { ProfileDropdown } from "./profile-dropdown";
-import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { getSession } from "@/lib/auth";
+import { ProfileDropdown } from "./profile-dropdown";
+import SidebarToggle from "./sidebar-toggle";
 
 const Header = async () => {
   const session = await getSession();

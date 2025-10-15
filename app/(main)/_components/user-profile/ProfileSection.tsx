@@ -174,7 +174,7 @@ const ProfileSection = () => {
       }
 
       profileForm.reset();
-    } catch (error) {
+    } catch {
       toast.error("Error updating profile");
     }
   };
