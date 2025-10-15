@@ -23,7 +23,7 @@ interface BookingDetails {
   date: string;
   time: string;
   userEmail: string;
-  userName?: string;
+  userPhone?: string;
 }
 
 interface DistanceInfo {
@@ -268,13 +268,13 @@ export default function BookingConfirmPage() {
               </div>
             </div>
             <div className="flex items-start gap-x-12">
-              {bookingDetails.userName && (
+              {bookingDetails.userPhone && (
                 <div className="flex w-full items-start gap-3 sm:w-1/2">
                   <User className="mt-1 h-5 w-5 text-muted-foreground" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Name</p>
+                    <p className="text-sm font-medium">Phone</p>
                     <p className="text-sm text-muted-foreground">
-                      {bookingDetails.userName}
+                      {bookingDetails.userPhone}
                     </p>
                   </div>
                 </div>

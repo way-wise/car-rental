@@ -35,7 +35,8 @@ enum PricingType {
 model users {
   id            String  @id @default(ulid())
   email         String  @unique
-  name          String
+  name          String?
+  phone         String?
   emailVerified Boolean @default(false)
   image         String?
 

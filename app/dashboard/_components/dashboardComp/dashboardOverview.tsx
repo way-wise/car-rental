@@ -300,7 +300,7 @@ const DashboardOverview = ({ session }: DashboardOverviewProps) => {
                     {booking.user.image ? (
                       <Image
                         src={booking.user.image}
-                        alt={booking.user.name}
+                        alt={booking.user.name || booking.user.email}
                         width={40}
                         height={40}
                         className="rounded-full"
@@ -308,12 +308,15 @@ const DashboardOverview = ({ session }: DashboardOverviewProps) => {
                     ) : (
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
                         <span className="text-sm font-semibold">
-                          {booking.user.name[0]}
+                          {(booking.user.name ||
+                            booking.user.email)[0].toUpperCase()}
                         </span>
                       </div>
                     )}
                     <div>
-                      <p className="font-medium">{booking.user.name}</p>
+                      <p className="font-medium">
+                        {booking.user.name || booking.user.email}
+                      </p>
                       <p className="text-sm text-muted-foreground">
                         {booking.pickupLocation} → {booking.dropLocation}
                       </p>

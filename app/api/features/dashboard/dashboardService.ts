@@ -27,7 +27,7 @@ export interface RecentBooking {
   bookingStatus: string;
   user: {
     id: string;
-    name: string;
+    name: string | null;
     email: string;
     image: string | null;
   };

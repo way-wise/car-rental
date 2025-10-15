@@ -44,7 +44,7 @@ export const createBookingSchema = object({
   userEmail: string()
     .required("Email is required")
     .email("Must be a valid email"),
-  userName: string().optional(),
+  userPhone: string().optional(),
 });
 
 export type CreateBookingInput = {
@@ -55,5 +55,5 @@ export type CreateBookingInput = {
   distance?: number;
   duration?: number;
   userEmail: string;
-  userName?: string;
+  userPhone?: string;
 };

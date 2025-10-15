@@ -6,7 +6,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { Input } from "@/components/ui/input";
 import { LocationAutocomplete } from "@/components/ui/location-autocomplete";
 import { TimePicker } from "@/components/ui/time-picker";
-import { CalendarIcon, ClockIcon, Mail, MapPinIcon, User } from "lucide-react";
+import { CalendarIcon, ClockIcon, Mail, MapPinIcon, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -38,14 +38,14 @@ export const BookingFormCard = ({
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState("");
   const [userEmail, setUserEmail] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userPhone, setUserPhone] = useState("");
   // const resetForm = () => {
   //   setPickupLocation("");
   //   setDropLocation("");
   //   setSelectedDate(undefined);
   //   setSelectedTime("");
   //   setUserEmail("");
-  //   setUserName("");
+  //   setUserPhone("");
   // };
 
   const handleBooking = () => {
@@ -68,7 +68,7 @@ export const BookingFormCard = ({
       date: selectedDate.toISOString(),
       time: selectedTime,
       userEmail,
-      userName: userName || undefined,
+      userPhone: userPhone || undefined,
     };
 
     sessionStorage.setItem("pending_booking", JSON.stringify(bookingDetails));
@@ -165,16 +165,16 @@ export const BookingFormCard = ({
             </div>
             <div>
               <div className="mb-2 flex items-center gap-2">
-                <User className="h-4 w-4 text-white" />
+                <Phone className="h-4 w-4 text-white" />
                 <label className="text-base leading-[normal] font-normal tracking-[0] text-white">
-                  Name (Optional)
+                  Phone
                 </label>
               </div>
               <Input
-                type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="Enter your name"
+                type="tel"
+                value={userPhone}
+                onChange={(e) => setUserPhone(e.target.value)}
+                placeholder="Enter your phone number"
                 className="h-[44px] border-white/20 bg-white"
                 disabled={disabled}
               />

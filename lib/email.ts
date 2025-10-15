@@ -72,6 +72,7 @@ export async function sendBookingConfirmationToUser(
   bookingDetails: {
     bookingId: string;
     userName: string;
+    userPhone?: string;
     pickupLocation: string;
     dropLocation: string;
     bookingDate: string;
@@ -82,6 +83,7 @@ export async function sendBookingConfirmationToUser(
   const {
     bookingId,
     userName,
+    userPhone,
     pickupLocation,
     dropLocation,
     bookingDate,
@@ -112,6 +114,7 @@ Booking Details:
 - Date: ${formattedDate}
 - Time: ${bookingTime}
 - Amount Paid: $${formattedAmount}
+${userPhone ? `- Phone: ${userPhone}` : ""}
 
 Thank you for choosing Lee Car Rent!
 
@@ -126,6 +129,7 @@ Lee Car Rent Team
           <p style="color: #374151; font-size: 16px; margin-bottom: 20px;">
             Hello <strong>${userName}</strong>,
           </p>
+          ${userPhone ? `<p style="color: #374151; font-size: 14px; margin-bottom: 10px;">Phone: <strong>${userPhone}</strong></p>` : ""}
           
           <p style="color: #374151; font-size: 16px; margin-bottom: 30px;">
             Your booking has been successfully confirmed. Here are your booking details:
@@ -185,6 +189,7 @@ Lee Car Rent Team
 export async function sendBookingConfirmationToAdmin(bookingDetails: {
   bookingId: string;
   userName: string;
+  userPhone?: string;
   userEmail: string;
   pickupLocation: string;
   dropLocation: string;
@@ -195,6 +200,7 @@ export async function sendBookingConfirmationToAdmin(bookingDetails: {
   const {
     bookingId,
     userName,
+    userPhone,
     userEmail,
     pickupLocation,
     dropLocation,
@@ -224,6 +230,7 @@ A new booking has been received and confirmed.
 Customer Details:
 - Name: ${userName}
 - Email: ${userEmail}
+${userPhone ? `- Phone: ${userPhone}` : ""}
 
 Booking Details:
 - Booking ID: ${bookingId}
@@ -255,6 +262,14 @@ Please review and process this booking.
                 <td style="padding: 6px 0; color: #374151; font-size: 14px;">Email:</td>
                 <td style="padding: 6px 0; color: #111827; font-weight: 500;">${userEmail}</td>
               </tr>
+              ${
+                userPhone
+                  ? `<tr>
+                <td style="padding: 6px 0; color: #374151; font-size: 14px;">Phone:</td>
+                <td style="padding: 6px 0; color: #111827; font-weight: 500;">${userPhone}</td>
+              </tr>`
+                  : ""
+              }
             </table>
           </div>
 

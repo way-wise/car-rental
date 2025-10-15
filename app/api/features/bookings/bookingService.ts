@@ -325,7 +325,7 @@ export const bookingService = {
     distance?: number;
     duration?: number;
     userEmail: string;
-    userName?: string;
+    userPhone?: string;
   }) => {
     const {
       pickupLocation,
@@ -335,7 +335,7 @@ export const bookingService = {
       distance,
       duration,
       userEmail,
-      userName,
+      userPhone,
     } = data;
 
     // Step 1: Check if user exists, create if not
@@ -345,6 +345,7 @@ export const bookingService = {
         id: true,
         email: true,
         name: true,
+        phone: true,
         stripeCustomerId: true,
         defaultPaymentMethod: true,
       },
@@ -366,7 +367,8 @@ export const bookingService = {
         data: {
           id: ulid(),
           email: userEmail,
-          name: userName || userEmail.split("@")[0],
+          name: userEmail.split("@")[0],
+          phone: userPhone,
           emailVerified: false,
           createdAt: now,
           updatedAt: now,
@@ -385,6 +387,7 @@ export const bookingService = {
           id: true,
           email: true,
           name: true,
+          phone: true,
           stripeCustomerId: true,
           defaultPaymentMethod: true,
         },
@@ -402,7 +405,7 @@ export const bookingService = {
     const stripeCustomerId = await getOrCreateStripeCustomer(
       user.id,
       user.email,
-      user.name,
+      user.name || user.email.split("@")[0],
       user.stripeCustomerId,
     );
 
@@ -484,6 +487,7 @@ export const bookingService = {
           const bookingDetails = {
             bookingId: booking.id,
             userName: user.name,
+            userPhone: user.phone,
             userEmail: user.email,
             pickupLocation: booking.pickupLocation,
             dropLocation: booking.dropLocation,
@@ -612,6 +616,7 @@ export const bookingService = {
         user: {
           select: {
             name: true,
+            phone: true,
             email: true,
           },
         },
@@ -634,6 +639,7 @@ export const bookingService = {
     const bookingDetails = {
       bookingId: booking.id,
       userName: booking.user.name,
+      userPhone: booking.user.phone,
       userEmail: booking.user.email,
       pickupLocation: booking.pickupLocation,
       dropLocation: booking.dropLocation,
