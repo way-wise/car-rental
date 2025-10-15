@@ -389,7 +389,7 @@ export const bookingService = {
       }
     > = {};
 
-    bookings.forEach((booking) => {
+    bookings.forEach((booking: (typeof bookings)[0]) => {
       const dateKey = booking.bookingDate.toISOString().split("T")[0];
       if (!bookingsByDate[dateKey]) {
         bookingsByDate[dateKey] = {

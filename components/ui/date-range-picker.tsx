@@ -108,11 +108,19 @@ export function DateRangePicker({
     setOpen(false);
   };
 
-  // Generate calendar days
+  // Calendar state
+  const [displayMonth, setDisplayMonth] = React.useState(() => {
+    const today = new Date();
+    return {
+      month: today.getMonth(),
+      year: today.getFullYear(),
+    };
+  });
+
   const today = new Date();
+  const currentDate = today.getDate();
   const currentMonth = today.getMonth();
   const currentYear = today.getFullYear();
-  const currentDate = today.getDate();
 
   const monthNames = [
     "January",
@@ -131,9 +139,17 @@ export function DateRangePicker({
 
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  // Get days in month
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+  // Get days in month for display month
+  const daysInMonth = new Date(
+    displayMonth.year,
+    displayMonth.month + 1,
+    0,
+  ).getDate();
+  const firstDayOfMonth = new Date(
+    displayMonth.year,
+    displayMonth.month,
+    1,
+  ).getDay();
 
   const days = [];
 
@@ -149,7 +165,7 @@ export function DateRangePicker({
 
   const isDateInRange = (day: number) => {
     if (!tempRange.from) return false;
-    const date = new Date(currentYear, currentMonth, day);
+    const date = new Date(displayMonth.year, displayMonth.month, day);
 
     if (tempRange.to) {
       // Normalize dates to compare only date parts (ignore time)
@@ -187,7 +203,7 @@ export function DateRangePicker({
 
   const isDateStart = (day: number) => {
     if (!tempRange.from) return false;
-    const date = new Date(currentYear, currentMonth, day);
+    const date = new Date(displayMonth.year, displayMonth.month, day);
     const fromDate = new Date(
       tempRange.from.getFullYear(),
       tempRange.from.getMonth(),
@@ -203,7 +219,7 @@ export function DateRangePicker({
 
   const isDateEnd = (day: number) => {
     if (!tempRange.to) return false;
-    const date = new Date(currentYear, currentMonth, day);
+    const date = new Date(displayMonth.year, displayMonth.month, day);
     const toDate = new Date(
       tempRange.to.getFullYear(),
       tempRange.to.getMonth(),
@@ -252,10 +268,64 @@ export function DateRangePicker({
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
         <div className="p-4">
-          <div className="mb-4 text-center">
+          <div className="mb-4 flex items-center justify-between">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setDisplayMonth((prev) => {
+                  const newMonth = prev.month === 0 ? 11 : prev.month - 1;
+                  const newYear = prev.month === 0 ? prev.year - 1 : prev.year;
+                  return { month: newMonth, year: newYear };
+                });
+              }}
+              className="h-8 w-8 p-0"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </Button>
             <h3 className="text-lg font-semibold">
-              {monthNames[currentMonth]} {currentYear}
+              {monthNames[displayMonth.month]} {displayMonth.year}
             </h3>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setDisplayMonth((prev) => {
+                  const newMonth = prev.month === 11 ? 0 : prev.month + 1;
+                  const newYear = prev.month === 11 ? prev.year + 1 : prev.year;
+                  return { month: newMonth, year: newYear };
+                });
+              }}
+              className="h-8 w-8 p-0"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </Button>
           </div>
 
           {/* Day names header */}
@@ -285,16 +355,41 @@ export function DateRangePicker({
                         "bg-primary text-white hover:bg-primary/90",
                       isDateEnd(day) &&
                         "bg-primary text-white hover:bg-primary/90",
-                      day < currentDate && "cursor-not-allowed text-gray-400",
+                      (() => {
+                        const selectedDate = new Date(
+                          displayMonth.year,
+                          displayMonth.month,
+                          day,
+                        );
+                        const isPastDate =
+                          selectedDate <
+                          new Date(currentYear, currentMonth, currentDate);
+                        return isPastDate && "cursor-not-allowed text-gray-400";
+                      })(),
                     )}
                     onClick={() => {
-                      if (day >= currentDate) {
-                        handleDateSelect(
-                          new Date(currentYear, currentMonth, day),
-                        );
+                      const selectedDate = new Date(
+                        displayMonth.year,
+                        displayMonth.month,
+                        day,
+                      );
+                      const isToday =
+                        selectedDate.getDate() === currentDate &&
+                        selectedDate.getMonth() === currentMonth &&
+                        selectedDate.getFullYear() === currentYear;
+                      const isPastDate =
+                        selectedDate <
+                        new Date(currentYear, currentMonth, currentDate);
+
+                      if (!isPastDate || isToday) {
+                        handleDateSelect(selectedDate);
                       }
                     }}
-                    disabled={day < currentDate}
+                    disabled={
+                      day < currentDate &&
+                      displayMonth.month === currentMonth &&
+                      displayMonth.year === currentYear
+                    }
                   >
                     {day}
                   </Button>

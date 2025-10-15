@@ -94,14 +94,9 @@ app.get("/calendar", async (c) => {
 app.get("/", async (c) => {
   const validatedQuery = await validateInput({
     type: "query",
-    schema:
-      paginationQuerySchema &&
-      object({
-        search: string().optional(),
-        userId: string().optional(),
-        startDate: string().optional(),
-        endDate: string().optional(),
-      }),
+    schema: paginationQuerySchema.shape({
+      userId: string().optional(),
+    }),
     data: c.req.query(),
   });
 

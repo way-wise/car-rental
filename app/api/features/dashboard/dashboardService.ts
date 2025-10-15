@@ -161,7 +161,7 @@ export const dashboardService = {
     });
 
     const bookingsByStatus: BookingStatusCount[] = bookingsByStatusRaw.map(
-      (item) => ({
+      (item: (typeof bookingsByStatusRaw)[0]) => ({
         status: item.bookingStatus,
         count: item._count.bookingStatus,
       }),
@@ -186,7 +186,7 @@ export const dashboardService = {
 
     // Aggregate revenue by month
     const revenueMap = new Map<string, number>();
-    revenueByMonthRaw.forEach((item) => {
+    revenueByMonthRaw.forEach((item: (typeof revenueByMonthRaw)[0]) => {
       const month = new Date(item.bookingDate).toLocaleDateString("en-US", {
         month: "short",
         year: "numeric",
