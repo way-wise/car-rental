@@ -40,8 +40,14 @@ function PaymentSuccessContent() {
             <p className="text-sm text-muted-foreground">
               A confirmation email has been sent to your email address.
             </p>
+          </div>
+
+          <div className="mt-3">
             <p className="text-sm text-muted-foreground">
-              Please save your booking ID for future reference.
+              If you are our first time customer
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Please also check your email for your login credentials.
             </p>
           </div>
 
