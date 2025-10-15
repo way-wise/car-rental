@@ -23,7 +23,9 @@ export const bookingService = {
       if (query.startDate && query.endDate) {
         const startDate = new Date(query.startDate);
         const endDate = new Date(query.endDate);
-        // Set end date to end of day
+        // Set start date to beginning of day
+        startDate.setHours(0, 0, 0, 0);
+        // Set end date to end of day to include the entire end date
         endDate.setHours(23, 59, 59, 999);
         return {
           bookingDate: {
@@ -33,6 +35,8 @@ export const bookingService = {
         };
       } else if (query.startDate) {
         const startDate = new Date(query.startDate);
+        // Set start date to beginning of day
+        startDate.setHours(0, 0, 0, 0);
         return {
           bookingDate: {
             gte: startDate,
@@ -40,6 +44,7 @@ export const bookingService = {
         };
       } else if (query.endDate) {
         const endDate = new Date(query.endDate);
+        // Set end date to end of day
         endDate.setHours(23, 59, 59, 999);
         return {
           bookingDate: {
@@ -245,7 +250,44 @@ export const bookingService = {
   },
 
   // Get booking statistics
-  getBookingStats: async () => {
+  getBookingStats: async (query?: { startDate?: string; endDate?: string }) => {
+    // Build date range filter for stats
+    const dateFilter = (() => {
+      if (query?.startDate && query?.endDate) {
+        const startDate = new Date(query.startDate);
+        const endDate = new Date(query.endDate);
+        // Set start date to beginning of day
+        startDate.setHours(0, 0, 0, 0);
+        // Set end date to end of day to include the entire end date
+        endDate.setHours(23, 59, 59, 999);
+        return {
+          bookingDate: {
+            gte: startDate,
+            lte: endDate,
+          },
+        };
+      } else if (query?.startDate) {
+        const startDate = new Date(query.startDate);
+        // Set start date to beginning of day
+        startDate.setHours(0, 0, 0, 0);
+        return {
+          bookingDate: {
+            gte: startDate,
+          },
+        };
+      } else if (query?.endDate) {
+        const endDate = new Date(query.endDate);
+        // Set end date to end of day
+        endDate.setHours(23, 59, 59, 999);
+        return {
+          bookingDate: {
+            lte: endDate,
+          },
+        };
+      }
+      return {};
+    })();
+
     const [
       totalBookings,
       successfulBookings,
@@ -254,12 +296,15 @@ export const bookingService = {
       totalIncomeResult,
     ] = await prisma.$transaction([
       // Total bookings count
-      prisma.bookings.count(),
+      prisma.bookings.count({
+        where: dateFilter,
+      }),
 
       // Successful bookings count
       prisma.bookings.count({
         where: {
           paymentStatus: "succeeded",
+          ...dateFilter,
         },
       }),
 
@@ -267,6 +312,7 @@ export const bookingService = {
       prisma.bookings.count({
         where: {
           paymentStatus: "pending",
+          ...dateFilter,
         },
       }),
 
@@ -274,6 +320,7 @@ export const bookingService = {
       prisma.bookings.count({
         where: {
           paymentStatus: "failed",
+          ...dateFilter,
         },
       }),
 
@@ -281,6 +328,7 @@ export const bookingService = {
       prisma.bookings.aggregate({
         where: {
           paymentStatus: "succeeded",
+          ...dateFilter,
         },
         _sum: {
           amount: true,
@@ -304,11 +352,17 @@ export const bookingService = {
   }) => {
     const { startDate, endDate } = query;
 
+    // Ensure we include the full start and end dates
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+
     const bookings = await prisma.bookings.findMany({
       where: {
         bookingDate: {
-          gte: new Date(startDate),
-          lte: new Date(endDate),
+          gte: start,
+          lte: end,
         },
       },
       include: {

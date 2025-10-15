@@ -94,8 +94,23 @@ export const BookingsTable = () => {
   const url = buildUrl();
   const { isValidating, data } = useSWR(url);
 
-  // Get booking statistics
-  const { data: stats } = useSWR("/api/bookings/stats");
+  // Get booking statistics with date range filter
+  const buildStatsUrl = () => {
+    const params = new URLSearchParams();
+
+    if (dateRange.from) {
+      params.append("startDate", dateRange.from.toISOString().split("T")[0]);
+    }
+
+    if (dateRange.to) {
+      params.append("endDate", dateRange.to.toISOString().split("T")[0]);
+    }
+
+    return `/api/bookings/stats?${params.toString()}`;
+  };
+
+  const statsUrl = buildStatsUrl();
+  const { data: stats } = useSWR(statsUrl);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);

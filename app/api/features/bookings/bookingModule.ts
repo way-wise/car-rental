@@ -54,7 +54,16 @@ app.post("/confirm", async (c) => {
   @desc     Get booking statistics
 */
 app.get("/stats", async (c) => {
-  const result = await bookingService.getBookingStats();
+  const validatedQuery = await validateInput({
+    type: "query",
+    schema: object({
+      startDate: string().optional(),
+      endDate: string().optional(),
+    }),
+    data: c.req.query(),
+  });
+
+  const result = await bookingService.getBookingStats(validatedQuery);
   return c.json(result);
 });
 
