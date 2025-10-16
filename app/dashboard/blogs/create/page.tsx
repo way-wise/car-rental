@@ -9,6 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ImageUpload } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -18,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useBlogOperations } from "@/hooks/useBlogOperations";
 import { CreateBlogInput } from "@/schema/blogSchema";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -28,6 +30,7 @@ import { toast } from "sonner";
 export default function CreateBlogPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { invalidateBlogCache, invalidatePublicBlogs } = useBlogOperations();
 
   const form = useForm<CreateBlogInput>({
     defaultValues: {
@@ -59,6 +62,15 @@ export default function CreateBlogPage() {
       }
 
       toast.success("Blog created successfully");
+
+      // Invalidate SWR cache to refresh the blog list
+      await invalidateBlogCache();
+
+      // Also invalidate public blogs cache if the blog is published
+      if (data.status === "published") {
+        await invalidatePublicBlogs();
+      }
+
       router.push("/dashboard/blogs");
     } catch (error: unknown) {
       const errorMessage =
@@ -194,13 +206,13 @@ export default function CreateBlogPage() {
                 name="featuredImage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Featured Image URL</FormLabel>
+                    <FormLabel>Featured Image</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter image URL"
-                        {...field}
+                      <ImageUpload
                         value={field.value || ""}
+                        onChange={field.onChange}
                         disabled={isSubmitting}
+                        placeholder="Upload a featured image for your blog post"
                       />
                     </FormControl>
                     <FormMessage />

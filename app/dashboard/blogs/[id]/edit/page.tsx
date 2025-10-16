@@ -9,6 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ImageUpload } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -18,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useBlogOperations } from "@/hooks/useBlogOperations";
 import { CreateBlogInput } from "@/schema/blogSchema";
 import { ArrowLeft } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -31,6 +33,7 @@ export default function EditBlogPage() {
   const params = useParams();
   const blogId = params.id as string;
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { invalidateBlogCache, invalidatePublicBlogs } = useBlogOperations();
 
   // Fetch blog data
   const { data: blog, isLoading } = useSWR(
@@ -90,6 +93,18 @@ export default function EditBlogPage() {
       }
 
       toast.success("Blog updated successfully");
+
+      // Invalidate SWR cache to refresh the blog list
+      await invalidateBlogCache();
+
+      // Also invalidate public blogs cache if the blog status changed to/from published
+      const wasPublished = blog?.status === "published";
+      const isNowPublished = data.status === "published";
+
+      if (wasPublished || isNowPublished) {
+        await invalidatePublicBlogs();
+      }
+
       router.push("/dashboard/blogs");
     } catch (error: unknown) {
       const errorMessage =
@@ -260,13 +275,13 @@ export default function EditBlogPage() {
                 name="featuredImage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Featured Image URL</FormLabel>
+                    <FormLabel>Featured Image</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Enter image URL"
-                        {...field}
+                      <ImageUpload
                         value={field.value || ""}
+                        onChange={field.onChange}
                         disabled={isSubmitting}
+                        placeholder="Upload a featured image for your blog post"
                       />
                     </FormControl>
                     <FormMessage />

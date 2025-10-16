@@ -58,14 +58,24 @@ export const BlogList = ({ initialBlogs, initialTotal }: BlogListProps) => {
     async (url: string) => {
       const response = await fetch(url);
       if (!response.ok) {
+        console.error(
+          "Failed to fetch blogs:",
+          response.status,
+          response.statusText,
+        );
         throw new Error("Failed to fetch blogs");
       }
       return response.json();
     },
     {
       fallbackData: initialBlogs
-        ? { data: initialBlogs, meta: { total: initialTotal || 0 } }
+        ? {
+            data: initialBlogs,
+            meta: { total: initialTotal || 0, page: 1, limit: 6 },
+          }
         : undefined,
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
     },
   );
 

@@ -3,18 +3,22 @@ import { BlogList } from "../_components/blogs/blog-list";
 
 async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/blogs/public?page=1&limit=6`,
-      {
-        cache: "no-store",
-      },
-    );
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/blogs/public?page=1&limit=6`, {
+      cache: "no-store",
+    });
 
     if (!response.ok) {
+      console.error(
+        "Failed to fetch blogs:",
+        response.status,
+        response.statusText,
+      );
       throw new Error("Failed to fetch blogs");
     }
 
     const data = await response.json();
+    console.log("Initial blogs data:", data);
     return {
       blogs: data.data || [],
       total: data.meta?.total || 0,

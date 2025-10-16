@@ -4,17 +4,20 @@ import { BlogDetail } from "../../_components/blogs/blog-detail";
 
 async function getBlogBySlug(slug: string): Promise<Blog | null> {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/blogs/slug/${slug}`,
-      {
-        cache: "no-store",
-      },
-    );
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/blogs/slug/${slug}`, {
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       if (response.status === 404) {
         return null;
       }
+      console.error(
+        "Failed to fetch blog:",
+        response.status,
+        response.statusText,
+      );
       throw new Error("Failed to fetch blog");
     }
 

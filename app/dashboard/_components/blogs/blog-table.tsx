@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useBlogOperations } from "@/hooks/useBlogOperations";
 import { formatDate } from "@/lib/date-format";
 import { Blog } from "@/schema/blogSchema";
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
@@ -25,12 +26,12 @@ import { Edit, Eye, MoreVertical, Plus, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 
 export const BlogTable = () => {
   const router = useRouter();
+  const { invalidateBlogCache, invalidatePublicBlogs } = useBlogOperations();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [viewModalOpen, setViewModalOpen] = useState(false);
   const [blogId, setBlogId] = useState<string | undefined>("");
   const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null);
   const [pagination, setPagination] = useState<PaginationState>({
@@ -60,16 +61,38 @@ export const BlogTable = () => {
   });
 
   // Fetch blogs data
-  const { data: blogsData, isLoading } = useSWR(
-    `/api/blogs?${queryParams.toString()}`,
-    async (url: string) => {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error("Failed to fetch blogs");
+  const {
+    data: blogsData,
+    isLoading,
+    mutate: mutateBlogs,
+  } = useSWR(`/api/blogs?${queryParams.toString()}`, async (url: string) => {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch blogs");
+    }
+    return response.json();
+  });
+
+  // Refresh data when component becomes visible (user navigates back)
+  useEffect(() => {
+    const handleFocus = () => {
+      mutateBlogs();
+    };
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        mutateBlogs();
       }
-      return response.json();
-    },
-  );
+    };
+
+    window.addEventListener("focus", handleFocus);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [mutateBlogs]);
 
   // Handle create blog navigation
   const handleCreateBlog = () => {
@@ -79,6 +102,11 @@ export const BlogTable = () => {
   // Handle edit blog navigation
   const handleEditBlog = (blogId: string) => {
     router.push(`/dashboard/blogs/${blogId}/edit`);
+  };
+
+  // Handle view blog navigation
+  const handleViewBlog = (blogId: string) => {
+    router.push(`/dashboard/blogs/${blogId}/view`);
   };
 
   // Handle delete blog
@@ -98,7 +126,14 @@ export const BlogTable = () => {
       toast.success("Blog deleted successfully");
       setDeleteModalOpen(false);
       setSelectedBlog(null);
-      mutate(`/api/blogs?${queryParams.toString()}`);
+
+      // Refresh the current blog list
+      await invalidateBlogCache();
+
+      // Also invalidate public blogs cache if the deleted blog was published
+      if (selectedBlog?.status === "published") {
+        await invalidatePublicBlogs();
+      }
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Failed to delete blog";
@@ -233,10 +268,7 @@ export const BlogTable = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                onClick={() => {
-                  setSelectedBlog(blog);
-                  setViewModalOpen(true);
-                }}
+                onClick={() => blog.id && handleViewBlog(blog.id)}
               >
                 <Eye className="mr-2 h-4 w-4" />
                 View
@@ -313,96 +345,6 @@ export const BlogTable = () => {
         onPaginationChange={setPagination}
         isPending={isLoading}
       />
-
-      {/* View Blog Modal */}
-      <Modal
-        isOpen={viewModalOpen}
-        onClose={() => setViewModalOpen(false)}
-        title="Blog Details"
-        isPending={false}
-      >
-        {selectedBlog && (
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-lg font-semibold">{selectedBlog.title}</h3>
-              <div className="mt-2 flex items-center gap-2">
-                <Badge
-                  className={
-                    selectedBlog.status === "published"
-                      ? "bg-green-100 text-green-800"
-                      : selectedBlog.status === "draft"
-                        ? "bg-gray-100 text-gray-800"
-                        : "bg-red-100 text-red-800"
-                  }
-                >
-                  {selectedBlog.status}
-                </Badge>
-                <span className="text-sm text-gray-600">
-                  by {selectedBlog.author?.name || selectedBlog.author?.email}
-                </span>
-              </div>
-            </div>
-
-            {selectedBlog.excerpt && (
-              <div>
-                <h4 className="font-medium">Excerpt</h4>
-                <p className="text-gray-600">{selectedBlog.excerpt}</p>
-              </div>
-            )}
-
-            <div>
-              <h4 className="font-medium">Content</h4>
-              <div className="mt-2 max-h-60 overflow-y-auto rounded border p-3">
-                <p className="whitespace-pre-wrap">{selectedBlog.content}</p>
-              </div>
-            </div>
-
-            {selectedBlog.tags && selectedBlog.tags.length > 0 && (
-              <div>
-                <h4 className="font-medium">Tags</h4>
-                <div className="mt-2 flex flex-wrap gap-1">
-                  {selectedBlog.tags.map((tag, index) => (
-                    <Badge key={index} variant="outline">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="font-medium">Created:</span>
-                <p>{formatDate(selectedBlog.createdAt as Date)}</p>
-              </div>
-              <div>
-                <span className="font-medium">Updated:</span>
-                <p>{formatDate(selectedBlog.updatedAt as Date)}</p>
-              </div>
-              {selectedBlog.publishedAt && (
-                <div>
-                  <span className="font-medium">Published:</span>
-                  <p>{formatDate(selectedBlog.publishedAt as Date)}</p>
-                </div>
-              )}
-            </div>
-
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setViewModalOpen(false)}>
-                Close
-              </Button>
-              <Button
-                onClick={() => {
-                  setViewModalOpen(false);
-                  selectedBlog.id && handleEditBlog(selectedBlog.id);
-                }}
-              >
-                Edit Blog
-              </Button>
-            </div>
-          </div>
-        )}
-      </Modal>
 
       {/* Delete Confirmation Modal */}
       <Modal

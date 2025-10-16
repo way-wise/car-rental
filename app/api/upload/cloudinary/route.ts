@@ -58,9 +58,9 @@ export async function POST(request: NextRequest) {
     // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(dataURI, {
       resource_type: "image",
-      folder: "profile-images",
+      folder: "blog-images",
       transformation: [
-        { width: 400, height: 400, crop: "fill", gravity: "face" },
+        { width: 1200, height: 630, crop: "fill", gravity: "auto" },
         { quality: "auto", fetch_format: "auto" },
       ],
     });

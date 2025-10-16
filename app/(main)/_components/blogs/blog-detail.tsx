@@ -67,7 +67,7 @@ export const BlogDetail = ({ blog }: BlogDetailProps) => {
           <div className="mb-6 flex items-center gap-2">
             <Tag className="h-4 w-4 text-gray-500" />
             <div className="flex flex-wrap gap-2">
-              {blog.tags.map((tag, index) => (
+              {blog.tags.map((tag: string | undefined, index: number) => (
                 <Badge key={index} variant="outline">
                   {tag}
                 </Badge>
