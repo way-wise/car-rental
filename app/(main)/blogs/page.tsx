@@ -1,12 +1,14 @@
 import { Blog } from "@/schema/blogSchema";
+import type { Metadata } from "next";
 import { BlogList } from "../_components/blogs/blog-list";
 
 async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/blogs/public?page=1&limit=6`, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${baseUrl}/api/blogs/public?page=1&limit=6`,
+      {},
+    );
 
     if (!response.ok) {
       console.error(
@@ -29,21 +31,96 @@ async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
   }
 }
 
+// SEO Metadata
+export const metadata: Metadata = {
+  title: "Our Blog | Latest News, Tips & Insights",
+  description:
+    "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
+  keywords: [
+    "blog",
+    "news",
+    "tips",
+    "insights",
+    "car rental",
+    "transportation",
+    "travel",
+    "guide",
+    "industry news",
+  ],
+  openGraph: {
+    title: "Our Blog | Latest News, Tips & Insights",
+    description:
+      "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
+    type: "website",
+    url: "/blogs",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Our Blog | Latest News, Tips & Insights",
+    description:
+      "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
+  },
+  alternates: {
+    canonical: "/blogs",
+  },
+};
+
 const BlogsPage = async () => {
   const { blogs, total } = await getInitialBlogs();
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
+  // Structured data for blog collection
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Our Blog",
+    description:
+      "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
+    url: `${baseUrl}/blogs`,
+    publisher: {
+      "@type": "Organization",
+      name: "Way-Wise Car Rental",
+      url: baseUrl,
+    },
+    blogPost: blogs.map((blog) => ({
+      "@type": "BlogPosting",
+      headline: blog.title,
+      description: blog.metaDescription || blog.excerpt || blog.title,
+      url: `${baseUrl}/blogs/${blog.slug}`,
+      datePublished: blog.publishedAt || blog.createdAt,
+      dateModified: blog.updatedAt,
+      author: {
+        "@type": "Person",
+        name: blog.author?.name || blog.author?.email || "Unknown Author",
+      },
+      image: blog.featuredImage || undefined,
+      keywords:
+        blog.tags
+          ?.filter((tag): tag is string => tag !== undefined)
+          .join(", ") || "",
+    })),
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
+
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="mb-12 text-center">
+        {/* <div className="mb-12 text-center">
           <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
             Our Blog
           </h1>
           <p className="mx-auto max-w-2xl text-xl text-gray-600">
             Stay updated with the latest news, tips, and insights from our team
           </p>
-        </div>
+        </div> */}
 
         {/* Blog List */}
         <BlogList initialBlogs={blogs} initialTotal={total} />

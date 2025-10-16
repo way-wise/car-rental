@@ -2,17 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Blog } from "@/schema/blogSchema";
-import { Filter, Search } from "lucide-react";
+import { Filter } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { BlogCard } from "./blog-card";
@@ -97,7 +89,7 @@ export const BlogList = ({ initialBlogs, initialTotal }: BlogListProps) => {
   return (
     <div className="space-y-6">
       {/* Search and Filter */}
-      <div className="flex flex-col gap-4 sm:flex-row">
+      {/* <div className="flex flex-col gap-4 sm:flex-row">
         <div className="relative flex-1">
           <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
           <Input
@@ -128,7 +120,7 @@ export const BlogList = ({ initialBlogs, initialTotal }: BlogListProps) => {
             </SelectContent>
           </Select>
         </div>
-      </div>
+      </div> */}
 
       {/* Loading State */}
       {isLoading && (

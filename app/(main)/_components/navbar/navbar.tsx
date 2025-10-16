@@ -43,8 +43,8 @@ const Navbar = ({ session }: { session: Session }) => {
     { title: "Services", url: "#services" },
     { title: "About Driver", url: "#about" },
     { title: "Pricing", url: "#pricing" },
-    { title: "Blog", url: "/blogs" },
     { title: "FAQ", url: "#faq" },
+    { title: "Blog", url: "/blogs" },
   ];
 
   const handleSignout = async () => {

@@ -111,8 +111,8 @@ export default function BlogViewPage({ params }: BlogViewPageProps) {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900">Blog not found</h1>
           <p className="mt-2 text-gray-600">
-            The blog you're looking for doesn't exist or you don't have
-            permission to view it.
+            The blog you&apos;re looking for doesn&apos;t exist or you
+            don&apos;t have permission to view it.
           </p>
           <Button
             onClick={() => router.push("/dashboard/blogs")}
@@ -304,8 +304,8 @@ export default function BlogViewPage({ params }: BlogViewPageProps) {
           <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
             <h3 className="mb-4 text-lg font-semibold">Delete Blog</h3>
             <p className="mb-6 text-gray-600">
-              Are you sure you want to delete this blog? This action cannot be
-              undone.
+              Are you sure you want to delete this blog? This action cannot
+              be&apos; undone.
             </p>
             <div className="rounded bg-gray-50 p-3">
               <h4 className="font-medium">{blog.title}</h4>

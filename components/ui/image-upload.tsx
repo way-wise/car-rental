@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { uploadImageViaFileInput } from "@/lib/cloudinaryClient";
 import { ImageIcon, Loader2, X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -49,9 +50,12 @@ export const ImageUpload = ({
     <div className={`space-y-2 ${className}`}>
       {value ? (
         <div className="group relative">
-          <img
+          <Image
             src={value}
             alt="Uploaded image"
+            width={100}
+            height={100}
+            priority
             className="h-48 w-full rounded-lg border object-cover"
           />
           <Button
