@@ -101,7 +101,7 @@ export async function sendBookingConfirmationToUser(
   await transporter.sendMail({
     from: process.env.EMAIL_FROM!,
     to,
-    subject: "Booking Confirmation - Lee Car Rent",
+    subject: "Booking Confirmation - Escalade4lax",
     text: `
 Hello ${userName},
 
@@ -116,10 +116,10 @@ Booking Details:
 - Amount Paid: $${formattedAmount}
 ${userPhone ? `- Phone: ${userPhone}` : ""}
 
-Thank you for choosing Lee Car Rent!
+Thank you for choosing Escalade4lax!
 
 Best regards,
-Lee Car Rent Team
+Escalade4lax Team
     `,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
@@ -173,12 +173,12 @@ Lee Car Rent Team
           </p>
 
           <p style="color: #374151; font-size: 14px; margin-top: 20px;">
-            Thank you for choosing Lee Car Rent!
+            Thank you for choosing Escalade4lax!
           </p>
 
           <p style="color: #374151; font-size: 14px; margin-top: 10px;">
             Best regards,<br/>
-            <strong>Lee Car Rent Team</strong>
+            <strong>Escalade4lax Team</strong>
           </p>
         </div>
       </div>
@@ -327,11 +327,11 @@ export async function sendNewUserCredentials(
   await transporter.sendMail({
     from: process.env.EMAIL_FROM!,
     to,
-    subject: "Welcome to Lee Car Rent - Your Login Credentials",
+    subject: "Welcome to Escalade4lax - Your Login Credentials",
     text: `
 Hello ${userName},
 
-Welcome to Lee Car Rent! Your account has been created successfully.
+Welcome to Escalade4lax! Your account has been created successfully.
 
 Here are your login credentials:
 
@@ -343,12 +343,12 @@ You can log in to your account at: ${loginUrl}
 For security reasons, we recommend changing your password after your first login.
 
 Best regards,
-Lee Car Rent Team
+Escalade4lax Team
     `,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
         <div style="background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <h2 style="color: #0070f3; margin-bottom: 20px;">🎉 Welcome to Lee Car Rent!</h2>
+          <h2 style="color: #0070f3; margin-bottom: 20px;">🎉 Welcome to Escalade4lax!</h2>
           
           <p style="color: #374151; font-size: 16px; margin-bottom: 20px;">
             Hello <strong>${userName}</strong>,
@@ -387,7 +387,7 @@ Lee Car Rent Team
 
           <p style="color: #374151; font-size: 14px; margin-top: 20px;">
             Best regards,<br/>
-            <strong>Lee Car Rent Team</strong>
+            <strong>Escalade4lax Team</strong>
           </p>
         </div>
       </div>
@@ -403,11 +403,11 @@ export async function sendPasswordResetEmail(
   await transporter.sendMail({
     from: process.env.EMAIL_FROM!,
     to,
-    subject: "Reset Your Password - Lee Car Rent",
+    subject: "Reset Your Password - Escalade4lax",
     text: `
 Hello ${userName},
 
-You requested to reset your password for your Lee Car Rent account.
+  You requested to reset your password for your Escalade4lax account.
 
 Click the link below to reset your password:
 ${resetUrl}
@@ -417,7 +417,7 @@ This link will expire in 1 hour for security reasons.
 If you didn't request this password reset, please ignore this email and your password will remain unchanged.
 
 Best regards,
-Lee Car Rent Team
+Escalade4lax Team
     `,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
@@ -429,7 +429,7 @@ Lee Car Rent Team
           </p>
           
           <p style="color: #374151; font-size: 16px; margin-bottom: 20px;">
-            You requested to reset your password for your Lee Car Rent account.
+            You requested to reset your password for your Escalade4lax account.
           </p>
           
           <div style="text-align: center; margin: 30px 0;">
@@ -450,7 +450,7 @@ Lee Car Rent Team
           
           <p style="color: #6b7280; font-size: 14px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
             Best regards,<br>
-            <strong>Lee Car Rent Team</strong>
+            <strong>Escalade4lax Team</strong>
           </p>
         </div>
       </div>

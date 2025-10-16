@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "test:seo": "node scripts/test-seo.js"
@@ -41,6 +41,7 @@
     "@stripe/react-stripe-js": "^5.2.0",
     "@stripe/stripe-js": "^8.0.0",
     "@tanstack/react-table": "^8.21.3",
+    "@vercel/speed-insights": "^1.2.0",
     "better-auth": "^1.3.26",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",

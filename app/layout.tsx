@@ -5,6 +5,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ProgressProvider } from "@/providers/progress-provider";
 import { SwrConfigProvider } from "@/providers/swr-config-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -94,7 +95,10 @@ export default function RootLayout({
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body>
         <ProgressProvider>
-          <SwrConfigProvider>{children}</SwrConfigProvider>
+          <SwrConfigProvider>
+            {children}
+            <SpeedInsights />
+          </SwrConfigProvider>
         </ProgressProvider>
         <Toaster richColors />
       </body>
