@@ -1,5 +1,5 @@
-import { Context, Next } from "hono";
 import { getSession } from "@/lib/auth";
+import { Context, Next } from "hono";
 
 export const requiresAuth = async (c: Context, next: Next) => {
   const session = await getSession();

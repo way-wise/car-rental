@@ -26,6 +26,7 @@ model users {
   accounts             accounts[]
   bookings             bookings[]
   sessions             sessions[]
+  blogs                blogs[]
 
   @@index([email])
   @@index([role])
@@ -150,6 +151,30 @@ model settings {
   @@index([createdAt])
 }
 
+model blogs {
+  id              String     @id @default(ulid())
+  title           String
+  slug            String     @unique
+  content         String
+  excerpt         String?
+  featuredImage   String?
+  status          BlogStatus @default(draft)
+  publishedAt     DateTime?
+  authorId        String
+  tags            String[]
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  author          users      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([publishedAt])
+  @@index([authorId])
+  @@index([createdAt])
+  @@index([slug])
+}
+
 enum UserRole {
   admin
   user
@@ -173,4 +198,10 @@ enum BookingStatus {
 enum PricingType {
   kilometer
   hour
+}
+
+enum BlogStatus {
+  draft
+  published
+  archived
 }

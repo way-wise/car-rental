@@ -53,10 +53,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 }
 
 // Helper function to generate dynamic routes (for future use)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function generateDynamicRoutes(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com";
-  const currentDate = new Date().toISOString();
+  // const baseUrl =
+  //   process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com";
+  // const currentDate = new Date().toISOString();
 
   // Example: If you have dynamic car listings
   // const cars = await getCars()

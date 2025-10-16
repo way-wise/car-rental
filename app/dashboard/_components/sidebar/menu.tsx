@@ -7,6 +7,7 @@ import {
   Home,
   LayoutGrid,
   LogOut,
+  PenTool,
   Settings,
   UsersRound,
   Workflow,
@@ -58,6 +59,11 @@ const SidebarMenu = () => {
       title: "Bookings",
       icon: <BookAlertIcon className="icon" />,
       url: "/dashboard/bookings",
+    },
+    {
+      title: "Blogs",
+      icon: <PenTool className="icon" />,
+      url: "/dashboard/blogs",
     },
     {
       title: "Calendar",
