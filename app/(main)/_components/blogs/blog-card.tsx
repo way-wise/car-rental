@@ -63,6 +63,11 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
             )}
           </div>
         )}
+        <div className="mt-4">
+          <p className="line-clamp-2 text-gray-600">
+            {blog.content?.slice(0, 200)}
+          </p>
+        </div>
       </CardContent>
 
       <CardFooter>
