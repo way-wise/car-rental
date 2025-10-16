@@ -102,8 +102,12 @@ const CarPlan = () => {
                 Our Luxury Car
               </h2>
               <p className="mt-2 text-xl leading-8 font-normal tracking-[-0.50px] text-black md:px-4">
-                Clean, comfortable, and well-maintained—our luxury car makes
-                every ride smooth and stylish.
+                Clean, comfortable, and always well-maintained. Our luxury car
+                ensures every ride is smooth, stylish, and stress-free. Whether
+                you need an <strong>Executive Car Service to LAX</strong> ,
+                reliable, and professional driver, a private airport pickup, or
+                a city ride in Los Angeles, we deliver comfort and class every
+                time.
               </p>
             </div>
             <div className="space-y-8">
@@ -131,8 +135,12 @@ const CarPlan = () => {
                 Simple, Transparent Pricing
               </h2>
               <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-black md:px-4">
-                No hidden fees, upfront rates for professional transportation
-                services across in Los Angeles and Surrounding Cities.
+                No hidden fees — just clear, upfront rates for{" "}
+                <strong> professional transportation services</strong> across{" "}
+                <strong>Los Angeles and surrounding cities</strong>. From{" "}
+                <strong>Executive Car Service to LAX</strong> to private airport
+                transfers and city rides, we make every trip smooth, reliable,
+                and stress-free.
               </p>
             </div>
             <div className="space-y-12">

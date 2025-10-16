@@ -87,9 +87,13 @@ const ServiceSection = () => {
                 Service
               </h2>
               <p className="mt-2 text-lg leading-relaxed font-normal tracking-[-0.50px] text-[#303740] md:px-6">
-                We provide premium transportation services across in Los Angeles
-                and surrounding cities with professional drivers and luxury
-                vehicles for all your travel needs.
+                Are you going to or from Los Angeles? We make every ride
+                comfortable and easy. We provide premium transportation services
+                in Los Angeles and surrounding cities, such as private airport
+                pickups, executive car service to LAX, and luxurious SUV rides
+                for both personal and professional travel. No matter where
+                you&apos;re going, a competent, polite driver will make sure you
+                get there in comfort, on schedule, and in style.
               </p>
             </div>
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -166,13 +170,18 @@ const ServiceSection = () => {
             </div>
 
             <p className="text-center text-base leading-[25px] font-normal tracking-[0] text-[#303740]">
-              I personally drive my own car to ensure every ride is safe,
-              comfortable, and always on time. With 20 years of professional
-              driving in the U.S. and Canada—I proudly maintain a spotless
-              record with zero accidents. I know every road in Los Angeles and
-              surrounding cities like the back of my hand, and my car is always
-              clean and ready. For me, your safety, time, and trust come
-              first—that&apos;s my promise to you.
+              To make sure every journey is secure, comfortable, and punctual, I
+              personally oversee the majority of the journeys. I&apos;m delighted to
+              have a perfect record with no accidents over my more than 20 years
+              of professional driving experience in the U.S. and Canada. From
+              downtown to the airport and beyond, I am familiar with every road
+              in Los Angeles and the neighboring areas. Providing a smooth,
+              dependable, and stress-free trip is my constant goal, regardless
+                of whether you&apos;re booking a luxury SUV airport transfer, an
+              executive car service to LAX, or a private driver in Los Angeles.
+              My Escalade is always ready to go, clean, and well-maintained. I
+              swear to you that your comfort, safety, and time will always come
+              first.
             </p>
 
             <div className="relative h-[300px] w-full md:h-[400px]">

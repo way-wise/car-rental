@@ -14,12 +14,13 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Escalade4lax - Premium Car Rental Service",
+    default: "Escalade4lax -  Executive Car Service lax",
     template: "%s | Escalade4lax",
   },
   description:
-    "Professional car rental service with premium vehicles. Book your ride with Escalade4lax for reliable, comfortable, and affordable transportation solutions.",
+    "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
   keywords: [
+    "los angeles airport car service",
     "car rental",
     "premium car rental",
     "luxury car rental",
@@ -48,23 +49,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com",
     siteName: "Escalade4lax",
-    title: "Escalade4lax - Premium Car Rental Service",
+    title: "Escalade4lax - Executive Car Service lax",
     description:
-      "Professional car rental service with premium vehicles. Book your ride with Escalade4lax for reliable, comfortable, and affordable transportation solutions.",
+      "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
     images: [
       {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Escalade4lax - Premium Car Rental Service",
+        alt: "Escalade4lax - Executive Car Service lax",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Escalade4lax - Premium Car Rental Service",
+    title: "Escalade4lax - Executive Car Service lax",
     description:
-      "Professional car rental service with premium vehicles. Book your ride with Escalade4lax for reliable, comfortable, and affordable transportation solutions.",
+      "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
     images: ["/logo.png"],
     creator: "@escalade4lax",
   },

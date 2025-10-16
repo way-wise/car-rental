@@ -8,9 +8,9 @@ import ServiceSection from "../_components/home-page/ServiceSection";
 import Testimonial from "../_components/home-page/Testimonial";
 
 export const metadata: Metadata = {
-  title: "Premium Car Rental Service | Escalade4lax",
+  title: "Executive Car Service lax | Escalade4lax",
   description:
-    "Professional car rental service with premium vehicles. Book your ride with Escalade4lax for reliable, comfortable, and affordable transportation solutions.",
+    "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
   keywords: [
     "car rental",
     "premium car rental",
@@ -19,21 +19,19 @@ export const metadata: Metadata = {
     "ride booking",
     "car hire",
     "vehicle rental",
-    "professional driver",
-    "reliable transportation",
-    "affordable car rental",
+    "Escalade4lax",
   ],
   openGraph: {
-    title: "Premium Car Rental Service | Escalade4lax",
+    title: "Executive Car Service lax | Escalade4lax",
     description:
-      "Professional car rental service with premium vehicles. Book your ride with Escalade4lax for reliable, comfortable, and affordable transportation solutions.",
+      "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
     type: "website",
     images: ["/logo.png"],
   },
   twitter: {
-    title: "Premium Car Rental Service | Escalade4lax",
+    title: "Executive Car Service lax | Escalade4lax",
     description:
-      "Professional car rental service with premium vehicles. Book your ride with Escalade4lax for reliable, comfortable, and affordable transportation solutions.",
+      "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
     images: ["/logo.png"],
   },
   alternates: {
@@ -44,29 +42,29 @@ export const metadata: Metadata = {
 // Sample FAQ data for structured data
 const faqData = [
   {
-    question: "How do I book a car rental with Escalade4lax?",
+    question: "How do I book an executive car service with Escalade4lax?",
     answer:
-      "You can easily book a car rental through our website by selecting your pickup and drop-off locations, choosing your preferred date and time, and completing the booking process.",
+      "You can easily book an executive car service through our website by selecting your pickup and drop-off locations, choosing your preferred date and time, and completing the booking process.",
   },
   {
     question: "What types of vehicles do you offer?",
     answer:
-      "We offer a wide range of premium vehicles including sedans, SUVs, luxury cars, and business vehicles to meet all your transportation needs.",
+      "We offer a wide range of luxury SUVs including Mercedes-Benz S-Class, BMW 7 Series, Audi A8, and Porsche Cayenne to meet all your transportation needs.",
   },
   {
     question: "Do you provide professional drivers?",
     answer:
-      "Yes, all our vehicles come with experienced and professional drivers who are familiar with the local area and committed to providing excellent service.",
+      "Yes, all our vehicles come with experienced and professional drivers who are familiar with the Los Angeles area and committed to providing excellent service.",
   },
   {
     question: "How is pricing calculated?",
     answer:
-      "Our pricing is calculated based on distance, duration, and vehicle type. We offer transparent, competitive rates with no hidden fees.",
+      "Our pricing is calculated based on distance, duration, and vehicle type. We offer transparent, competitive rates with no hidden fees. Please contact us for a quote.",
   },
   {
     question: "What payment methods do you accept?",
     answer:
-      "We accept all major credit cards, debit cards, and digital payment methods for your convenience and security.",
+      "We accept all major credit cards, debit cards, and digital payment methods for your convenience and security. Please contact us for more information.",
   },
 ];
 
