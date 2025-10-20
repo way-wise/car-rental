@@ -132,8 +132,9 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="mt-12 border-t border-[#1e1e1e] pt-8">
           <p className="text-center text-sm leading-[30px] font-normal tracking-[-0.50px] text-[#7f7f7f]">
-            © 2025 escalade4lax.com. All rights reserved. | Privacy Policy |
-            Terms of Service
+            © 2025 escalade4lax.com. All rights reserved. |{" "}
+            <a href="/privacy-policy">Privacy Policy</a> |{" "}
+            <a href="/terms-of-service">Terms of Service</a>
           </p>
         </div>
       </div>

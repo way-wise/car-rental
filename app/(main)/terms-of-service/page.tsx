@@ -35,27 +35,24 @@ export const metadata: Metadata = {
 export default function TermsOfServicePage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-lg bg-white p-8 shadow-lg">
           <h1 className="mb-8 text-3xl font-bold text-gray-900">
             Terms of Service
           </h1>
 
           <div className="prose prose-lg max-w-none text-gray-700">
-            <p className="mb-8 text-sm text-gray-500">
-              <strong>Last updated:</strong> {new Date().toLocaleDateString()}
-            </p>
-
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
                 1. Acceptance of Terms
               </h2>
               <p className="mb-4">
-                Welcome to Bulletproof Fitness (&quot;we,&quot; &quot;our,&quot;
-                or &quot;us&quot;). These Terms of Service (&quot;Terms&quot;)
-                govern your use of our fitness application, website, and related
-                services (collectively, the &quot;Service&quot;). By accessing
-                or using our Service, you agree to be bound by these Terms.
+                Welcome to Escalade4lax (&quot;we,&quot; &quot;our,&quot; or
+                &quot;us&quot;). These Terms of Service (&quot;Terms&quot;)
+                govern your use of our website, booking platform, and
+                professional chauffeured car services (collectively, the
+                &quot;Service&quot;). By accessing or using the Service, you
+                agree to be bound by these Terms.
               </p>
               <p>
                 If you do not agree to these Terms, please do not use our
@@ -70,16 +67,21 @@ export default function TermsOfServicePage() {
                 2. Description of Service
               </h2>
               <p className="mb-4">
-                Bulletproof Fitness provides a comprehensive fitness platform
-                that includes:
+                Escalade4lax provides premium point-to-point and hourly
+                chauffeured transportation services in Los Angeles and
+                surrounding areas. Our Service includes:
               </p>
               <ul className="mb-4 list-disc pl-6">
-                <li>Exercise library with instructional videos and guides</li>
-                <li>Customized workout plans and exercise setups</li>
-                <li>Fitness tracking and progress monitoring</li>
-                <li>Nutritional guidance and meal planning</li>
-                <li>Demo center locations and equipment information</li>
-                <li>Community features and user interaction tools</li>
+                <li>
+                  Online booking for rides (airport, city-to-city, hourly)
+                </li>
+                <li>Driver coordination and trip status updates</li>
+                <li>
+                  Payment processing via trusted third-party providers (e.g.,
+                  Stripe)
+                </li>
+                <li>Receipts, invoices, and trip history</li>
+                <li>Customer support and account management</li>
               </ul>
             </section>
 
@@ -92,10 +94,10 @@ export default function TermsOfServicePage() {
                 3.1 Account Creation
               </h3>
               <p className="mb-4">
-                To access certain features of our Service, you must create an
-                account. You agree to provide accurate, current, and complete
-                information during registration and to update such information
-                as necessary.
+                To access certain features of the Service, you may need to
+                create an account. You agree to provide accurate, current, and
+                complete information during registration and to update such
+                information as necessary.
               </p>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
@@ -138,8 +140,8 @@ export default function TermsOfServicePage() {
                 </li>
                 <li>Interfere with or disrupt the Service or servers</li>
                 <li>
-                  Use the Service for any commercial purpose without our prior
-                  written consent
+                  Engage in fraudulent bookings, payment fraud, fare evasion, or
+                  misuse of promotions
                 </li>
                 <li>
                   Impersonate any person or entity or misrepresent your
@@ -158,11 +160,10 @@ export default function TermsOfServicePage() {
                 5.1 Our Content
               </h3>
               <p className="mb-4">
-                All content provided through our Service, including but not
-                limited to text, graphics, videos, exercise routines, and
-                software, is owned by Bulletproof Fitness or our licensors and
-                is protected by copyright, trademark, and other intellectual
-                property laws.
+                All content provided through the Service, including but not
+                limited to text, graphics, logos, images, software, and design,
+                is owned by Escalade4lax or our licensors and is protected by
+                copyright, trademark, and other intellectual property laws.
               </p>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
@@ -187,30 +188,17 @@ export default function TermsOfServicePage() {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                6. Health and Safety Disclaimer
+                6. Ride Safety and Conduct
               </h2>
-              <p className="mb-4">
-                <strong>Important:</strong> Our Service provides fitness and
-                nutritional information for educational purposes only. It is not
-                intended as a substitute for professional medical advice,
-                diagnosis, or treatment.
-              </p>
               <ul className="mb-4 list-disc pl-6">
+                <li>Seat belts must be worn at all times where available.</li>
+                <li>No smoking, vaping, or illegal substances in vehicles.</li>
                 <li>
-                  Always consult with a healthcare professional before starting
-                  any exercise program
+                  Food and beverages should be handled safely to avoid spills.
                 </li>
                 <li>
-                  Listen to your body and stop exercising if you experience pain
-                  or discomfort
-                </li>
-                <li>
-                  We are not responsible for any injuries that may occur from
-                  following our exercise programs
-                </li>
-                <li>
-                  Individual results may vary, and we make no guarantees about
-                  fitness outcomes
+                  Drivers may refuse service if safety is at risk or laws are
+                  violated.
                 </li>
               </ul>
             </section>
@@ -229,64 +217,121 @@ export default function TermsOfServicePage() {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                8. Subscription and Payment Terms
+                8. Pricing and Payment Terms
               </h2>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
-                8.1 Subscription Plans
+                8.1 Pricing and Estimates
               </h3>
               <p className="mb-4">
-                We may offer various subscription plans with different features
-                and pricing. Subscription fees are charged in advance and are
-                non-refundable except as required by law.
+                Quoted prices are based on the information you provide and may
+                include base fares, taxes, fees, tolls, surcharges, and gratuity
+                if selected. Final charges may vary based on actual trip
+                details, wait time, additional stops, route changes, cleaning,
+                or damage fees where applicable.
               </p>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
-                8.2 Automatic Renewal
+                8.2 Payments and Authorizations
               </h3>
               <p className="mb-4">
-                Subscriptions automatically renew at the end of each billing
-                period unless canceled before the renewal date. You may cancel
-                your subscription at any time through your account settings.
+                Payments are processed by third-party providers (e.g., Stripe).
+                By booking, you authorize charges to your payment method for
+                applicable fees. We may place an authorization hold prior to the
+                trip. If a payment is declined, we may suspend or cancel the
+                booking.
               </p>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
-                8.3 Price Changes
+                8.3 Refunds
               </h3>
               <p className="mb-4">
-                We reserve the right to change subscription prices with
-                reasonable advance notice. Price changes will not affect your
-                current billing period.
+                Refund eligibility depends on the circumstances of the booking
+                and our cancellation policy. Certain fees (e.g., no-show,
+                late-cancellation, cleaning, or damage) are non-refundable.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                9. Disclaimers and Limitation of Liability
+                9. Cancellations and Changes
+              </h2>
+              <ul className="mb-4 list-disc pl-6">
+                <li>
+                  Changes are subject to availability and may affect pricing.
+                </li>
+                <li>
+                  Late cancellations may incur a fee; no-shows are charged in
+                  full.
+                </li>
+                <li>
+                  Airport pickups: provide correct flight details to reduce wait
+                  time fees.
+                </li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                10. Wait Time, No-Show, and Additional Stops
+              </h2>
+              <ul className="mb-4 list-disc pl-6">
+                <li>
+                  Complimentary wait time may apply; additional wait billed at
+                  standard rates.
+                </li>
+                <li>
+                  No-show occurs if you are unreachable after reasonable
+                  attempts within the wait window.
+                </li>
+                <li>Unscheduled additional stops may incur extra charges.</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                11. Vehicle Cleanliness and Damage
+              </h2>
+              <ul className="mb-4 list-disc pl-6">
+                <li>
+                  Excessive soilage or spills may result in a cleaning fee.
+                </li>
+                <li>
+                  You may be responsible for repair costs resulting from damage
+                  you cause.
+                </li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+                12. Disclaimers and Limitation of Liability
               </h2>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
-                9.1 Service Availability
+                12.1 Service Availability
               </h3>
               <p className="mb-4">
                 We strive to maintain continuous service availability but do not
-                guarantee that our Service will be uninterrupted or error-free.
-                We may temporarily suspend the Service for maintenance or
-                updates.
+                guarantee that the Service will be uninterrupted or error-free.
+                Trips may be affected by traffic, weather, road conditions,
+                flight delays, or events beyond our control.
               </p>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
-                9.2 Limitation of Liability
+                12.2 Limitation of Liability
               </h3>
               <p className="mb-4">
-                To the maximum extent permitted by law, Bulletproof Fitness
-                shall not be liable for any indirect, incidental, special,
-                consequential, or punitive damages, including but not limited to
-                loss of profits, data, or business opportunities.
+                To the maximum extent permitted by law, Escalade4lax shall not
+                be liable for any indirect, incidental, special, consequential,
+                or punitive damages, including loss of profits, data, or
+                business opportunities. Our total liability for any claim
+                related to the Service shall not exceed the amount paid by you
+                for the applicable booking.
               </p>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
-                9.3 Disclaimer of Warranties
+                12.3 Disclaimer of Warranties
               </h3>
               <p className="mb-4">
                 Our Service is provided &quot;as is&quot; and &quot;as
@@ -299,19 +344,19 @@ export default function TermsOfServicePage() {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                10. Indemnification
+                13. Indemnification
               </h2>
               <p>
-                You agree to indemnify, defend, and hold harmless Bulletproof
-                Fitness, its officers, directors, employees, and agents from any
-                claims, damages, losses, or expenses arising from your use of
-                the Service or violation of these Terms.
+                You agree to indemnify, defend, and hold harmless Escalade4lax,
+                its officers, directors, employees, and agents from any claims,
+                damages, losses, or expenses arising from your use of the
+                Service or violation of these Terms.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                11. Third-Party Services
+                14. Third-Party Services
               </h2>
               <p>
                 Our Service may integrate with or link to third-party services,
@@ -324,7 +369,7 @@ export default function TermsOfServicePage() {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                12. Termination
+                15. Termination
               </h2>
               <p className="mb-4">
                 Either party may terminate these Terms at any time. Upon
@@ -342,32 +387,33 @@ export default function TermsOfServicePage() {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                13. Governing Law and Dispute Resolution
+                16. Governing Law and Dispute Resolution
               </h2>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
-                13.1 Governing Law
+                16.1 Governing Law
               </h3>
               <p className="mb-4">
                 These Terms are governed by and construed in accordance with the
-                laws of [Your Jurisdiction], without regard to its conflict of
-                law principles.
+                laws of the State of California, without regard to its conflict
+                of law principles.
               </p>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
-                13.2 Dispute Resolution
+                16.2 Dispute Resolution
               </h3>
               <p className="mb-4">
                 Any disputes arising from these Terms or your use of the Service
-                will be resolved through binding arbitration in accordance with
-                the rules of [Arbitration Organization], except where prohibited
-                by law.
+                will be resolved through binding arbitration in Los Angeles
+                County, California, in accordance with applicable rules, except
+                where prohibited by law. You and Escalade4lax agree to waive any
+                right to a jury trial.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                14. Changes to Terms
+                17. Changes to Terms
               </h2>
               <p>
                 We reserve the right to modify these Terms at any time. We will
@@ -379,7 +425,7 @@ export default function TermsOfServicePage() {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                15. Contact Information
+                18. Contact Information
               </h2>
               <p className="mb-4">
                 If you have any questions about these Terms of Service, please
@@ -387,26 +433,27 @@ export default function TermsOfServicePage() {
               </p>
               <div className="rounded-lg bg-gray-50 p-4">
                 <p>
-                  <strong>Email:</strong> legal@bulletprooffitness.com
+                  <strong>Email:</strong> seung@waywise.pro
                 </p>
                 <p>
-                  <strong>Address:</strong> [Your Company Address]
+                  <strong>Address:</strong> Saddleback Ridge Rd, Santa Clarita,
+                  CA 91351
                 </p>
                 <p>
-                  <strong>Phone:</strong> [Your Phone Number]
+                  <strong>Phone:</strong> +1-310-756-5533
                 </p>
               </div>
             </section>
 
             <section>
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
-                16. Entire Agreement
+                19. Entire Agreement
               </h2>
               <p>
                 These Terms, together with our Privacy Policy and any additional
                 terms that apply to specific features of our Service, constitute
-                the entire agreement between you and Bulletproof Fitness
-                regarding your use of the Service.
+                the entire agreement between you and Escalade4lax regarding your
+                use of the Service.
               </p>
             </section>
           </div>

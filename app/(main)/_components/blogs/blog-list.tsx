@@ -16,8 +16,8 @@ interface BlogListProps {
 
 export const BlogList = ({ initialBlogs, initialTotal }: BlogListProps) => {
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("publishedAt");
-  const [sortOrder, setSortOrder] = useState("desc");
+  const [sortBy] = useState("publishedAt");
+  const [sortOrder] = useState("desc");
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [page, setPage] = useState(1);
   const [limit] = useState(6);
@@ -88,40 +88,6 @@ export const BlogList = ({ initialBlogs, initialTotal }: BlogListProps) => {
 
   return (
     <div className="space-y-6">
-      {/* Search and Filter */}
-      {/* <div className="flex flex-col gap-4 sm:flex-row">
-        <div className="relative flex-1">
-          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
-          <Input
-            placeholder="Search blogs..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
-          />
-        </div>
-        <div className="flex gap-2">
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-[140px]">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="publishedAt">Date</SelectItem>
-              <SelectItem value="title">Title</SelectItem>
-              <SelectItem value="createdAt">Created</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select value={sortOrder} onValueChange={setSortOrder}>
-            <SelectTrigger className="w-[100px]">
-              <SelectValue placeholder="Order" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="desc">Newest</SelectItem>
-              <SelectItem value="asc">Oldest</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div> */}
-
       {/* Loading State */}
       {isLoading && (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

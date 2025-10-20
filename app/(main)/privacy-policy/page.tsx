@@ -35,28 +35,26 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-lg bg-white p-8 shadow-lg">
           <h1 className="mb-8 text-3xl font-bold text-gray-900">
             Privacy Policy
           </h1>
 
           <div className="prose prose-lg max-w-none text-gray-700">
-            <p className="mb-8 text-sm text-gray-500">
-              <strong>Last updated:</strong> {new Date().toLocaleDateString()}
-            </p>
-
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-900">
                 1. Introduction
               </h2>
               <p className="mb-4">
-                Welcome to Bulletproof Fitness (&quot;we,&quot; &quot;our,&quot;
-                or &quot;us&quot;). We are committed to protecting your privacy
-                and ensuring the security of your personal information. This
-                Privacy Policy explains how we collect, use, disclose, and
-                safeguard your information when you use our fitness application
-                and services.
+                Welcome to Escalade4lax (&quot;we,&quot; &quot;our,&quot; or
+                &quot;us&quot;). We provide premium chauffeured car service in
+                Los Angeles and surrounding areas. We are committed to
+                protecting your privacy and ensuring the security of your
+                personal information. This Privacy Policy explains how we
+                collect, use, disclose, and safeguard your information when you
+                use our website, booking tools, and related services (the
+                &quot;Services&quot; ).
               </p>
               <p>
                 By using our services, you agree to the collection and use of
@@ -80,34 +78,43 @@ export default function PrivacyPolicyPage() {
                 <li>
                   Name and contact information (email address, phone number)
                 </li>
-                <li>Age, gender, and fitness goals</li>
+                <li>Pickup and drop-off addresses, dates, and times</li>
+                <li>Flight details (if provided for airport pickups)</li>
+                <li>Booking details and ride preferences</li>
                 <li>
-                  Physical measurements (height, weight, body composition)
+                  Payment information handled by our payment processor (e.g.,
+                  Stripe); we store only tokens and limited metadata, not full
+                  card numbers
                 </li>
-                <li>Health and fitness data</li>
-                <li>Workout preferences and history</li>
-                <li>Nutrition information and dietary preferences</li>
+                <li>
+                  Government ID or driver&apos;s license details only when
+                  legally required (e.g., verification or dispute resolution)
+                </li>
               </ul>
 
               <h3 className="mb-3 text-xl font-medium text-gray-800">
                 2.2 Automatically Collected Information
               </h3>
               <p className="mb-4">
-                When you use our app, we automatically collect certain
-                information, including:
+                When you use our website and Services, we automatically collect
+                certain information, including:
               </p>
               <ul className="mb-4 list-disc pl-6">
                 <li>
-                  Device information (device type, operating system, unique
-                  identifiers)
+                  Device and browser information (device type, operating system,
+                  browser type, unique identifiers)
                 </li>
                 <li>
-                  Usage data (app features used, time spent, interaction
-                  patterns)
+                  Usage data (pages viewed, features used, time spent,
+                  interaction patterns)
                 </li>
-                <li>Location data (with your permission)</li>
                 <li>
-                  Log information (access times, pages viewed, app crashes)
+                  Location data (with your permission) to support accurate
+                  pickup and drop-off
+                </li>
+                <li>
+                  Log information (IP address, access times, referring pages,
+                  errors/crashes)
                 </li>
               </ul>
             </section>
@@ -121,14 +128,32 @@ export default function PrivacyPolicyPage() {
                 including:
               </p>
               <ul className="mb-4 list-disc pl-6">
-                <li>Providing and maintaining our fitness services</li>
-                <li>Personalizing your workout and nutrition plans</li>
-                <li>Tracking your fitness progress and achievements</li>
-                <li>Sending you important updates and notifications</li>
-                <li>Improving our app functionality and user experience</li>
-                <li>Analyzing usage patterns and trends</li>
+                <li>
+                  Providing and maintaining our car service and booking platform
+                </li>
+                <li>
+                  Processing payments, refunds, and preventing fraudulent
+                  transactions
+                </li>
+                <li>
+                  Coordinating pickups and drop-offs, including flight tracking
+                  when provided
+                </li>
+                <li>
+                  Sending booking confirmations, reminders, receipts, and
+                  important updates
+                </li>
+                <li>
+                  Improving our website functionality, performance, and user
+                  experience
+                </li>
+                <li>
+                  Analyzing usage patterns to enhance service quality and safety
+                </li>
                 <li>Providing customer support and responding to inquiries</li>
-                <li>Ensuring the security and integrity of our services</li>
+                <li>
+                  Complying with legal obligations and enforcing our policies
+                </li>
               </ul>
             </section>
 
@@ -143,9 +168,10 @@ export default function PrivacyPolicyPage() {
               </p>
               <ul className="mb-4 list-disc pl-6">
                 <li>
-                  <strong>Service Providers:</strong> We may share information
-                  with trusted third-party service providers who assist us in
-                  operating our app and providing services
+                  <strong>Service Providers:</strong> We share information with
+                  trusted vendors who help operate the Services (e.g., payment
+                  processing via Stripe, maps and places services via Google
+                  Maps Platform, email/SMS providers, hosting, analytics).
                 </li>
                 <li>
                   <strong>Legal Requirements:</strong> We may disclose
@@ -192,17 +218,18 @@ export default function PrivacyPolicyPage() {
               </h2>
               <p className="mb-4">
                 We use cookies and similar tracking technologies to enhance your
-                experience with our app. These technologies help us:
+                experience on our website and Services. These technologies help
+                us:
               </p>
               <ul className="mb-4 list-disc pl-6">
                 <li>Remember your preferences and settings</li>
-                <li>Analyze app usage and performance</li>
+                <li>Analyze site usage and performance</li>
                 <li>Provide personalized content and recommendations</li>
                 <li>Ensure proper app functionality</li>
               </ul>
               <p>
                 You can control cookie settings through your device or browser
-                settings, but disabling cookies may affect app functionality.
+                settings, but disabling cookies may affect site functionality.
               </p>
             </section>
 
@@ -260,11 +287,12 @@ export default function PrivacyPolicyPage() {
                 9. Third-Party Services
               </h2>
               <p className="mb-4">
-                Our app may contain links to third-party websites or integrate
-                with third-party services (such as fitness trackers or social
-                media platforms). This Privacy Policy does not apply to these
-                third-party services. We encourage you to review the privacy
-                policies of any third-party services you use.
+                Our Services may contain links to third-party websites or
+                integrate with third-party services, such as Stripe for payments
+                and Google Maps Platform for location and autocomplete. This
+                Privacy Policy does not apply to these third-party services. We
+                encourage you to review the privacy policies of any third-party
+                services you use.
               </p>
             </section>
 
@@ -316,13 +344,14 @@ export default function PrivacyPolicyPage() {
               </p>
               <div className="rounded-lg bg-gray-50 p-4">
                 <p>
-                  <strong>Email:</strong> privacy@bulletprooffitness.com
+                  <strong>Email:</strong> seung@waywise.pro
                 </p>
                 <p>
-                  <strong>Address:</strong> [Your Company Address]
+                  <strong>Address:</strong> Saddleback Ridge Rd, Santa Clarita,
+                  CA 91351
                 </p>
                 <p>
-                  <strong>Phone:</strong> [Your Phone Number]
+                  <strong>Phone:</strong> +1-310-756-5533
                 </p>
               </div>
             </section>
@@ -333,7 +362,7 @@ export default function PrivacyPolicyPage() {
               </h2>
               <p>
                 This Privacy Policy is governed by and construed in accordance
-                with the laws of [Your Jurisdiction], without regard to its
+                with the laws of the State of California, without regard to its
                 conflict of law principles.
               </p>
             </section>
