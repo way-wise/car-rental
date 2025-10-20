@@ -41,10 +41,9 @@ const Navbar = ({ session }: { session: Session }) => {
   const menuList = [
     { title: "Home", url: "#home" },
     { title: "Services", url: "#services" },
-    { title: "About Driver", url: "#about" },
+    { title: "About Driver", url: "#services" },
     { title: "Pricing", url: "#pricing" },
     { title: "FAQ", url: "#faq" },
-    { title: "Blog", url: "/blogs" },
   ];
 
   const handleSignout = async () => {

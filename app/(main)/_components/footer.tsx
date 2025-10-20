@@ -4,8 +4,12 @@ import Link from "next/link";
 
 const Footer = () => {
   const footerLinks = {
-    quickLinks: ["Home", "Services", "Pricing", "About Driver"],
-    services: ["Airport Pick & Drop", "Corporate Rides", "City Pick & Drop"],
+    quickLinks: [
+      { name: "Home", value: "#home" },
+      { name: "Services", value: "#services" },
+      { name: "Pricing", value: "#pricing" },
+      { name: "About Driver", value: "#services" },
+    ],
   };
   return (
     <footer className="w-full bg-black py-16">
@@ -48,10 +52,10 @@ const Footer = () => {
                 {footerLinks.quickLinks.map((link, index) => (
                   <Link
                     key={index}
-                    href={`#${link}`}
+                    href={link.value}
                     className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
                   >
-                    {link}
+                    {link.name}
                   </Link>
                 ))}
               </nav>
@@ -63,15 +67,24 @@ const Footer = () => {
                 Services
               </h3>
               <nav className="flex flex-col gap-3">
-                {footerLinks.services.map((service, index) => (
-                  <Link
-                    key={index}
-                    href="#"
-                    className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
-                  >
-                    {service}
-                  </Link>
-                ))}
+                <Link
+                  href="/blogs"
+                  className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
+                >
+                  Blogs
+                </Link>
+                <Link
+                  href="/terms-of-service"
+                  className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
+                >
+                  Terms and Conditions
+                </Link>
+                <Link
+                  href="/privacy-policy"
+                  className="text-sm leading-[30px] font-normal tracking-[-0.50px] text-white transition-colors hover:text-[#dc143c]"
+                >
+                  Privacy Policy
+                </Link>
               </nav>
             </div>
 
