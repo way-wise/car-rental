@@ -4,11 +4,9 @@ import { BlogList } from "../_components/blogs/blog-list";
 
 async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const response = await fetch(
-      `${baseUrl}/api/blogs/public?page=1&limit=6`,
-      {},
-    );
+    const baseUrl =
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+    const response = await fetch(`${baseUrl}/blogs/public?page=1&limit=6`, {});
 
     if (!response.ok) {
       console.error(
@@ -67,7 +65,9 @@ export const metadata: Metadata = {
 
 const BlogsPage = async () => {
   const { blogs, total } = await getInitialBlogs();
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+  const frontendUrl = baseUrl.replace("/api", "");
 
   // Structured data for blog collection
   const structuredData = {
@@ -76,17 +76,17 @@ const BlogsPage = async () => {
     name: "Our Blog",
     description:
       "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
-    url: `${baseUrl}/blogs`,
+    url: `${frontendUrl}/blogs`,
     publisher: {
       "@type": "Organization",
       name: "Way-Wise Car Rental",
-      url: baseUrl,
+      url: frontendUrl,
     },
     blogPost: blogs.map((blog) => ({
       "@type": "BlogPosting",
       headline: blog.title,
       description: blog.metaDescription || blog.excerpt || blog.title,
-      url: `${baseUrl}/blogs/${blog.slug}`,
+      url: `${frontendUrl}/blogs/${blog.slug}`,
       datePublished: blog.publishedAt || blog.createdAt,
       dateModified: blog.updatedAt,
       author: {

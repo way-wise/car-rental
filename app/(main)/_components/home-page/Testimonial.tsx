@@ -3,6 +3,7 @@
 import Autoplay from "embla-carousel-autoplay";
 import * as React from "react";
 import { CiCalendarDate, CiMobile2 } from "react-icons/ci";
+import { GoStarFill } from "react-icons/go";
 import { LuCar } from "react-icons/lu";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -43,7 +44,7 @@ const Testimonial = () => {
       content:
         "I have been using this service for over a year now. The consistency and quality are unmatched. John is courteous, knowledgeable about the area, and always makes the ride comfortable.",
       avatar: "/assets/images/fidden1.png",
-      stars: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/group-19.png",
+      stars: <GoStarFill className="h-7 w-7" />,
     },
     {
       id: 2,
@@ -52,7 +53,7 @@ const Testimonial = () => {
       content:
         "Outstanding service! The drivers are professional, punctual, and the vehicles are always clean and comfortable. This has become my go-to transportation service for business meetings.",
       avatar: "/assets/images/image1.png",
-      stars: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/group-19.png",
+      stars: <GoStarFill className="h-7 w-7" />,
     },
     {
       id: 3,
@@ -60,8 +61,8 @@ const Testimonial = () => {
       role: "Event Coordinator",
       content:
         "Reliable and trustworthy service. I've used them for multiple events and they never disappoint. The booking process is simple and the drivers are always on time.",
-      avatar: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/mask-group-10.png",
-      stars: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/group-19.png",
+      avatar: "/assets/images/sara.jpg",
+      stars: <GoStarFill className="h-7 w-7" />,
     },
     {
       id: 4,
@@ -70,7 +71,7 @@ const Testimonial = () => {
       content:
         "Excellent customer service and competitive pricing. The drivers are knowledgeable about local routes and always ensure a smooth journey. Highly recommended!",
       avatar: "/assets/images/image5.png",
-      stars: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/group-19.png",
+      stars: <GoStarFill className="h-7 w-7" />,
     },
     {
       id: 5,
@@ -79,7 +80,7 @@ const Testimonial = () => {
       content:
         "Professional, efficient, and reliable. I've been using this service for corporate events and personal travel. The quality of service is consistently excellent.",
       avatar: "/assets/images/image2.jpg",
-      stars: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/group-19.png",
+      stars: <GoStarFill className="h-7 w-7" />,
     },
   ];
 

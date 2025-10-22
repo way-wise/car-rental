@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { useState } from "react";
+import { BsShield } from "react-icons/bs";
+import { MdOutlineWatchLater } from "react-icons/md";
+import { SlBadge } from "react-icons/sl";
 import { TiStarFullOutline } from "react-icons/ti";
+
 const serviceCards = [
   {
     title: "Airport Pick & Drop",
@@ -49,18 +53,17 @@ const serviceCards = [
 ];
 const driverBadges = [
   {
-    icon: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/icon-14.svg",
+    icon: <MdOutlineWatchLater className="h-7 w-7" />,
     title: "20 Years",
     subtitle: "Experience",
   },
   {
-    icon: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/icon-7.svg",
+    icon: <SlBadge className="h-6 w-6" />,
     title: "Licensed",
     subtitle: "Professional",
   },
   {
-    icon: "https://c.animaapp.com/mgdxk0bzO3P1u7/img/icon-1.svg",
-    // icon: <Shield />,
+    icon: <BsShield className="h-6 w-6" />,
     title: "Insured &",
     subtitle: "Background Checked",
   },
@@ -86,7 +89,7 @@ const ServiceSection = () => {
               <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Service
               </h2>
-              <p className="mt-2 text-lg leading-relaxed font-normal tracking-[-0.50px] text-[#303740] md:px-6">
+              <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-black md:px-6">
                 Are you going to or from Los Angeles? We make every ride
                 comfortable and easy. We provide premium transportation services
                 in Los Angeles and surrounding cities, such as private airport
@@ -149,13 +152,7 @@ const ServiceSection = () => {
               {driverBadges.map((badge, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white">
-                    <Image
-                      className="h-5 w-5"
-                      alt={badge.title}
-                      src={badge.icon}
-                      width={20}
-                      height={20}
-                    />
+                    {badge.icon}
                   </div>
                   <div>
                     <div className="text-base leading-6 font-semibold tracking-[0] text-black">
@@ -169,19 +166,19 @@ const ServiceSection = () => {
               ))}
             </div>
 
-            <p className="text-center text-base leading-[25px] font-normal tracking-[0] text-[#303740]">
+            <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-black md:px-4">
               To make sure every journey is secure, comfortable, and punctual, I
-              personally oversee the majority of the journeys. I&apos;m delighted to
-              have a perfect record with no accidents over my more than 20 years
-              of professional driving experience in the U.S. and Canada. From
-              downtown to the airport and beyond, I am familiar with every road
-              in Los Angeles and the neighboring areas. Providing a smooth,
-              dependable, and stress-free trip is my constant goal, regardless
-                of whether you&apos;re booking a luxury SUV airport transfer, an
-              executive car service to LAX, or a private driver in Los Angeles.
-              My Escalade is always ready to go, clean, and well-maintained. I
-              swear to you that your comfort, safety, and time will always come
-              first.
+              personally oversee the majority of the journeys. I&apos;m
+              delighted to have a perfect record with no accidents over my more
+              than 20 years of professional driving experience in the U.S. and
+              Canada. From downtown to the airport and beyond, I am familiar
+              with every road in Los Angeles and the neighboring areas.
+              Providing a smooth, dependable, and stress-free trip is my
+              constant goal, regardless of whether you&apos;re booking a luxury
+              SUV airport transfer, an executive car service to LAX, or a
+              private driver in Los Angeles. My Escalade is always ready to go,
+              clean, and well-maintained. I swear to you that your comfort,
+              safety, and time will always come first.
             </p>
 
             <div className="relative h-[300px] w-full md:h-[400px]">
