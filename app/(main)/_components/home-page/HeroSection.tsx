@@ -24,7 +24,7 @@ const HeroSection = () => {
               Experience premium transportation across Los Angeles with our
               professional chauffeurs. We take pride in offering Executive Car
               Service to LAX, private airport transfers, and luxury SUV rides
-              that are always safe, comfortable, and on time
+              that are always safe, comfortable, and on time.
             </p>
             <BookingFormCard
               title="Reserve a Ride"
