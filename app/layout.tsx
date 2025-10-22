@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   },
   description:
     "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
+
   keywords: [
     "los angeles airport car service",
     "car rental",
@@ -38,11 +39,12 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com",
   ),
   alternates: {
-    canonical: "/",
+    canonical: process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com",
   },
   openGraph: {
     type: "website",

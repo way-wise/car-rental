@@ -89,7 +89,7 @@ const ServiceSection = () => {
               <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-black lg:text-5xl">
                 Service
               </h2>
-              <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-black md:px-6">
+              <p className="mt-2 text-lg leading-relaxed font-normal tracking-[-0.50px] text-[#303740] md:px-6">
                 Are you going to or from Los Angeles? We make every ride
                 comfortable and easy. We provide premium transportation services
                 in Los Angeles and surrounding cities, such as private airport
@@ -166,7 +166,7 @@ const ServiceSection = () => {
               ))}
             </div>
 
-            <p className="mt-2 text-xl leading-[30px] font-normal tracking-[-1.00px] text-black md:px-4">
+            <p className="text-center text-base leading-[25px] font-normal tracking-[0] text-[#303740]">
               To make sure every journey is secure, comfortable, and punctual, I
               personally oversee the majority of the journeys. I&apos;m
               delighted to have a perfect record with no accidents over my more

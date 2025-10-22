@@ -134,7 +134,10 @@ const Footer = () => {
           <p className="text-center text-sm leading-[30px] font-normal tracking-[-0.50px] text-[#7f7f7f]">
             © 2025 escalade4lax.com. All rights reserved. |{" "}
             <a href="/privacy-policy">Privacy Policy</a> |{" "}
-            <a href="/terms-of-service">Terms of Service</a>
+            <a href="/terms-of-service">Terms of Service</a> |{" "}
+            <a target="_blank" href="/sitemap.xml">
+              Sitemap
+            </a>
           </p>
         </div>
       </div>
