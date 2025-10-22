@@ -8,16 +8,11 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: [
-          "/",
-          "/about-us",
-          "/privacy-policy",
-          "/terms-of-service",
-          "/auth/sign-in",
-          "/auth/sign-up",
-        ],
+        allow: ["/", "/about-us", "/privacy-policy", "/terms-of-service"],
         disallow: [
           "/dashboard/",
+          "/auth/sign-in",
+          "/auth/sign-up",
           "/profile",
           "/booking-confirm",
           "/checkout",

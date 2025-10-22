@@ -17,8 +17,7 @@ const HeroSection = () => {
                 Executive Car Service lax
               </h1>
               <h2 className="text-3xl leading-tight font-semibold tracking-[-0.50px] text-white lg:text-4xl">
-                Executive Airport & City Rides in Los Angeles and Surrounding
-                Cities
+                Airport & City Rides in Los Angeles and Surrounding Cities
               </h2>
             </div>
             <p className="animate-fade-in text-lg leading-relaxed font-normal tracking-[-0.50px] text-white [--animation-delay:800ms]">
