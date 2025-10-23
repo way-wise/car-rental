@@ -3,28 +3,29 @@ import type { Metadata } from "next";
 import { BlogList } from "../_components/blogs/blog-list";
 
 async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
+  // Return empty data if no API URL is configured
+  if (!process.env.NEXT_PUBLIC_API_URL) {
+    return { blogs: [], total: 0 };
+  }
+
   try {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
-    const response = await fetch(`${baseUrl}/blogs/public?page=1&limit=6`, {});
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    const response = await fetch(`${baseUrl}/blogs/public?page=1&limit=6`, {
+      next: { revalidate: 60 }, // Cache for 1 minute
+    });
 
     if (!response.ok) {
-      console.error(
-        "Failed to fetch blogs:",
-        response.status,
-        response.statusText,
-      );
-      throw new Error("Failed to fetch blogs");
+      console.warn(`API returned ${response.status}: ${response.statusText}`);
+      return { blogs: [], total: 0 };
     }
 
     const data = await response.json();
-
     return {
       blogs: data.data || [],
-      total: data.meta?.total || 0,
+      total: data.meta?.total || data.data?.length || 0,
     };
   } catch (error) {
-    console.error("Error fetching initial blogs:", error);
+    // Silently handle fetch errors - the BlogList component will handle client-side fetching
     return { blogs: [], total: 0 };
   }
 }
