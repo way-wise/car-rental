@@ -72,13 +72,13 @@ const BlogsPage = async () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Our Blog",
+    name: "Luxury Car & Limo Service Blog ",
     description:
-      "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
+      "Explore travel tips, LAX airport guides, and insights on luxury limo and car services in Los Angeles. Stay updated with Escalade4LAX premium ride news",
     url: `${frontendUrl}/blogs`,
     publisher: {
       "@type": "Organization",
-      name: "Escalade4lax",
+      name: "Escalade4LAX Los Angeles",
       url: frontendUrl,
     },
     blogPost: blogs.map((blog) => ({
