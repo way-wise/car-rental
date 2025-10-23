@@ -25,7 +25,6 @@ async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
       total: data.meta?.total || data.data?.length || 0,
     };
   } catch (error) {
-    // Silently handle fetch errors - the BlogList component will handle client-side fetching
     return { blogs: [], total: 0 };
   }
 }

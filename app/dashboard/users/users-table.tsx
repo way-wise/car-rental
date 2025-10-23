@@ -61,7 +61,7 @@ export const UsersTable = () => {
   // Get users data
   const url = `/api/users?page=${pagination.pageIndex}&limit=${pagination.pageSize}${debouncedSearch.trim() ? `&search=${encodeURIComponent(debouncedSearch.trim())}` : ""}`;
   const { isValidating, data } = useSWR(url);
-  console.log(data);
+
   // Add User Form
   const addUserForm = useForm({
     resolver: yupResolver(signUpSchema),
