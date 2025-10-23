@@ -1,17 +1,16 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com";
+  const baseUrl = process.env.APP_URL || "https://escalade4lax.com";
 
   return {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/about-us", "/privacy-policy", "/terms-of-service"],
+        allow: ["/", "/blogs", "/privacy-policy", "/terms-of-service"],
         disallow: [
           "/dashboard/",
-          "/auth/sign-in",
-          "/auth/sign-up",
+          "/auth/",
           "/profile",
           "/booking-confirm",
           "/checkout",
