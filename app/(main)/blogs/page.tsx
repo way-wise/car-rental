@@ -29,38 +29,11 @@ async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
   }
 }
 
-// SEO Metadata
+// Simple Metadata
 export const metadata: Metadata = {
-  title: "Our Blog | Latest News, Tips & Insights",
+  title: "Luxury Car & Limo Service Blog ",
   description:
-    "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
-  keywords: [
-    "blog",
-    "news",
-    "tips",
-    "insights",
-    "car rental",
-    "transportation",
-    "travel",
-    "guide",
-    "industry news",
-  ],
-  openGraph: {
-    title: "Our Blog | Latest News, Tips & Insights",
-    description:
-      "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
-    type: "website",
-    url: "/blogs",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Our Blog | Latest News, Tips & Insights",
-    description:
-      "Stay updated with the latest news, tips, and insights from our team. Discover expert advice, industry trends, and helpful guides.",
-  },
-  alternates: {
-    canonical: "/blogs",
-  },
+    "Explore travel tips, LAX airport guides, and insights on luxury limo and car services in Los Angeles. Stay updated with Escalade4LAX premium ride news",
 };
 
 const BlogsPage = async () => {
