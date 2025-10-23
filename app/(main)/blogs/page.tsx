@@ -65,8 +65,7 @@ export const metadata: Metadata = {
 
 const BlogsPage = async () => {
   const { blogs, total } = await getInitialBlogs();
-  const baseUrl =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+  const baseUrl = process.env.APP_URL || "https://escalade4lax.com";
   const frontendUrl = baseUrl.replace("/api", "");
 
   // Structured data for blog collection
@@ -79,7 +78,7 @@ const BlogsPage = async () => {
     url: `${frontendUrl}/blogs`,
     publisher: {
       "@type": "Organization",
-      name: "Way-Wise Car Rental",
+      name: "Escalade4lax",
       url: frontendUrl,
     },
     blogPost: blogs.map((blog) => ({

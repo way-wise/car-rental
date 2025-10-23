@@ -50,7 +50,7 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com";
+  const baseUrl = process.env.APP_URL || "https://escalade4lax.com";
   const blogUrl = `${baseUrl}/blogs/${blog.slug}`;
 
   // Filter out undefined tags
