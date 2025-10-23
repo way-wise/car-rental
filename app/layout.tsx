@@ -41,15 +41,15 @@ export const metadata: Metadata = {
   },
 
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com",
+    process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com",
   ),
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com",
+    canonical: process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com",
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com",
+    url: process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com",
     siteName: "Escalade4lax",
     title: "Escalade4lax - Executive Car Service lax",
     description:

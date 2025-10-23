@@ -45,8 +45,7 @@ function getAllImages(dirPath: string, baseUrl: string): string[] {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com";
   const currentDate = new Date().toISOString();
 
   const publicDir = join(process.cwd(), "public");

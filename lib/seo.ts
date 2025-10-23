@@ -21,8 +21,7 @@ export interface SEOConfig {
 }
 
 export function generateMetadata(config: SEOConfig): Metadata {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com";
 
   return {
     title: config.title,
@@ -65,9 +64,9 @@ export function generateStructuredData() {
     name: "Escalade4lax",
     description:
       "Professional car rental service with premium vehicles. Book your ride with Escalade4lax for reliable, comfortable, and affordable transportation solutions.",
-    url: process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com",
-    logo: `${process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com"}/logo.png`,
-    image: `${process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com"}/logo.png`,
+    url: process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com",
+    logo: `${process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com"}/logo.png`,
+    image: `${process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com"}/logo.png`,
     telephone: process.env.NEXT_PUBLIC_PHONE || "+1-XXX-XXX-XXXX",
     email: process.env.NEXT_PUBLIC_EMAIL || "info@escalade4lax.com",
     address: {
@@ -169,7 +168,7 @@ export function generateBreadcrumbStructuredData(
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `${process.env.NEXT_PUBLIC_BASE_URL || "https://escalade4lax.com"}${item.url}`,
+      item: `${process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com"}${item.url}`,
     })),
   };
 }

@@ -50,10 +50,8 @@ export async function generateMetadata({
     };
   }
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
-  const frontendUrl = baseUrl.replace("/api", "");
-  const blogUrl = `${frontendUrl}/blogs/${blog.slug}`;
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com";
+  const blogUrl = `${baseUrl}/blogs/${blog.slug}`;
 
   // Filter out undefined tags
   const validTags =
@@ -109,10 +107,8 @@ const BlogDetailPage = async ({ params }: BlogDetailPageProps) => {
     notFound();
   }
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
-  const frontendUrl = baseUrl.replace("/api", "");
-  const blogUrl = `${frontendUrl}/blogs/${blog.slug}`;
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://escalade4lax.com";
+  const blogUrl = `${baseUrl}/blogs/${blog.slug}`;
 
   // Filter out undefined tags
   const validTags =
@@ -132,7 +128,7 @@ const BlogDetailPage = async ({ params }: BlogDetailPageProps) => {
     publisher: {
       "@type": "Organization",
       name: "Way-Wise Car Rental",
-      url: frontendUrl,
+      url: baseUrl,
     },
     datePublished: blog.publishedAt || blog.createdAt,
     dateModified: blog.updatedAt,

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "prisma generate && next build",
+    "dev-build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test:seo": "node scripts/test-seo.js"
