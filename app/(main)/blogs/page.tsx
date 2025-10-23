@@ -29,11 +29,37 @@ async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
   }
 }
 
-// Simple Metadata
+// SEO Metadata
 export const metadata: Metadata = {
-  title: "Luxury Car & Limo Service Blog ",
+  title: "Luxury Car & Limo Service Blog | Escalade4LAX Los Angeles",
   description:
     "Explore travel tips, LAX airport guides, and insights on luxury limo and car services in Los Angeles. Stay updated with Escalade4LAX premium ride news",
+  keywords: [
+    "blog",
+    "travel tips",
+    "LAX airport guides",
+    "Los Angeles",
+    "LAX airport",
+    "luxury limo service",
+    "car service Los Angeles",
+    "Escalade4LAX",
+  ],
+  openGraph: {
+    title: "Luxury Car & Limo Service Blog | Escalade4LAX Los Angeles",
+    description:
+      "Explore travel tips, LAX airport guides, and insights on luxury limo and car services in Los Angeles. Stay updated with Escalade4LAX premium ride news",
+    type: "website",
+    url: "/blogs",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Luxury Car & Limo Service Blog | Escalade4LAX Los Angeles",
+    description:
+      "Explore travel tips, LAX airport guides, and insights on luxury limo and car services in Los Angeles. Stay updated with Escalade4LAX premium ride news",
+  },
+  alternates: {
+    canonical: "/blogs",
+  },
 };
 
 const BlogsPage = async () => {
