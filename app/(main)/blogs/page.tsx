@@ -18,7 +18,7 @@ async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
     }
 
     const data = await response.json();
-    console.log("Initial blogs data:", data);
+
     return {
       blogs: data.data || [],
       total: data.meta?.total || 0,

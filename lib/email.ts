@@ -31,8 +31,6 @@ transporter.verify((error) => {
     console.error("❌ SMTP connection failed:", error.message);
     console.error("Please check your email configuration in .env file");
   } else {
-    console.log("✅ SMTP connection verified successfully");
-    console.log(`📧 Emails will be sent from: ${process.env.EMAIL_FROM}`);
     if (process.env.SMTP_HOST?.includes("mailtrap")) {
       console.log(
         "⚠️  Using Mailtrap - emails won't reach real inboxes (testing mode)",
