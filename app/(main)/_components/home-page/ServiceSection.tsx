@@ -75,7 +75,7 @@ const ServiceSection = () => {
   return (
     <section
       id="services"
-      className={`relative bg-[url(/assets/images/service-bg.png)] bg-cover bg-center`}
+      className={`relative bg-[url(/assets/images/airport-transfer-LA.png)] bg-cover bg-center`}
     >
       {/* Overlay with low opacity */}
       <div className="absolute inset-0 z-5 bg-[#EAEEEF]/80"></div>
@@ -185,7 +185,7 @@ const ServiceSection = () => {
               <Image
                 className="h-[300px] w-full md:h-[400px]"
                 alt="Driver"
-                src="/assets/images/driver.png"
+                src="/assets/images/Seung-Lee-Best-car-service-LAX.png"
                 width={400}
                 height={400}
                 unoptimized

@@ -54,7 +54,7 @@ const FaqSection = () => {
   return (
     <section
       id="faq"
-      className="relative w-full overflow-hidden bg-[url(/assets/images/faq-bg.png)] bg-cover bg-fixed bg-center"
+      className="relative w-full overflow-hidden bg-[url(/assets/images/luxury-SUV-service-Los-Angeles.png)] bg-cover bg-fixed bg-center"
     >
       {/* Background Images */}
       <div className="absolute inset-0 bg-black/80"></div>

@@ -5,7 +5,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className={`min-h-screen bg-[url(/assets/images/hero-bg.png)] bg-cover bg-center pt-30 pb-20`}
+      className={`min-h-screen bg-[url(/assets/images/limo-service-Los-Angeles.png)] bg-cover bg-center pt-30 pb-20`}
     >
       {/* Content Container */}
       <div className="container py-0">

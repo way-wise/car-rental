@@ -11,9 +11,18 @@ import { useState } from "react";
 const CarPlan = () => {
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const carImages = [
-    "/assets/images/inside.png",
-    "/assets/images/Black1.png",
-    "/assets/images/image11.png",
+    {
+      image: "/assets/images/limo-rental-Los-Angeles.png",
+      alt: "limo-rental-Los-Angeles",
+    },
+    {
+      image: "/assets/images/www.escalade4lax.com.png",
+      alt: "www.escalade4lax.com",
+    },
+    {
+      image: "/assets/images/best-private-limo-service-in-Los-Angele.png",
+      alt: "best-private-limo-service-in-Los-Angele",
+    },
   ];
   const pricingPlans = [
     {
@@ -87,7 +96,7 @@ const CarPlan = () => {
   return (
     <section
       id="pricing"
-      className="relative w-full overflow-hidden bg-[url(/assets/images/plan-bg.png)] bg-cover bg-center"
+      className="relative w-full overflow-hidden bg-[url(/assets/images/car-service-Los-Angeles.png)] bg-cover bg-center"
     >
       {/* Background Image */}
       <div className="absolute inset-0 z-5 bg-white/80"></div>
@@ -117,8 +126,8 @@ const CarPlan = () => {
                 >
                   <Image
                     className="h-full w-full object-cover"
-                    alt={`Car ${index + 1}`}
-                    src={image}
+                    alt={image.alt}
+                    src={image.image}
                     width={400}
                     height={250}
                   />

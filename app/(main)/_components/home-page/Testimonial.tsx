@@ -43,7 +43,8 @@ const Testimonial = () => {
       role: "Marketing Director",
       content:
         "I have been using this service for over a year now. The consistency and quality are unmatched. John is courteous, knowledgeable about the area, and always makes the ride comfortable.",
-      avatar: "/assets/images/fidden1.png",
+      avatar: "/assets/images/Jack-luxury-SUV-service-Los-Angeles.png",
+      alt: "Jack-luxury-SUV-service-Los-Angeles",
       stars: <GoStarFill className="h-7 w-7" />,
     },
     {
@@ -52,7 +53,8 @@ const Testimonial = () => {
       role: "Business Executive",
       content:
         "Outstanding service! The drivers are professional, punctual, and the vehicles are always clean and comfortable. This has become my go-to transportation service for business meetings.",
-      avatar: "/assets/images/image1.png",
+      avatar: "/assets/images/Danny-private-car-service-LAX.jpg",
+      alt: "Danny-private-car-service-LAX",
       stars: <GoStarFill className="h-7 w-7" />,
     },
     {
@@ -62,6 +64,7 @@ const Testimonial = () => {
       content:
         "Reliable and trustworthy service. I've used them for multiple events and they never disappoint. The booking process is simple and the drivers are always on time.",
       avatar: "/assets/images/sara.jpg",
+      alt: "sara",
       stars: <GoStarFill className="h-7 w-7" />,
     },
     {
@@ -70,7 +73,8 @@ const Testimonial = () => {
       role: "Travel Consultant",
       content:
         "Excellent customer service and competitive pricing. The drivers are knowledgeable about local routes and always ensure a smooth journey. Highly recommended!",
-      avatar: "/assets/images/image5.png",
+      avatar: "/assets/images/fidden-executive-car-services.png",
+      alt: "fidden-executive-car-services",
       stars: <GoStarFill className="h-7 w-7" />,
     },
     {
@@ -79,7 +83,9 @@ const Testimonial = () => {
       role: "Corporate Manager",
       content:
         "Professional, efficient, and reliable. I've been using this service for corporate events and personal travel. The quality of service is consistently excellent.",
-      avatar: "/assets/images/image2.jpg",
+
+      avatar: "/assets/images/Zara -Best-LAX-airport-limo-service.png",
+      alt: "Zara -Best-LAX-airport-limo-service",
       stars: <GoStarFill className="h-7 w-7" />,
     },
   ];
@@ -110,7 +116,7 @@ const Testimonial = () => {
   return (
     <section
       id="about-driver"
-      className="relative w-full overflow-hidden bg-[url(/assets/images/testimonial.png)] bg-cover bg-center"
+      className="relative w-full overflow-hidden bg-[url(/assets/images/executive-car-service-LAX.png)] bg-cover bg-center"
     >
       {/* Overlay with low opacity */}
       <div className="absolute inset-0 z-5 bg-black/80"></div>
@@ -156,7 +162,7 @@ const Testimonial = () => {
                             <div className="mb-4 flex items-center gap-5">
                               <Image
                                 className="h-16 w-16 rounded-full"
-                                alt={testimonial.name}
+                                alt={testimonial.alt}
                                 src={testimonial.avatar}
                                 width={64}
                                 height={64}
