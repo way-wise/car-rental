@@ -1,6 +1,3 @@
-// import type { NextConfig } from "next";
-
-// const nextConfig: NextConfig = {};
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
@@ -16,6 +13,30 @@ const nextConfig = {
         hostname: "**",
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*).(png|jpg|jpeg|webp|gif|svg|avif)",
+        headers: [
+          { key: "Content-Disposition", value: "inline" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/images/:path*",
+        headers: [
+          { key: "Content-Disposition", value: "inline" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
   },
 };
 
