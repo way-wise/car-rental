@@ -37,7 +37,7 @@ const CarPlan = () => {
       ),
       description:
         "One-way transfer from any major California airport to your home",
-      price: "$98",
+      price: " From $98",
       priceUnit: "",
       features: [
         "Flight tracking included",
@@ -61,7 +61,7 @@ const CarPlan = () => {
       ),
       description:
         "Professional transportation for your daily office commute. Comfortable and punctual service",
-      price: "$98",
+      price: "From $98",
       priceUnit: "",
       features: [
         "Punctual pickup guarantee",
@@ -81,7 +81,7 @@ const CarPlan = () => {
       ),
       description:
         "Explore California cities with our hourly rental service. Perfect for meetings and sightseeing",
-      price: "$140",
+      price: " $140",
       priceUnit: "/hour",
       features: [
         "Minimum 2-hour booking",
