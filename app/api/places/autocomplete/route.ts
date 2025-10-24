@@ -15,8 +15,9 @@ export async function GET(request: NextRequest) {
     // Use the provided Google Maps API key
     const apiKey = "AIzaSyC8Rj8qqv9kn2FGTtALwhwpe_GPmhJfP8s";
 
-    // Google Places Autocomplete API
-    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}&types=establishment|geocode&components=country:us&region=us`;
+    // Google Places Autocomplete API - Remove types restriction for more locations
+    // Add location bias to center of US for better results
+    const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}&components=country:us&region=us&location=39.8283,-98.5795&radius=2000000`;
 
     const response = await fetch(url);
     const data = await response.json();
@@ -28,18 +29,21 @@ export async function GET(request: NextRequest) {
 
     // Transform the response to match our interface
     const predictions =
-      data.predictions?.map((prediction: {
-        place_id: string;
-        description: string;
-        structured_formatting?: { main_text: string };
-        types?: string[];
-      }) => ({
-        place_id: prediction.place_id,
-        description: prediction.description,
-        formatted_address:
-          prediction.structured_formatting?.main_text || prediction.description,
-        types: prediction.types || [],
-      })) || [];
+      data.predictions?.map(
+        (prediction: {
+          place_id: string;
+          description: string;
+          structured_formatting?: { main_text: string };
+          types?: string[];
+        }) => ({
+          place_id: prediction.place_id,
+          description: prediction.description,
+          formatted_address:
+            prediction.structured_formatting?.main_text ||
+            prediction.description,
+          types: prediction.types || [],
+        }),
+      ) || [];
 
     return NextResponse.json({ predictions });
   } catch (error) {

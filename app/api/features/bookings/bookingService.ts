@@ -1,12 +1,7 @@
 import { emailEvents, EmailEventType } from "@/app/api/lib/events/email_event";
 import { getPaginationQuery } from "@/app/api/lib/pagination";
 import prisma from "@/lib/prisma";
-import {
-  createAndConfirmPaymentIntent,
-  createPaymentIntent,
-  getOrCreateStripeCustomer,
-  stripe,
-} from "@/lib/stripe";
+import { stripe } from "@/lib/stripe";
 import type { PaginationQuery } from "@/schema/paginationSchema";
 import { hashPassword } from "better-auth/crypto";
 import { HTTPException } from "hono/http-exception";
@@ -489,23 +484,7 @@ export const bookingService = {
       });
     }
 
-    // Step 2: Get or create Stripe customer
-    const stripeCustomerId = await getOrCreateStripeCustomer(
-      user.id,
-      user.email,
-      user.name || user.email.split("@")[0],
-      user.stripeCustomerId,
-    );
-
-    // Update user with Stripe customer ID if it was just created
-    if (!user.stripeCustomerId) {
-      await prisma.users.update({
-        where: { id: user.id },
-        data: { stripeCustomerId },
-      });
-    }
-
-    // Step 3: Calculate dynamic pricing based on distance
+    // Step 2: Calculate dynamic pricing based on distance
     const distanceInfo = await distanceService.calculateDistanceWithPricing({
       pickupLocation,
       dropLocation,
@@ -513,7 +492,7 @@ export const bookingService = {
 
     const dynamicAmount = distanceInfo.pricing.calculatedPrice;
 
-    // Step 4: Create booking record with dynamic amount
+    // Step 3: Create booking record with dynamic amount
     const bookingDate = new Date(date);
     const booking = await prisma.bookings.create({
       data: {
@@ -543,122 +522,46 @@ export const bookingService = {
       },
     });
 
-    // Step 5: Handle payment based on whether user has saved payment method
-    let paymentIntent;
-    let instantPayment = false;
+    // Step 4: Send booking confirmation emails immediately
+    const bookingDetails = {
+      bookingId: booking.id,
+      userName: user.name,
+      userPhone: user.phone,
+      userEmail: user.email,
+      pickupLocation: booking.pickupLocation,
+      dropLocation: booking.dropLocation,
+      bookingDate: booking.bookingDate.toISOString(),
+      bookingTime: booking.bookingTime,
+      amount: booking.amount,
+    };
 
-    if (user.defaultPaymentMethod) {
-      // User has saved payment method - charge instantly (off-session)
-      try {
-        paymentIntent = await createAndConfirmPaymentIntent(
-          booking.amount,
-          "usd",
-          stripeCustomerId,
-          booking.id,
-          user.defaultPaymentMethod,
-        );
+    // Emit email events
+    emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_USER, {
+      email: user.email,
+      bookingDetails,
+    });
 
-        // Check if payment succeeded
-        if (paymentIntent.status === "succeeded") {
-          instantPayment = true;
+    emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_ADMIN, {
+      bookingDetails,
+    });
 
-          // Update booking with payment status
-          await prisma.bookings.update({
-            where: { id: booking.id },
-            data: {
-              stripePaymentIntentId: paymentIntent.id,
-              paymentStatus: "succeeded",
-            },
-          });
-
-          // Send booking confirmation emails
-          const bookingDetails = {
-            bookingId: booking.id,
-            userName: user.name,
-            userPhone: user.phone,
-            userEmail: user.email,
-            pickupLocation: booking.pickupLocation,
-            dropLocation: booking.dropLocation,
-            bookingDate: booking.bookingDate.toISOString(),
-            bookingTime: booking.bookingTime,
-            amount: booking.amount,
-          };
-
-          // Emit email events
-          emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_USER, {
-            email: user.email,
-            bookingDetails,
-          });
-
-          emailEvents.emit(EmailEventType.BOOKING_CONFIRMATION_ADMIN, {
-            bookingDetails,
-          });
-
-          // Return success without clientSecret
-          return {
-            success: true,
-            instantPayment: true,
-            paymentStatus: "succeeded",
-            bookingId: booking.id,
-            booking: {
-              id: booking.id,
-              pickupLocation: booking.pickupLocation,
-              dropLocation: booking.dropLocation,
-              bookingDate: booking.bookingDate,
-              bookingTime: booking.bookingTime,
-              distance: booking.distance,
-              duration: booking.duration,
-              amount: booking.amount,
-              paymentStatus: "succeeded" as const,
-              bookingStatus: booking.bookingStatus,
-            },
-          };
-        }
-      } catch (error: unknown) {
-        console.error("Off-session payment failed:", error);
-        // Fall back to normal flow if saved card fails
-        // (card may be expired, insufficient funds, etc.)
-      }
-    }
-
-    // If no saved payment method OR saved payment failed, use normal flow
-    if (!instantPayment) {
-      paymentIntent = await createPaymentIntent(
-        booking.amount,
-        "usd",
-        stripeCustomerId,
-        booking.id,
-        undefined, // Don't use saved method if it failed
-      );
-
-      // Update booking with payment intent ID
-      await prisma.bookings.update({
-        where: { id: booking.id },
-        data: {
-          stripePaymentIntentId: paymentIntent.id,
-        },
-      });
-
-      // Return client secret for user to enter card
-      return {
-        success: true,
-        instantPayment: false,
-        clientSecret: paymentIntent.client_secret,
-        bookingId: booking.id,
-        booking: {
-          id: booking.id,
-          pickupLocation: booking.pickupLocation,
-          dropLocation: booking.dropLocation,
-          bookingDate: booking.bookingDate,
-          bookingTime: booking.bookingTime,
-          distance: booking.distance,
-          duration: booking.duration,
-          amount: booking.amount,
-          paymentStatus: booking.paymentStatus,
-          bookingStatus: booking.bookingStatus,
-        },
-      };
-    }
+    // Return success response
+    return {
+      success: true,
+      bookingId: booking.id,
+      booking: {
+        id: booking.id,
+        pickupLocation: booking.pickupLocation,
+        dropLocation: booking.dropLocation,
+        bookingDate: booking.bookingDate,
+        bookingTime: booking.bookingTime,
+        distance: booking.distance,
+        duration: booking.duration,
+        amount: booking.amount,
+        paymentStatus: booking.paymentStatus,
+        bookingStatus: booking.bookingStatus,
+      },
+    };
   },
 
   // Confirm booking after successful payment

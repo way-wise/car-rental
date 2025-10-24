@@ -120,7 +120,7 @@ export default function BookingConfirmPage() {
       // Prepare booking data with distance and duration
       const bookingData = {
         ...bookingDetails,
-        distance: distanceInfo ? distanceInfo.distance.value / 1000 : undefined, // Convert meters to kilometers
+        distance: distanceInfo ? distanceInfo.distance.value / 5280 : undefined, // Convert feet to miles
         duration: distanceInfo ? distanceInfo.duration.value / 60 : undefined, // Convert seconds to minutes
       };
 
@@ -138,28 +138,13 @@ export default function BookingConfirmPage() {
         // Clear pending booking from session storage
         sessionStorage.removeItem("pending_booking");
 
-        // Check if payment was instant (saved card charged)
-        if (data.instantPayment && data.paymentStatus === "succeeded") {
-          toast.success(
-            "Booking confirmed! Payment processed with your saved card.",
-          );
-          // Redirect to success page
-          router.push(`/payment-success?bookingId=${data.bookingId}`);
-        } else {
-          // Normal flow - need to collect payment
-          toast.success("Booking created! Redirecting to payment...");
+        // Booking confirmed successfully
+        toast.success(
+          "Booking confirmed! You will receive a confirmation email shortly.",
+        );
 
-          // Store booking details in session storage for checkout page
-          sessionStorage.setItem(
-            `booking_${data.bookingId}`,
-            JSON.stringify(data.booking),
-          );
-
-          // Navigate to checkout page with booking ID and client secret
-          router.push(
-            `/checkout?bookingId=${data.bookingId}&clientSecret=${data.clientSecret}`,
-          );
-        }
+        // Redirect to profile page
+        router.push("/profile");
       } else {
         toast.error(data.error || "Failed to create booking");
       }
@@ -292,16 +277,16 @@ export default function BookingConfirmPage() {
             <div className="flex items-start gap-x-4 sm:gap-x-12">
               <div className="flex w-full items-start gap-3 sm:w-1/2">
                 <Route className="mt-1 h-5 w-5 text-muted-foreground" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium">Distance & Duration</p>
+                <div className="flex flex-1 items-center gap-6">
+                  <p className="text-xl font-medium">Distance :</p>
                   {isLoadingDistance ? (
                     <p className="text-sm text-muted-foreground">
                       Calculating...
                     </p>
                   ) : distanceInfo ? (
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-xl font-semibold text-black">
                       <p>{distanceInfo.distance.text}</p>
-                      <p>{distanceInfo.duration.text}</p>
+                      {/* <p>{distanceInfo.duration.text}</p> */}
                     </div>
                   ) : (
                     <p className="text-sm text-muted-foreground">
@@ -311,7 +296,7 @@ export default function BookingConfirmPage() {
                 </div>
               </div>
 
-              {distanceInfo && (
+              {/* {distanceInfo && (
                 <div className="flex w-full items-start gap-3 sm:w-1/2">
                   <div className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
                     <span className="text-xs font-bold text-white">$</span>
@@ -328,7 +313,13 @@ export default function BookingConfirmPage() {
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
+            </div>
+            <div className="pt-4 text-center text-lg">
+              <p>
+                Please confirm the booking, An Agent will call you within 30
+                minutes.
+              </p>
             </div>
           </div>
 

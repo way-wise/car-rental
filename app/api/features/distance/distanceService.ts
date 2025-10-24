@@ -49,7 +49,7 @@ export const distanceService = {
       // Google Distance Matrix API
       const origins = encodeURIComponent(pickupLocation);
       const destinations = encodeURIComponent(dropLocation);
-      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origins}&destinations=${destinations}&units=metric&key=${apiKey}`;
+      const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${origins}&destinations=${destinations}&units=imperial&key=${apiKey}`;
 
       const response = await fetch(url);
       const data = await response.json();
@@ -107,13 +107,13 @@ export const distanceService = {
   }): Promise<DistanceWithPricing> => {
     const distanceInfo = await distanceService.calculateDistance(data);
 
-    // Convert meters to kilometers and seconds to hours
-    const distanceKm = distanceInfo.distance.value / 1000;
+    // Convert feet to miles and seconds to hours
+    const distanceMiles = distanceInfo.distance.value / 5280; // Convert feet to miles
     const durationHours = distanceInfo.duration.value / 3600;
 
     // Calculate pricing
     const pricing = await settingsService.calculatePrice(
-      distanceKm,
+      distanceMiles,
       durationHours,
     );
 

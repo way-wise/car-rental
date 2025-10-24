@@ -136,7 +136,7 @@ export const BookingFormCard = ({
               <div className="mb-2 flex items-center gap-2">
                 <ClockIcon className="h-4 w-4 text-white" />
                 <label className="text-base leading-[normal] font-normal tracking-[0] text-white">
-                  Time
+                  Pickup Time
                 </label>
               </div>
               <TimePicker

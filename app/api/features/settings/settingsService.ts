@@ -95,13 +95,15 @@ export const settingsService = {
   },
 
   // Calculate price based on distance/duration and current settings
-  calculatePrice: async (distanceKm: number, durationHours: number) => {
+  calculatePrice: async (distanceMiles: number, durationHours: number) => {
     const settings = await settingsService.getSettings();
 
     let calculatedPrice = settings.basePrice;
 
     if (settings.pricingType === "kilometer") {
       if (settings.pricePerKilometer) {
+        // Convert miles to kilometers for pricing calculation
+        const distanceKm = distanceMiles * 1.60934;
         calculatedPrice += distanceKm * settings.pricePerKilometer;
       }
     } else if (settings.pricingType === "hour") {
