@@ -304,25 +304,6 @@ export default function BookingConfirmPage() {
                   )}
                 </div>
               </div>
-
-              {/* {distanceInfo && (
-                <div className="flex w-full items-start gap-3 sm:w-1/2">
-                  <div className="mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-green-500">
-                    <span className="text-xs font-bold text-white">$</span>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium"> Amount</p>
-                    <div className="text-lg text-muted-foreground">
-                      <p className="font-semibold text-green-600">
-                        $
-                        {(distanceInfo.pricing.calculatedPrice / 100).toFixed(
-                          2,
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )} */}
             </div>
             <div className="pt-4 text-center text-lg">
               <p>
