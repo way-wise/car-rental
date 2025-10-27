@@ -76,6 +76,7 @@ export async function sendBookingConfirmationToUser(
     bookingDate: string;
     bookingTime: string;
     amount: number;
+    distance: string;
   },
 ) {
   const {
@@ -87,6 +88,7 @@ export async function sendBookingConfirmationToUser(
     bookingDate,
     bookingTime,
     amount,
+    distance,
   } = bookingDetails;
   const formattedAmount = (amount / 100).toFixed(2);
   const formattedDate = new Date(bookingDate).toLocaleDateString("en-US", {
@@ -99,19 +101,20 @@ export async function sendBookingConfirmationToUser(
   await transporter.sendMail({
     from: process.env.EMAIL_FROM!,
     to,
-    subject: "Booking Confirmation - Escalade4lax",
+    subject: "Booking Request - Escalade4lax",
     text: `
 Hello ${userName},
 
-Your booking has been confirmed!
+Your booking has been requested! Please wait for the agent to call you within 30 minutes.
 
 Booking Details:
 - Booking ID: ${bookingId}
 - Pickup Location: ${pickupLocation}
 - Drop-off Location: ${dropLocation}
 - Date: ${formattedDate}
-- Time: ${bookingTime}
-- Amount Paid: $${formattedAmount}
+- Pickup Time: ${bookingTime}
+- Distance: ${distance}
+
 ${userPhone ? `- Phone: ${userPhone}` : ""}
 
 Thank you for choosing Escalade4lax!
@@ -122,7 +125,7 @@ Escalade4lax Team
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9fafb;">
         <div style="background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <h2 style="color: #0070f3; margin-bottom: 20px;">🎉 Booking Confirmed!</h2>
+          <h2 style="color: #0070f3; margin-bottom: 20px;">🎉 Booking Requested!</h2>
           
           <p style="color: #374151; font-size: 16px; margin-bottom: 20px;">
             Hello <strong>${userName}</strong>,
@@ -130,7 +133,7 @@ Escalade4lax Team
           ${userPhone ? `<p style="color: #374151; font-size: 14px; margin-bottom: 10px;">Phone: <strong>${userPhone}</strong></p>` : ""}
           
           <p style="color: #374151; font-size: 16px; margin-bottom: 30px;">
-            Your booking has been successfully confirmed. Here are your booking details:
+            Your booking has been successfully requested. Please wait for the agent to call you within 30 minutes. Here are your booking details:
           </p>
 
           <div style="background-color: #f3f4f6; border-radius: 6px; padding: 20px; margin-bottom: 30px;">
@@ -152,13 +155,14 @@ Escalade4lax Team
                 <td style="padding: 8px 0; color: #111827; font-weight: 500;">${formattedDate}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Time:</td>
+                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"> Pickup Time:</td>
                 <td style="padding: 8px 0; color: #111827; font-weight: 500;">${bookingTime}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Paid:</td>
-                <td style="padding: 8px 0; color: #059669; font-weight: 700; font-size: 18px;">$${formattedAmount}</td>
+                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"> Distance:</td>
+                <td style="padding: 8px 0; color: #111827; font-weight: 500;">${distance}</td>
               </tr>
+          
             </table>
           </div>
 
@@ -194,6 +198,7 @@ export async function sendBookingConfirmationToAdmin(bookingDetails: {
   bookingDate: string;
   bookingTime: string;
   amount: number;
+  distance: string;
 }) {
   const {
     bookingId,
@@ -205,6 +210,7 @@ export async function sendBookingConfirmationToAdmin(bookingDetails: {
     bookingDate,
     bookingTime,
     amount,
+    distance,
   } = bookingDetails;
   const formattedAmount = (amount / 100).toFixed(2);
   const formattedDate = new Date(bookingDate).toLocaleDateString("en-US", {
@@ -214,7 +220,7 @@ export async function sendBookingConfirmationToAdmin(bookingDetails: {
     day: "numeric",
   });
 
-  const adminEmail = process.env.ADMIN_EMAIL || "akmsakilsagor110@gmail.com";
+  const adminEmail = process.env.ADMIN_EMAIL || "seung@waywise.pro";
 
   await transporter.sendMail({
     from: process.env.EMAIL_FROM!,
@@ -235,8 +241,8 @@ Booking Details:
 - Pickup Location: ${pickupLocation}
 - Drop-off Location: ${dropLocation}
 - Date: ${formattedDate}
-- Time: ${bookingTime}
-- Amount: $${formattedAmount}
+- Pickup Time: ${bookingTime}
+- Distance: ${distance}
 
 Please review and process this booking.
     `,

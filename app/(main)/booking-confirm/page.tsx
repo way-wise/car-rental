@@ -71,7 +71,7 @@ export default function BookingConfirmPage() {
         });
 
         const data = await response.json();
-
+        console.log(data);
         if (data.success) {
           setDistanceInfo({
             distance: data.distance,

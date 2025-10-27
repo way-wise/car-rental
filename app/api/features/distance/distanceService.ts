@@ -4,7 +4,7 @@ import { settingsService } from "../settings/settingsService";
 export interface DistanceInfo {
   distance: {
     text: string;
-    value: number; // in meters
+    value: number; // in miles
   };
   duration: {
     text: string;
@@ -53,7 +53,7 @@ export const distanceService = {
 
       const response = await fetch(url);
       const data = await response.json();
-
+      console.log("data", data);
       if (data.status !== "OK") {
         console.error("Google Distance Matrix API error:", data);
         throw new HTTPException(500, {
@@ -78,13 +78,26 @@ export const distanceService = {
       const distance = element.distance;
       const duration = element.duration;
 
+      // Convert feet to miles (5280 feet = 1 mile)
+      const distanceMiles = distance.value / 5280;
+
+      // Replace "mi" with "miles" in the text
+      const distanceText = distance.text.replace(/\bmi\b/g, "miles");
+
+      // Replace "hrs" or "hr" with "hours" in duration text
+      const durationText = duration.text
+        .replace(/\bhrs\b/g, "hours")
+        .replace(/\bhr\b/g, "hours")
+        .replace(/\bmins\b/g, "minutes")
+        .replace(/\bmin\b/g, "minutes");
+
       return {
         distance: {
-          text: distance.text,
-          value: distance.value, // in meters
+          text: distanceText,
+          value: distanceMiles, // in miles
         },
         duration: {
-          text: duration.text,
+          text: durationText,
           value: duration.value, // in seconds
         },
       };
@@ -107,9 +120,9 @@ export const distanceService = {
   }): Promise<DistanceWithPricing> => {
     const distanceInfo = await distanceService.calculateDistance(data);
 
-    // Convert feet to miles and seconds to hours
-    const distanceMiles = distanceInfo.distance.value / 5280; // Convert feet to miles
-    const durationHours = distanceInfo.duration.value / 3600;
+    // Convert seconds to hours
+    const distanceMiles = distanceInfo.distance.value; // already in miles
+    const durationHours = distanceInfo.duration.value / 3600; // convert seconds to hours
 
     // Calculate pricing
     const pricing = await settingsService.calculatePrice(
