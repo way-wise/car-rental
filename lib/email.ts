@@ -252,7 +252,7 @@ Please review and process this booking.
           <h2 style="color: #059669; margin-bottom: 20px;">📋 New Booking Received</h2>
           
           <p style="color: #374151; font-size: 16px; margin-bottom: 20px;">
-            A new booking has been received and payment has been confirmed.
+            A new booking has been received and is pending confirmation.
           </p>
 
           <div style="background-color: #dbeafe; border-radius: 6px; padding: 20px; margin-bottom: 20px;">
@@ -293,16 +293,16 @@ Please review and process this booking.
                 <td style="padding: 8px 0; color: #111827; font-weight: 500;">${dropLocation}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Date:</td>
+                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"> Pickup Date:</td>
                 <td style="padding: 8px 0; color: #111827; font-weight: 500;">${formattedDate}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Time:</td>
+                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"> Pickup Time:</td>
                 <td style="padding: 8px 0; color: #111827; font-weight: 500;">${bookingTime}</td>
               </tr>
               <tr>
-                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount:</td>
-                <td style="padding: 8px 0; color: #059669; font-weight: 700; font-size: 18px;">$${formattedAmount}</td>
+                <td style="padding: 8px 0; color: #6b7280; font-size: 14px;"> Distance:</td>
+                <td style="padding: 8px 0; color: #111827; font-weight: 500;">${distance}</td>
               </tr>
             </table>
           </div>

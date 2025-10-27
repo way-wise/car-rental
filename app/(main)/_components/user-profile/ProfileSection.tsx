@@ -109,7 +109,7 @@ const ProfileSection = () => {
       ),
     },
     {
-      header: "Booking Date",
+      header: "Pickup Date",
       accessorKey: "bookingDate",
       cell: ({ row }) => (
         <div>
@@ -120,13 +120,13 @@ const ProfileSection = () => {
         </div>
       ),
     },
-    {
-      header: "Amount",
-      accessorKey: "amount",
-      cell: ({ row }) => (
-        <div className="font-medium">{formatAmount(row.original.amount)}</div>
-      ),
-    },
+    // {
+    //   header: "Amount",
+    //   accessorKey: "amount",
+    //   cell: ({ row }) => (
+    //     <div className="font-medium">{formatAmount(row.original.amount)}</div>
+    //   ),
+    // },
     {
       header: "Payment Status",
       accessorKey: "paymentStatus",
