@@ -18,11 +18,19 @@ export const settingsService = {
       settings = await prisma.settings.create({
         data: {
           id: ulid(),
-          pricingType: "kilometer",
-          pricePerKilometer: 2.5, // $2.50 per km
-          pricePerHour: 25.0, // $25.00 per hour
-          basePrice: 5.0, // $5.00 base price
-          minimumPrice: 10.0, // $10.00 minimum price
+          baseRate: 2.0,
+          distanceChargePerMile: 1.2,
+          timeChargePerMinute: 0.25,
+          peakTimeMultiplier: 1.3,
+          peakRanges: [
+            { startHour: 5, endHour: 10 },
+            { startHour: 22, endHour: 23 },
+          ],
+          holidayFeeEnabled: false,
+          holidayFeeType: "flat",
+          holidayFeeFlat: 3.0,
+          holidayFeePercentage: 15.0,
+          minimumPrice: 10.0,
         },
       });
     }
@@ -64,30 +72,52 @@ export const settingsService = {
       settings = await prisma.settings.create({
         data: {
           id: ulid(),
-          pricingType: data.pricingType || "kilometer",
-          pricePerKilometer: data.pricePerKilometer || 2.5,
-          pricePerHour: data.pricePerHour || 25.0,
-          basePrice: data.basePrice || 5.0,
+          baseRate: data.baseRate || 2.0,
+          distanceChargePerMile: data.distanceChargePerMile || 1.2,
+          timeChargePerMinute: data.timeChargePerMinute || 0.25,
+          peakTimeMultiplier: data.peakTimeMultiplier || 1.3,
+          peakRanges: data.peakRanges || [
+            { startHour: 5, endHour: 10 },
+            { startHour: 22, endHour: 23 },
+          ],
+          holidayFeeEnabled: data.holidayFeeEnabled || false,
+          holidayFeeType:
+            (data.holidayFeeType as "flat" | "percentage") || "flat",
+          holidayFeeFlat: data.holidayFeeFlat || 3.0,
+          holidayFeePercentage: data.holidayFeePercentage || 15.0,
+          holidayList: data.holidayList || [],
           minimumPrice: data.minimumPrice || 10.0,
         },
       });
     } else {
       // Update existing settings
+      const updateData: any = {};
+
+      if (data.baseRate !== undefined) updateData.baseRate = data.baseRate;
+      if (data.distanceChargePerMile !== undefined)
+        updateData.distanceChargePerMile = data.distanceChargePerMile;
+      if (data.timeChargePerMinute !== undefined)
+        updateData.timeChargePerMinute = data.timeChargePerMinute;
+      if (data.peakTimeMultiplier !== undefined)
+        updateData.peakTimeMultiplier = data.peakTimeMultiplier;
+      if (data.peakRanges !== undefined)
+        updateData.peakRanges = data.peakRanges;
+      if (data.holidayFeeEnabled !== undefined)
+        updateData.holidayFeeEnabled = data.holidayFeeEnabled;
+      if (data.holidayFeeType !== undefined)
+        updateData.holidayFeeType = data.holidayFeeType;
+      if (data.holidayFeeFlat !== undefined)
+        updateData.holidayFeeFlat = data.holidayFeeFlat;
+      if (data.holidayFeePercentage !== undefined)
+        updateData.holidayFeePercentage = data.holidayFeePercentage;
+      if (data.holidayList !== undefined)
+        updateData.holidayList = data.holidayList;
+      if (data.minimumPrice !== undefined)
+        updateData.minimumPrice = data.minimumPrice;
+
       settings = await prisma.settings.update({
         where: { id: settings.id },
-        data: {
-          ...(data.pricingType && { pricingType: data.pricingType }),
-          ...(data.pricePerKilometer !== undefined && {
-            pricePerKilometer: data.pricePerKilometer,
-          }),
-          ...(data.pricePerHour !== undefined && {
-            pricePerHour: data.pricePerHour,
-          }),
-          ...(data.basePrice !== undefined && { basePrice: data.basePrice }),
-          ...(data.minimumPrice !== undefined && {
-            minimumPrice: data.minimumPrice,
-          }),
-        },
+        data: updateData,
       });
     }
 
@@ -95,31 +125,72 @@ export const settingsService = {
   },
 
   // Calculate price based on distance/duration and current settings
-  calculatePrice: async (distanceKm: number, durationHours: number) => {
+  calculatePrice: async (data: {
+    distanceMiles: number;
+    durationMinutes: number;
+    bookingDate: Date;
+    bookingTime: string;
+  }) => {
     const settings = await settingsService.getSettings();
+    const { distanceMiles, durationMinutes, bookingDate, bookingTime } = data;
 
-    let calculatedPrice = settings.basePrice;
+    // Step 1: Calculate base price
+    let calculatedPrice = settings.baseRate;
+    calculatedPrice += distanceMiles * settings.distanceChargePerMile;
+    calculatedPrice += durationMinutes * settings.timeChargePerMinute;
 
-    if (settings.pricingType === "kilometer") {
-      if (settings.pricePerKilometer) {
-        calculatedPrice += distanceKm * settings.pricePerKilometer;
-      }
-    } else if (settings.pricingType === "hour") {
-      if (settings.pricePerHour) {
-        calculatedPrice += durationHours * settings.pricePerHour;
+    // Step 2: Check if booking is during peak hours
+    const timeHour = parseInt(bookingTime.split(":")[0]);
+    let isPeakTime = false;
+
+    if (settings.peakRanges) {
+      const peakRanges = settings.peakRanges as {
+        startHour: number;
+        endHour: number;
+      }[];
+      isPeakTime = peakRanges.some((range) => {
+        const { startHour, endHour } = range;
+        // Handle overnight ranges (e.g., 22:00 - 2:00)
+        if (startHour > endHour) {
+          return timeHour >= startHour || timeHour < endHour;
+        }
+        return timeHour >= startHour && timeHour < endHour;
+      });
+    }
+
+    if (isPeakTime) {
+      calculatedPrice *= settings.peakTimeMultiplier;
+    }
+
+    // Step 4: Check if booking is on a holiday
+    let isHoliday = false;
+    if (settings.holidayFeeEnabled && settings.holidayList) {
+      const holidayList = settings.holidayList as string[];
+      const bookingDateStr = bookingDate.toISOString().split("T")[0];
+
+      isHoliday = holidayList.includes(bookingDateStr);
+
+      if (isHoliday) {
+        if (settings.holidayFeeType === "flat") {
+          calculatedPrice += settings.holidayFeeFlat;
+        } else {
+          calculatedPrice +=
+            calculatedPrice * (settings.holidayFeePercentage / 100);
+        }
       }
     }
 
-    // Apply minimum price
+    // Step 5: Apply minimum price
     const finalPrice = Math.max(calculatedPrice, settings.minimumPrice);
 
     return {
       calculatedPrice: Math.round(finalPrice * 100), // Convert to cents
-      pricingType: settings.pricingType,
-      basePrice: settings.basePrice,
+      baseRate: settings.baseRate,
+      distanceCharge: settings.distanceChargePerMile,
+      timeCharge: settings.timeChargePerMinute,
+      peakMultiplier: isPeakTime ? settings.peakTimeMultiplier : 1,
+      isHoliday,
       minimumPrice: settings.minimumPrice,
-      pricePerKilometer: settings.pricePerKilometer,
-      pricePerHour: settings.pricePerHour,
     };
   },
 };

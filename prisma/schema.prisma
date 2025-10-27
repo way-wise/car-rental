@@ -139,14 +139,20 @@ model maintenance {
 }
 
 model settings {
-  id                String      @id @default(ulid())
-  pricingType       PricingType @default(kilometer)
-  pricePerKilometer Float?
-  pricePerHour      Float?
-  basePrice         Float       @default(0)
-  minimumPrice      Float       @default(0)
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
+  id                    String         @id @default(ulid())
+  baseRate              Float          @default(2.0)
+  distanceChargePerMile Float          @default(1.2)
+  timeChargePerMinute   Float          @default(0.25)
+  peakTimeMultiplier    Float          @default(1.3)
+  peakRanges            Json?          @default("[]")
+  holidayFeeEnabled     Boolean        @default(false)
+  holidayFeeType        HolidayFeeType @default(flat)
+  holidayFeeFlat        Float          @default(3.0)
+  holidayFeePercentage  Float          @default(15.0)
+  holidayList           Json?
+  minimumPrice          Float          @default(10.0)
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
 
   @@index([createdAt])
 }
@@ -195,9 +201,9 @@ enum BookingStatus {
   canceled
 }
 
-enum PricingType {
-  kilometer
-  hour
+enum HolidayFeeType {
+  flat
+  percentage
 }
 
 enum BlogStatus {

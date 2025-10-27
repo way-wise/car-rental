@@ -15,11 +15,12 @@ export interface DistanceInfo {
 export interface DistanceWithPricing extends DistanceInfo {
   pricing: {
     calculatedPrice: number; // in cents
-    pricingType: string;
-    basePrice: number;
+    baseRate: number;
+    distanceCharge: number;
+    timeCharge: number;
+    peakMultiplier: number;
+    isHoliday: boolean;
     minimumPrice: number;
-    pricePerKilometer?: number;
-    pricePerHour?: number;
   };
 }
 
@@ -104,26 +105,26 @@ export const distanceService = {
   calculateDistanceWithPricing: async (data: {
     pickupLocation: string;
     dropLocation: string;
+    bookingDate?: Date;
+    bookingTime?: string;
   }): Promise<DistanceWithPricing> => {
     const distanceInfo = await distanceService.calculateDistance(data);
 
-    // Convert meters to kilometers and seconds to hours
-    const distanceKm = distanceInfo.distance.value / 1000;
-    const durationHours = distanceInfo.duration.value / 3600;
+    // Convert meters to miles and seconds to minutes
+    const distanceMiles = distanceInfo.distance.value / 1609.34;
+    const durationMinutes = distanceInfo.duration.value / 60;
 
     // Calculate pricing
-    const pricing = await settingsService.calculatePrice(
-      distanceKm,
-      durationHours,
-    );
+    const pricing = await settingsService.calculatePrice({
+      distanceMiles,
+      durationMinutes,
+      bookingDate: data.bookingDate || new Date(),
+      bookingTime: data.bookingTime || "12:00",
+    });
 
     return {
       ...distanceInfo,
-      pricing: {
-        ...pricing,
-        pricePerKilometer: pricing.pricePerKilometer ?? undefined,
-        pricePerHour: pricing.pricePerHour ?? undefined,
-      },
+      pricing,
     };
   },
 };

@@ -506,15 +506,21 @@ export const bookingService = {
     }
 
     // Step 3: Calculate dynamic pricing based on distance
+    const bookingDate = new Date(date);
     const distanceInfo = await distanceService.calculateDistanceWithPricing({
       pickupLocation,
       dropLocation,
+      bookingDate,
+      bookingTime: time,
     });
 
     const dynamicAmount = distanceInfo.pricing.calculatedPrice;
 
+    // Calculate distance in miles and duration in minutes for storage
+    const distanceMiles = distanceInfo.distance.value / 1609.34;
+    const durationMinutes = distanceInfo.duration.value / 60;
+
     // Step 4: Create booking record with dynamic amount
-    const bookingDate = new Date(date);
     const booking = await prisma.bookings.create({
       data: {
         id: ulid(),
@@ -523,8 +529,8 @@ export const bookingService = {
         dropLocation,
         bookingDate,
         bookingTime: time,
-        distance: distance,
-        duration: duration,
+        distance: distanceMiles, // Store in miles
+        duration: durationMinutes, // Store in minutes
         paymentStatus: "pending",
         bookingStatus: "upcoming",
         amount: dynamicAmount, // Dynamic amount based on distance/duration

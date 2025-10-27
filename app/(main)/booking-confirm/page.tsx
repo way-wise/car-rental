@@ -37,11 +37,12 @@ interface DistanceInfo {
   };
   pricing: {
     calculatedPrice: number;
-    pricingType: string;
-    basePrice: number;
+    baseRate: number;
+    distanceCharge: number;
+    timeCharge: number;
+    peakMultiplier: number;
+    isHoliday: boolean;
     minimumPrice: number;
-    pricePerKilometer?: number;
-    pricePerHour?: number;
   };
 }
 
@@ -120,8 +121,7 @@ export default function BookingConfirmPage() {
       // Prepare booking data with distance and duration
       const bookingData = {
         ...bookingDetails,
-        distance: distanceInfo ? distanceInfo.distance.value / 1000 : undefined, // Convert meters to kilometers
-        duration: distanceInfo ? distanceInfo.duration.value / 60 : undefined, // Convert seconds to minutes
+        // Distance and duration will be calculated on the backend
       };
 
       const response = await fetch("/api/bookings", {
@@ -300,7 +300,10 @@ export default function BookingConfirmPage() {
                     </p>
                   ) : distanceInfo ? (
                     <div className="text-sm text-muted-foreground">
-                      <p>{distanceInfo.distance.text}</p>
+                      <p>
+                        {(distanceInfo.distance.value / 1609.34).toFixed(2)}{" "}
+                        miles
+                      </p>
                       <p>{distanceInfo.duration.text}</p>
                     </div>
                   ) : (
@@ -317,14 +320,29 @@ export default function BookingConfirmPage() {
                     <span className="text-xs font-bold text-white">$</span>
                   </div>
                   <div className="flex-1">
-                    <p className="text-sm font-medium"> Amount</p>
-                    <div className="text-lg text-muted-foreground">
+                    <p className="text-sm font-medium">Total Amount</p>
+                    <div className="text-lg">
                       <p className="font-semibold text-green-600">
                         $
                         {(distanceInfo.pricing.calculatedPrice / 100).toFixed(
                           2,
                         )}
                       </p>
+                      {distanceInfo.pricing.peakMultiplier > 1 && (
+                        <p className="text-xs text-orange-500">
+                          Peak time +
+                          {(
+                            (distanceInfo.pricing.peakMultiplier - 1) *
+                            100
+                          ).toFixed(0)}
+                          %
+                        </p>
+                      )}
+                      {distanceInfo.pricing.isHoliday && (
+                        <p className="text-xs text-red-500">
+                          Holiday fee applied
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

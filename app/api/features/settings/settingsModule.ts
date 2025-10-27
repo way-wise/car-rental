@@ -47,16 +47,21 @@ app.put("/", async (c) => {
 */
 app.post("/calculate-price", async (c) => {
   const body = await c.req.json();
-  const { distanceKm, durationHours } = body;
+  const { distanceMiles, durationMinutes, bookingDate, bookingTime } = body;
 
-  if (typeof distanceKm !== "number" || typeof durationHours !== "number") {
+  if (
+    typeof distanceMiles !== "number" ||
+    typeof durationMinutes !== "number"
+  ) {
     return c.json({ error: "Distance and duration must be numbers" }, 400);
   }
 
-  const priceCalculation = await settingsService.calculatePrice(
-    distanceKm,
-    durationHours,
-  );
+  const priceCalculation = await settingsService.calculatePrice({
+    distanceMiles,
+    durationMinutes,
+    bookingDate: bookingDate ? new Date(bookingDate) : new Date(),
+    bookingTime: bookingTime || "12:00",
+  });
 
   return c.json({
     success: true,
