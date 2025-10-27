@@ -24,6 +24,7 @@ export const bookingSchema = object({
     id: string(),
     name: string(),
     email: string(),
+    phone: string(),
   }).optional(),
 });
 
