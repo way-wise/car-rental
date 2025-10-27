@@ -243,7 +243,7 @@ export default function BookingConfirmPage() {
                 <div className="flex items-start gap-3">
                   <Calendar className="mt-1 h-5 w-5 text-muted-foreground" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Date</p>
+                    <p className="text-sm font-medium">Pickup Date</p>
                     <p className="text-sm text-muted-foreground">
                       {formatDate(bookingDetails.date)}
                     </p>
@@ -253,7 +253,7 @@ export default function BookingConfirmPage() {
                 <div className="flex items-start gap-3">
                   <Clock className="mt-1 h-5 w-5 text-muted-foreground" />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">Time</p>
+                    <p className="text-sm font-medium">Pickup Time</p>
                     <p className="text-sm text-muted-foreground">
                       {bookingDetails.time}
                     </p>
