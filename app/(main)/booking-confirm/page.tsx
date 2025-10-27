@@ -2,6 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/date-format";
 import {
@@ -54,6 +62,8 @@ export default function BookingConfirmPage() {
   const [isLoadingDistance, setIsLoadingDistance] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isNewUser, setIsNewUser] = useState(false);
 
   const calculateDistance = useCallback(
     async (pickup: string, drop: string) => {
@@ -138,13 +148,12 @@ export default function BookingConfirmPage() {
         // Clear pending booking from session storage
         sessionStorage.removeItem("pending_booking");
 
-        // Booking confirmed successfully
-        toast.success(
-          "Booking confirmed! You will receive a confirmation email shortly.",
-        );
+        // Show success toast
+        toast.success("Booking confirmed successfully!");
 
-        // Redirect to profile page
-        router.push("/profile");
+        // Set modal state
+        setIsNewUser(data.isNewUser || false);
+        setIsSuccessModalOpen(true);
       } else {
         toast.error(data.error || "Failed to create booking");
       }
@@ -344,6 +353,64 @@ export default function BookingConfirmPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Success Modal */}
+      <Dialog open={isSuccessModalOpen} onOpenChange={() => {}}>
+        <DialogContent
+          showCloseButton={true}
+          className="sm:max-w-[500px]"
+          onEscapeKeyDown={(e) => {
+            setIsSuccessModalOpen(false);
+            router.push("/profile");
+          }}
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onInteractOutside={(e) => e.preventDefault()}
+        >
+          <DialogHeader>
+            <DialogTitle className="text-center text-2xl">
+              Booking Confirmed!
+            </DialogTitle>
+            <DialogDescription className="pt-4 text-center text-base">
+              {isNewUser ? (
+                <div className="space-y-3">
+                  <p className="text-foreground">
+                    Email sent to your email address.
+                  </p>
+                  <div className="rounded-lg bg-primary/10 p-4">
+                    <p className="font-semibold text-primary">
+                      Welcome! Your account has been created.
+                    </p>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      Your login credentials have been sent to your email.
+                      Please check your inbox.
+                    </p>
+                  </div>
+                  <p className="text-muted-foreground">
+                    Please check your email and review your booking details.
+                  </p>
+                </div>
+              ) : (
+                <p className="text-foreground">
+                  A confirmation email has been sent to your email address.
+                  Please check your inbox and review your booking details.
+                </p>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-6">
+            <Button
+              onClick={() => {
+                setIsSuccessModalOpen(false);
+                router.push("/profile");
+              }}
+              className="w-full"
+              size="lg"
+            >
+              Go to Profile
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -548,6 +548,7 @@ export const bookingService = {
     // Return success response
     return {
       success: true,
+      isNewUser: !!plainPassword,
       bookingId: booking.id,
       booking: {
         id: booking.id,
