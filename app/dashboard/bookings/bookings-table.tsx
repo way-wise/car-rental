@@ -30,12 +30,14 @@ import {
 } from "@/components/ui/select";
 import { formatDate } from "@/lib/date-format";
 import { Booking } from "@/schema/bookingSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import type { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { Eye, MoreVertical, Phone, Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import useSWR, { mutate } from "swr";
+import * as z from "zod";
 import { BookingDetailsModal } from "./booking-details-modal";
 
 export const BookingsTable = () => {
@@ -43,6 +45,7 @@ export const BookingsTable = () => {
   const [updateStatusModalOpen, setUpdateStatusModalOpen] = useState(false);
   const [viewDetailsModalOpen, setViewDetailsModalOpen] = useState(false);
   const [bookingId, setBookingId] = useState<string | undefined>("");
+  const [currentBooking, setCurrentBooking] = useState<Booking | null>(null);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 1,
@@ -151,7 +154,9 @@ export const BookingsTable = () => {
 
       toast.success("Booking deleted successfully");
       setDeleteModalOpen(false);
+      // Refresh both bookings table and stats
       mutate(url);
+      mutate(statsUrl);
     } catch (error: unknown) {
       toast.error(
         error instanceof Error ? error.message : "Failed to delete booking",
@@ -159,22 +164,38 @@ export const BookingsTable = () => {
     }
   };
 
-  // Update Status Form
+  // Update Status Form Schema
+  const updateStatusSchema = z.object({
+    paymentStatus: z.enum(["pending", "succeeded", "failed"]),
+    amount: z.number().min(0),
+  });
+
   const updateStatusForm = useForm({
+    resolver: zodResolver(updateStatusSchema),
     defaultValues: {
-      paymentStatus: "pending",
+      paymentStatus: "pending" as const,
+      amount: 0,
     },
   });
 
+  // Watch payment status to enable/disable amount field
+  const paymentStatus = updateStatusForm.watch("paymentStatus");
+
   // Handle Status Update
-  const handleUpdateStatus = async (values: { paymentStatus: string }) => {
+  const handleUpdateStatus = async (values: {
+    paymentStatus: string;
+    amount: number;
+  }) => {
     try {
       const response = await fetch(`/api/bookings/${bookingId}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ paymentStatus: values.paymentStatus }),
+        body: JSON.stringify({
+          paymentStatus: values.paymentStatus,
+          amount: values.amount,
+        }),
       });
 
       const result = await response.json();
@@ -187,7 +208,9 @@ export const BookingsTable = () => {
       toast.success("Booking status updated successfully");
       setUpdateStatusModalOpen(false);
       updateStatusForm.reset();
+      // Refresh both bookings table and stats
       mutate(url);
+      mutate(statsUrl);
     } catch (error: unknown) {
       toast.error(
         error instanceof Error ? error.message : "Failed to update status",
@@ -320,7 +343,9 @@ export const BookingsTable = () => {
                 <DropdownMenuItem
                   onClick={() => {
                     setBookingId(id);
+                    setCurrentBooking(row.original);
                     updateStatusForm.setValue("paymentStatus", paymentStatus);
+                    updateStatusForm.setValue("amount", row.original.amount);
                     setUpdateStatusModalOpen(true);
                   }}
                 >
@@ -542,6 +567,28 @@ export const BookingsTable = () => {
                         <SelectItem value="failed">Failed</SelectItem>
                       </SelectContent>
                     </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={updateStatusForm.control}
+                name="amount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Amount (in dollars)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Enter amount"
+                        disabled={paymentStatus !== "succeeded"}
+                        value={field.value / 100}
+                        onChange={(e) => {
+                          const dollarValue = Number(e.target.value);
+                          field.onChange(Math.round(dollarValue * 100));
+                        }}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

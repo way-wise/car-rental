@@ -2,7 +2,7 @@ import { createBookingSchema } from "@/schema/bookingSchema";
 import { paginationQuerySchema } from "@/schema/paginationSchema";
 import { validateInput } from "@api/lib/validateInput";
 import { Hono } from "hono";
-import { object, string } from "yup";
+import { number, object, string } from "yup";
 import { bookingService } from "./bookingService";
 
 const app = new Hono();
@@ -162,6 +162,7 @@ app.patch("/:id/status", async (c) => {
       paymentStatus: string()
         .required()
         .oneOf(["pending", "succeeded", "failed"]),
+      amount: number().min(0).optional(),
     }),
     data: body,
   });
@@ -169,6 +170,7 @@ app.patch("/:id/status", async (c) => {
   const result = await bookingService.updateBookingStatus(
     validatedParam.id,
     validatedData.paymentStatus,
+    validatedData.amount,
   );
 
   return c.json({ success: true, booking: result });

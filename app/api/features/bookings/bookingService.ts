@@ -206,10 +206,14 @@ export const bookingService = {
   updateBookingStatus: async (
     id: string,
     paymentStatus: "pending" | "succeeded" | "failed" | "canceled" | "refunded",
+    amount?: number,
   ) => {
     const booking = await prisma.bookings.update({
       where: { id },
-      data: { paymentStatus },
+      data: {
+        paymentStatus,
+        ...(amount !== undefined ? { amount } : {}),
+      },
       include: {
         user: {
           select: {
@@ -536,6 +540,7 @@ export const bookingService = {
       bookingDate: booking.bookingDate.toISOString(),
       bookingTime: booking.bookingTime,
       amount: booking.amount,
+      distance: booking.distance ? `${booking.distance.toFixed(2)} mi` : "N/A",
     };
 
     // Emit email events
@@ -607,6 +612,7 @@ export const bookingService = {
         dropLocation: true,
         bookingDate: true,
         bookingTime: true,
+        distance: true,
         amount: true,
         user: {
           select: {
@@ -641,6 +647,7 @@ export const bookingService = {
       bookingDate: booking.bookingDate.toISOString(),
       bookingTime: booking.bookingTime,
       amount: booking.amount,
+      distance: booking.distance ? `${booking.distance.toFixed(2)} mi` : "N/A",
     };
 
     // Emit email events

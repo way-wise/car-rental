@@ -60,11 +60,7 @@ const SidebarMenu = () => {
       icon: <BookAlertIcon className="icon" />,
       url: "/dashboard/bookings",
     },
-    {
-      title: "Blogs",
-      icon: <PenTool className="icon" />,
-      url: "/dashboard/blogs",
-    },
+
     {
       title: "Calendar",
       icon: <Calendar className="icon" />,
@@ -79,6 +75,11 @@ const SidebarMenu = () => {
       title: "Maintenance",
       icon: <Workflow className="icon" />,
       url: "/dashboard/maintenance",
+    },
+    {
+      title: "Blogs",
+      icon: <PenTool className="icon" />,
+      url: "/dashboard/blogs",
     },
     {
       title: "Settings",

@@ -3,9 +3,9 @@ import Navbar from "@/app/(main)/_components/navbar";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="">
+    <div className=" ">
       <Navbar />
-      <main className="">{children}</main>
+      <main className="min-h-[70vh]">{children}</main>
       <Footer />
     </div>
   );

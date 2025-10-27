@@ -90,7 +90,7 @@ export async function sendBookingConfirmationToUser(
     amount,
     distance,
   } = bookingDetails;
-  const formattedAmount = (amount / 100).toFixed(2);
+  // const formattedAmount = (amount / 100).toFixed(2);
   const formattedDate = new Date(bookingDate).toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",

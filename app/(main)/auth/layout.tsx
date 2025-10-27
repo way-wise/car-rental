@@ -1,6 +1,6 @@
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="grid grow place-items-center px-4 py-8">
+    <div className="grid min-h-[70vh] grow place-items-center px-4 py-8">
       <main className="flex w-full max-w-sm flex-col gap-8">{children}</main>
     </div>
   );
