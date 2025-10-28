@@ -15,7 +15,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: {
     default: "Escalade4lax -  Executive Car Service lax",
-    template: "%s | Escalade4lax",
+    template: "",
   },
   description:
     "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",

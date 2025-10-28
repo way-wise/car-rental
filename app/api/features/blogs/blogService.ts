@@ -140,6 +140,30 @@ export const blogService = {
     });
   },
 
+  // Get all published blogs without pagination
+  getAllPublishedBlogs: async () => {
+    const blogs = await prisma.blogs.findMany({
+      where: {
+        status: "published",
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
+      orderBy: {
+        publishedAt: "desc",
+      },
+    });
+
+    return { data: blogs };
+  },
+
   // Get a single blog by ID
   getBlogById: async (id: string) => {
     const blog = await prisma.blogs.findUnique({

@@ -1,114 +1,16 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Blog } from "@/schema/blogSchema";
 import { Filter } from "lucide-react";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
 import { BlogCard } from "./blog-card";
 
 interface BlogListProps {
-  initialBlogs?: Blog[];
-  initialTotal?: number;
+  blogs?: Blog[];
 }
 
-export const BlogList = ({ initialBlogs, initialTotal }: BlogListProps) => {
-  const [search, setSearch] = useState("");
-  const [sortBy] = useState("publishedAt");
-  const [sortOrder] = useState("desc");
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
-  const [page, setPage] = useState(1);
-  const [limit] = useState(6);
-
-  // Debounce search
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-      setPage(1); // Reset to first page when searching
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [search]);
-
-  // Build query parameters
-  const queryParams = new URLSearchParams({
-    page: page.toString(),
-    limit: limit.toString(),
-    sortBy,
-    sortOrder,
-    ...(debouncedSearch && { search: debouncedSearch }),
-  });
-
-  // Fetch blogs data
-  const {
-    data: blogsData,
-    isLoading,
-    error,
-  } = useSWR(
-    `/api/blogs/public?${queryParams.toString()}`,
-    async (url: string) => {
-      const response = await fetch(url);
-      if (!response.ok) {
-        console.error(
-          "Failed to fetch blogs:",
-          response.status,
-          response.statusText,
-        );
-        throw new Error("Failed to fetch blogs");
-      }
-      return response.json();
-    },
-    {
-      fallbackData: initialBlogs
-        ? {
-            data: initialBlogs,
-            meta: { total: initialTotal || 0, page: 1, limit: 6 },
-          }
-        : undefined,
-      revalidateOnFocus: true,
-      revalidateOnReconnect: true,
-    },
-  );
-
-  const blogs = blogsData?.data || [];
-  const total = blogsData?.meta?.total || 0;
-  const totalPages = Math.ceil(total / limit);
-
-  if (error) {
-    return (
-      <div className="py-12 text-center">
-        <p className="mb-4 text-red-600">
-          Failed to load blogs. Please try again later.
-        </p>
-        <Button onClick={() => window.location.reload()}>Retry</Button>
-      </div>
-    );
-  }
-
+export const BlogList = ({ blogs = [] }: BlogListProps) => {
   return (
     <div className="space-y-6">
-      {/* Loading State */}
-      {isLoading && (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Card key={i} className="overflow-hidden">
-              <Skeleton className="h-48 w-full" />
-              <CardHeader className="space-y-2">
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-4 w-1/2" />
-                <Skeleton className="h-16 w-full" />
-              </CardHeader>
-              <CardContent>
-                <Skeleton className="h-6 w-20" />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
       {/* Blog Grid */}
-      {!isLoading && blogs.length > 0 && (
+      {blogs.length > 0 && (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {blogs.map((blog: Blog) => (
             <BlogCard key={blog.id} blog={blog} />
@@ -117,61 +19,15 @@ export const BlogList = ({ initialBlogs, initialTotal }: BlogListProps) => {
       )}
 
       {/* Empty State */}
-      {!isLoading && blogs.length === 0 && (
+      {blogs.length === 0 && (
         <div className="py-12 text-center">
           <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gray-100">
             <Filter className="h-8 w-8 text-gray-400" />
           </div>
           <h3 className="mb-2 text-lg font-semibold text-gray-900">
-            {search ? "No blogs found" : "No blogs available"}
+            No blogs available
           </h3>
-          <p className="mb-4 text-gray-600">
-            {search
-              ? "Try adjusting your search terms or filters"
-              : "Check back later for new blog posts"}
-          </p>
-          {search && (
-            <Button variant="outline" onClick={() => setSearch("")}>
-              Clear search
-            </Button>
-          )}
-        </div>
-      )}
-
-      {/* Pagination */}
-      {!isLoading && totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => setPage(page - 1)}
-            disabled={page === 1}
-          >
-            Previous
-          </Button>
-
-          <div className="flex items-center gap-1">
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              const pageNum = i + 1;
-              return (
-                <Button
-                  key={pageNum}
-                  variant={page === pageNum ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setPage(pageNum)}
-                >
-                  {pageNum}
-                </Button>
-              );
-            })}
-          </div>
-
-          <Button
-            variant="outline"
-            onClick={() => setPage(page + 1)}
-            disabled={page === totalPages}
-          >
-            Next
-          </Button>
+          <p className="text-gray-600">Check back later for new blog posts</p>
         </div>
       )}
     </div>

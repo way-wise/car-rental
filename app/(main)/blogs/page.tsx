@@ -2,30 +2,24 @@ import { Blog } from "@/schema/blogSchema";
 import type { Metadata } from "next";
 import { BlogList } from "../_components/blogs/blog-list";
 
-async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
-  // Return empty data if no API URL is configured
-  if (!process.env.NEXT_PUBLIC_API_URL) {
-    return { blogs: [], total: 0 };
-  }
-
+async function getAllBlogs(): Promise<Blog[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-    const response = await fetch(`${baseUrl}/blogs/public?page=1&limit=6`, {
-      next: { revalidate: 60 }, // Cache for 1 minute
+    const baseUrl =
+      process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api";
+    const url = `${baseUrl}/blogs/public`;
+
+    const response = await fetch(url, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
     });
 
     if (!response.ok) {
-      console.warn(`API returned ${response.status}: ${response.statusText}`);
-      return { blogs: [], total: 0 };
+      return [];
     }
 
     const data = await response.json();
-    return {
-      blogs: data.data || [],
-      total: data.meta?.total || data.data?.length || 0,
-    };
+    return data.data || [];
   } catch (error) {
-    return { blogs: [], total: 0 };
+    return [];
   }
 }
 
@@ -63,9 +57,10 @@ export const metadata: Metadata = {
 };
 
 const BlogsPage = async () => {
-  const { blogs, total } = await getInitialBlogs();
-  const baseUrl = process.env.APP_URL || "https://escalade4lax.com";
-  const frontendUrl = baseUrl.replace("/api", "");
+  const blogs = await getAllBlogs();
+  console.log(blogs);
+  const baseUrl = process.env.APP_URL || "https://escalade4lax.com/api";
+  const frontendUrl = baseUrl;
 
   // Structured data for blog collection
   const structuredData = {
@@ -121,7 +116,7 @@ const BlogsPage = async () => {
         </div> */}
 
         {/* Blog List */}
-        <BlogList initialBlogs={blogs} initialTotal={total} />
+        <BlogList blogs={blogs} />
       </div>
     </div>
   );

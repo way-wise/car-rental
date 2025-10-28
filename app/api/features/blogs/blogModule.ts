@@ -67,16 +67,10 @@ app.get("/", requiresAuth, async (c) => {
 /*
   @route    GET: /blogs/public
   @access   public
-  @desc     Get published blogs for public consumption
+  @desc     Get all published blogs for public consumption (no pagination)
 */
 app.get("/public", async (c) => {
-  const validatedQuery = await validateInput({
-    type: "query",
-    schema: paginationQuerySchema.concat(blogQuerySchema.omit(["status"])),
-    data: c.req.query(),
-  });
-
-  const result = await blogService.getPublishedBlogs(validatedQuery);
+  const result = await blogService.getAllPublishedBlogs();
   return c.json(result);
 });
 
