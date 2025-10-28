@@ -6,6 +6,7 @@ import type {
   UpdateBlogInput,
 } from "@/schema/blogSchema";
 import type { PaginationQuery } from "@/schema/paginationSchema";
+import { BlogStatus } from "@prisma/client";
 import { HTTPException } from "hono/http-exception";
 import { ulid } from "ulid";
 
@@ -144,7 +145,7 @@ export const blogService = {
   getAllPublishedBlogs: async () => {
     const blogs = await prisma.blogs.findMany({
       where: {
-        status: "published",
+        status: BlogStatus.published,
       },
       include: {
         author: {
@@ -194,7 +195,7 @@ export const blogService = {
     const blog = await prisma.blogs.findFirst({
       where: {
         slug,
-        status: "published",
+        status: BlogStatus.published,
       },
       include: {
         author: {
@@ -409,7 +410,7 @@ export const blogService = {
   getBlogsByTags: async (tags: string[], limit: number = 10) => {
     const blogs = await prisma.blogs.findMany({
       where: {
-        status: "published",
+        status: BlogStatus.published,
         tags: {
           hasSome: tags,
         },
