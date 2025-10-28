@@ -55,7 +55,7 @@ emailEvents.on(EmailEventType.PASSWORD_RESET_EMAIL, async ({ email, url }) => {
   try {
     const userName = email.split("@")[0];
     await sendPasswordResetEmail(email, userName, url);
-  } catch (err) {
+  } catch {
     console.error("❌ Failed to send password reset email to:", email);
   }
 });

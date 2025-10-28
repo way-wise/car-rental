@@ -91,7 +91,7 @@ export const settingsService = {
       });
     } else {
       // Update existing settings
-      const updateData: any = {};
+      const updateData: Partial<UpdateSettings> = {};
 
       if (data.baseRate !== undefined) updateData.baseRate = data.baseRate;
       if (data.distanceChargePerMile !== undefined)

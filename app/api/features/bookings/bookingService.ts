@@ -415,16 +415,8 @@ export const bookingService = {
     userEmail: string;
     userPhone?: string;
   }) => {
-    const {
-      pickupLocation,
-      dropLocation,
-      date,
-      time,
-      distance,
-      duration,
-      userEmail,
-      userPhone,
-    } = data;
+    const { pickupLocation, dropLocation, date, time, userEmail, userPhone } =
+      data;
 
     // Step 1: Check if user exists, create if not
     let user = await prisma.users.findUnique({

@@ -25,23 +25,7 @@ import { CalendarIcon, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-interface Settings {
-  id: string;
-  baseRate: number;
-  distanceChargePerMile: number;
-  timeChargePerMinute: number;
-  peakTimeMultiplier: number;
-  peakRanges: { startHour: number; endHour: number }[] | null;
-  holidayFeeEnabled: boolean;
-  holidayFeeType: string;
-  holidayFeeFlat: number;
-  holidayFeePercentage: number;
-  holidayList: string[] | null;
-  minimumPrice: number;
-}
-
 const SettingsPage = () => {
-  const [settings, setSettings] = useState<Settings | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
@@ -71,7 +55,6 @@ const SettingsPage = () => {
       const data = await response.json();
 
       if (data.success) {
-        setSettings(data.settings);
         setFormData({
           baseRate: data.settings.baseRate || 2.0,
           distanceChargePerMile: data.settings.distanceChargePerMile || 1.2,
@@ -117,7 +100,6 @@ const SettingsPage = () => {
       const data = await response.json();
 
       if (data.success) {
-        setSettings(data.settings);
         toast.success("Settings updated successfully");
       } else {
         toast.error(data.error || "Failed to update settings");
@@ -529,7 +511,7 @@ const SettingsPage = () => {
                     <div className="space-y-2">
                       <div className="rounded-lg border">
                         <div className="divide-y">
-                          {holidayDates.map((date, index) => (
+                          {holidayDates.map((date) => (
                             <div
                               key={date}
                               className="flex items-center justify-between px-4 py-3 hover:bg-muted/50"
@@ -576,7 +558,7 @@ const SettingsPage = () => {
                         No holiday dates added yet
                       </p>
                       <p className="mt-1 text-xs text-muted-foreground">
-                        Click "Add Holiday Date" to get started
+                        Click &quot;Add Holiday Date&quot; to get started
                       </p>
                     </div>
                   )}

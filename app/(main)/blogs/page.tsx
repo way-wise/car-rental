@@ -25,6 +25,7 @@ async function getInitialBlogs(): Promise<{ blogs: Blog[]; total: number }> {
       total: data.meta?.total || data.data?.length || 0,
     };
   } catch (error) {
+    console.error("Error fetching blogs:", error);
     return { blogs: [], total: 0 };
   }
 }
