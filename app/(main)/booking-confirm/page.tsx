@@ -48,7 +48,7 @@ interface DistanceInfo {
     pricingType: string;
     basePrice: number;
     minimumPrice: number;
-    pricePerKilometer?: number;
+    pricePerMile?: number;
     pricePerHour?: number;
   };
 }

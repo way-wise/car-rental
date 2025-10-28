@@ -24,9 +24,9 @@ model users {
   createdAt            DateTime   @default(now())
   updatedAt            DateTime   @updatedAt
   accounts             accounts[]
+  blogs                blogs[]
   bookings             bookings[]
   sessions             sessions[]
-  blogs                blogs[]
 
   @@index([email])
   @@index([role])
@@ -139,14 +139,14 @@ model maintenance {
 }
 
 model settings {
-  id                String      @id @default(ulid())
-  pricingType       PricingType @default(kilometer)
-  pricePerKilometer Float?
-  pricePerHour      Float?
-  basePrice         Float       @default(0)
-  minimumPrice      Float       @default(0)
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
+  id           String      @id @default(ulid())
+  pricingType  PricingType @default(mile)
+  pricePerMile Float?
+  pricePerHour Float?
+  basePrice    Float       @default(0)
+  minimumPrice Float       @default(10.0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 
   @@index([createdAt])
 }
@@ -195,13 +195,18 @@ enum BookingStatus {
   canceled
 }
 
-enum PricingType {
-  kilometer
-  hour
-}
-
 enum BlogStatus {
   draft
   published
   archived
+}
+
+enum HolidayFeeType {
+  flat
+  percentage
+}
+
+enum PricingType {
+  mile
+  hour
 }

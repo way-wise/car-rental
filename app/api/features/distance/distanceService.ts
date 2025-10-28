@@ -18,7 +18,7 @@ export interface DistanceWithPricing extends DistanceInfo {
     pricingType: string;
     basePrice: number;
     minimumPrice: number;
-    pricePerKilometer?: number;
+    pricePerMile?: number;
     pricePerHour?: number;
   };
 }
@@ -134,7 +134,7 @@ export const distanceService = {
       ...distanceInfo,
       pricing: {
         ...pricing,
-        pricePerKilometer: pricing.pricePerKilometer ?? undefined,
+        pricePerMile: pricing.pricePerMile ?? undefined,
         pricePerHour: pricing.pricePerHour ?? undefined,
       },
     };

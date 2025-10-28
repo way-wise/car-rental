@@ -18,8 +18,8 @@ export const settingsService = {
       settings = await prisma.settings.create({
         data: {
           id: ulid(),
-          pricingType: "kilometer",
-          pricePerKilometer: 2.5, // $2.50 per km
+          pricingType: "mile",
+          pricePerMile: 2.5, // $2.50 per mile
           pricePerHour: 25.0, // $25.00 per hour
           basePrice: 5.0, // $5.00 base price
           minimumPrice: 10.0, // $10.00 minimum price
@@ -64,8 +64,8 @@ export const settingsService = {
       settings = await prisma.settings.create({
         data: {
           id: ulid(),
-          pricingType: data.pricingType || "kilometer",
-          pricePerKilometer: data.pricePerKilometer || 2.5,
+          pricingType: data.pricingType || "mile",
+          pricePerMile: data.pricePerMile || 2.5,
           pricePerHour: data.pricePerHour || 25.0,
           basePrice: data.basePrice || 5.0,
           minimumPrice: data.minimumPrice || 10.0,
@@ -77,8 +77,8 @@ export const settingsService = {
         where: { id: settings.id },
         data: {
           ...(data.pricingType && { pricingType: data.pricingType }),
-          ...(data.pricePerKilometer !== undefined && {
-            pricePerKilometer: data.pricePerKilometer,
+          ...(data.pricePerMile !== undefined && {
+            pricePerMile: data.pricePerMile,
           }),
           ...(data.pricePerHour !== undefined && {
             pricePerHour: data.pricePerHour,
@@ -100,11 +100,9 @@ export const settingsService = {
 
     let calculatedPrice = settings.basePrice;
 
-    if (settings.pricingType === "kilometer") {
-      if (settings.pricePerKilometer) {
-        // Convert miles to kilometers for pricing calculation
-        const distanceKm = distanceMiles * 1.60934;
-        calculatedPrice += distanceKm * settings.pricePerKilometer;
+    if (settings.pricingType === "mile") {
+      if (settings.pricePerMile) {
+        calculatedPrice += distanceMiles * settings.pricePerMile;
       }
     } else if (settings.pricingType === "hour") {
       if (settings.pricePerHour) {
@@ -120,7 +118,7 @@ export const settingsService = {
       pricingType: settings.pricingType,
       basePrice: settings.basePrice,
       minimumPrice: settings.minimumPrice,
-      pricePerKilometer: settings.pricePerKilometer,
+      pricePerMile: settings.pricePerMile,
       pricePerHour: settings.pricePerHour,
     };
   },

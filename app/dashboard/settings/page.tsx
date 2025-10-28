@@ -12,7 +12,7 @@ import { toast } from "sonner";
 interface Settings {
   id: string;
   pricingType: string;
-  pricePerKilometer?: number;
+  pricePerMile?: number;
   pricePerHour?: number;
   basePrice: number;
   minimumPrice: number;
@@ -23,8 +23,8 @@ const SettingsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [formData, setFormData] = useState({
-    pricingType: "kilometer",
-    pricePerKilometer: 2.5,
+    pricingType: "mile",
+    pricePerMile: 2.5,
     pricePerHour: 25.0,
     basePrice: 5.0,
     minimumPrice: 10.0,
@@ -43,7 +43,7 @@ const SettingsPage = () => {
         setSettings(data.settings);
         setFormData({
           pricingType: data.settings.pricingType,
-          pricePerKilometer: data.settings.pricePerKilometer || 2.5,
+          pricePerMile: data.settings.pricePerMile || 2.5,
           pricePerHour: data.settings.pricePerHour || 25.0,
           basePrice: data.settings.basePrice,
           minimumPrice: data.settings.minimumPrice,
@@ -127,8 +127,8 @@ const SettingsPage = () => {
               onValueChange={(value) => handleInputChange("pricingType", value)}
             >
               <div className="flex items-center space-x-2">
-                <RadioGroupItem value="kilometer" id="kilometer" />
-                <Label htmlFor="kilometer">By Kilometer</Label>
+                <RadioGroupItem value="mile" id="mile" />
+                <Label htmlFor="mile">By Mile</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="hour" id="hour" />
@@ -137,19 +137,19 @@ const SettingsPage = () => {
             </RadioGroup>
           </div>
 
-          {/* Price Per Kilometer */}
-          {formData.pricingType === "kilometer" && (
+          {/* Price Per Mile */}
+          {formData.pricingType === "mile" && (
             <div className="space-y-2">
-              <Label htmlFor="pricePerKilometer">Price Per Kilometer ($)</Label>
+              <Label htmlFor="pricePerMile">Price Per Mile ($)</Label>
               <Input
-                id="pricePerKilometer"
+                id="pricePerMile"
                 type="number"
                 step="0.01"
                 min="0"
-                value={formData.pricePerKilometer}
+                value={formData.pricePerMile}
                 onChange={(e) =>
                   handleInputChange(
-                    "pricePerKilometer",
+                    "pricePerMile",
                     parseFloat(e.target.value) || 0,
                   )
                 }
@@ -242,10 +242,10 @@ const SettingsPage = () => {
                   <span className="font-medium">Base Price:</span>
                   <span className="ml-2">${settings.basePrice}</span>
                 </div>
-                {settings.pricePerKilometer && (
+                {settings.pricePerMile && (
                   <div>
-                    <span className="font-medium">Price/Km:</span>
-                    <span className="ml-2">${settings.pricePerKilometer}</span>
+                    <span className="font-medium">Price/Mile:</span>
+                    <span className="ml-2">${settings.pricePerMile}</span>
                   </div>
                 )}
                 {settings.pricePerHour && (

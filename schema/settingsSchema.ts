@@ -2,11 +2,9 @@ import { InferType, number, object, string } from "yup";
 
 export const settingsSchema = object({
   pricingType: string()
-    .oneOf(["kilometer", "hour"])
+    .oneOf(["mile", "hour"])
     .required("Pricing type is required"),
-  pricePerKilometer: number()
-    .min(0, "Price per kilometer must be positive")
-    .optional(),
+  pricePerMile: number().min(0, "Price per mile must be positive").optional(),
   pricePerHour: number().min(0, "Price per hour must be positive").optional(),
   basePrice: number()
     .min(0, "Base price must be positive")
@@ -19,10 +17,8 @@ export const settingsSchema = object({
 export type Settings = InferType<typeof settingsSchema>;
 
 export const updateSettingsSchema = object({
-  pricingType: string().oneOf(["kilometer", "hour"]).optional(),
-  pricePerKilometer: number()
-    .min(0, "Price per kilometer must be positive")
-    .optional(),
+  pricingType: string().oneOf(["mile", "hour"]).optional(),
+  pricePerMile: number().min(0, "Price per mile must be positive").optional(),
   pricePerHour: number().min(0, "Price per hour must be positive").optional(),
   basePrice: number().min(0, "Base price must be positive").optional(),
   minimumPrice: number().min(0, "Minimum price must be positive").optional(),
