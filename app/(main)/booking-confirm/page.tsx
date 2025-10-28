@@ -307,7 +307,7 @@ export default function BookingConfirmPage() {
             </div>
             <div className="pt-4 text-center text-lg">
               <p>
-                Please confirm the booking, An Agent will call you within 30
+                Please confirm the booking. I will call you shortly within 30
                 minutes.
               </p>
             </div>
