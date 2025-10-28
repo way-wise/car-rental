@@ -8,7 +8,7 @@ import ServiceSection from "../_components/home-page/ServiceSection";
 import Testimonial from "../_components/home-page/Testimonial";
 
 export const metadata: Metadata = {
-  title: "Executive Car Service lax | Escalade4lax",
+  title: "Executive car service lax | Luxury SUV service Los Angeles",
   description:
     "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
   keywords: [
@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     "Escalade4lax",
   ],
   openGraph: {
-    title: "Executive Car Service lax | Escalade4lax",
+    title: "Executive car service lax | Luxury SUV service Los Angeles",
     description:
       "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
     type: "website",
     images: ["/logo.png"],
   },
   twitter: {
-    title: "Executive Car Service lax | Escalade4lax",
+    title: "Executive car service lax | Luxury SUV service Los Angeles",
     description:
       "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
     images: ["/logo.png"],

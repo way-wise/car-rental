@@ -14,7 +14,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Escalade4lax - Executive Car Service LAX",
+    default: "Executive car service lax | Luxury SUV service Los Angeles",
     template: "",
   },
   description:
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: process.env.APP_URL || "https://escalade4lax.com",
     siteName: "Escalade4lax",
-    title: "Escalade4lax - Executive Car Service lax",
+    title: "Executive car service lax | Luxury SUV service Los Angeles",
     description:
       "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
     images: [
@@ -57,13 +57,13 @@ export const metadata: Metadata = {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Escalade4lax - Executive Car Service lax",
+        alt: "Executive car service lax | Luxury SUV service Los Angeles",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Escalade4lax - Executive Car Service lax",
+    title: "Executive car service lax | Luxury SUV service Los Angeles",
     description:
       "Experience premium comfort with our Executive Car Service to LAX. Professional drivers, luxury SUVs, and on-time rides across Los Angeles and nearby cities.",
     images: ["/logo.png"],
