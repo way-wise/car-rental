@@ -114,15 +114,12 @@ const Footer = () => {
                 </div>
                 <div className="flex items-start gap-2">
                   <MapPinnedIcon className="mt-1 h-4 w-4 text-white" />
-                  <Link
-                    href="https://maps.app.goo.gl/ZzjMftLv3kumh1DZ7"
-                    className="text-sm leading-[14px] font-normal tracking-[-0.07px] text-white transition-colors hover:text-[#dc143c]"
-                  >
+                  <div className="text-sm leading-[14px] font-normal tracking-[-0.07px] text-white transition-colors hover:text-[#dc143c]">
                     <span> Saddleback Ridge Rd, Santa Clarita,</span>
                     <br />
                     <br />
                     <span className=""> CA 91351</span>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
