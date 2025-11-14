@@ -9,7 +9,7 @@ async function getAllBlogs(): Promise<Blog[]> {
     const url = `${baseUrl}/blogs/public`;
 
     const response = await fetch(url, {
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      cache: "no-store", // Always fetch fresh data to show new published blogs immediately
     });
 
     if (!response.ok) {

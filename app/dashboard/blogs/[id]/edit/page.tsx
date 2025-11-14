@@ -81,8 +81,12 @@ export default function EditBlogPage() {
         metaDescription: blog.metaDescription || "",
       });
 
-      // Explicitly set status to ensure Select component updates
-      form.setValue("status", statusValue, { shouldValidate: false });
+      // Explicitly set status to ensure form state is updated
+      form.setValue("status", statusValue, {
+        shouldValidate: true,
+        shouldDirty: false,
+        shouldTouch: false,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blog]);
@@ -90,12 +94,25 @@ export default function EditBlogPage() {
   const handleSubmit = async (data: CreateBlogInput) => {
     setIsSubmitting(true);
     try {
+      // Ensure status is always a valid value
+      const validStatuses = ["draft", "published", "archived"] as const;
+      const statusValue = validStatuses.includes(
+        data.status as (typeof validStatuses)[number],
+      )
+        ? data.status
+        : blog?.status || "draft";
+
+      const submitData = {
+        ...data,
+        status: statusValue as "draft" | "published" | "archived",
+      };
+
       const response = await fetch(`/api/blogs/${blogId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(submitData),
       });
 
       if (!response.ok) {
@@ -110,7 +127,7 @@ export default function EditBlogPage() {
 
       // Also invalidate public blogs cache if the blog status changed to/from published
       const wasPublished = blog?.status === "published";
-      const isNowPublished = data.status === "published";
+      const isNowPublished = submitData.status === "published";
 
       if (wasPublished || isNowPublished) {
         await invalidatePublicBlogs();
@@ -257,19 +274,20 @@ export default function EditBlogPage() {
                 control={form.control}
                 name="status"
                 render={({ field }) => {
-                  const statusValue =
-                    (field.value as "draft" | "published" | "archived") ||
-                    (blog?.status
-                      ? (String(blog.status) as
-                          | "draft"
-                          | "published"
-                          | "archived")
-                      : ("draft" as const));
+                  // Ensure we always have a valid status value
+                  const currentValue = field.value || blog?.status || "draft";
+                  const statusValue = String(currentValue) as
+                    | "draft"
+                    | "published"
+                    | "archived";
+
                   return (
                     <FormItem>
                       <FormLabel>Status</FormLabel>
                       <Select
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                        }}
                         value={statusValue}
                         disabled={isSubmitting}
                       >
