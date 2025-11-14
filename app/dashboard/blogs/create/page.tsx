@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
+import { MarkdownEditor } from "@/components/ui/markdown-editor";
 import {
   Select,
   SelectContent,
@@ -160,11 +161,10 @@ export default function CreateBlogPage() {
                 <FormItem>
                   <FormLabel>Content *</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Enter blog content"
-                      {...field}
+                    <MarkdownEditor
                       value={field.value || ""}
-                      rows={12}
+                      onChange={field.onChange}
+                      placeholder="Enter blog content in markdown format..."
                       disabled={isSubmitting}
                     />
                   </FormControl>

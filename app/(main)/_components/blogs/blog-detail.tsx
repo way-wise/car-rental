@@ -9,6 +9,9 @@ import { ArrowLeft, Calendar, Tag, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import React from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface BlogDetailProps {
   blog: Blog;
@@ -85,10 +88,70 @@ export const BlogDetail = ({ blog }: BlogDetailProps) => {
       </header>
 
       {/* Blog Content */}
-      <div className="prose prose-lg max-w-none">
-        <div className="leading-relaxed whitespace-pre-wrap text-gray-800">
+      <div className="prose prose-lg max-w-none leading-relaxed text-gray-800">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            h1: ({ ...props }) => (
+              <h1 className="mb-4 text-3xl font-bold" {...props} />
+            ),
+            h2: ({ ...props }) => (
+              <h2 className="mb-3 mt-6 text-2xl font-semibold" {...props} />
+            ),
+            h3: ({ ...props }) => (
+              <h3 className="mb-2 mt-4 text-xl font-semibold" {...props} />
+            ),
+            p: ({ ...props }) => (
+              <p className="mb-4 leading-7" {...props} />
+            ),
+            ul: ({ ...props }) => (
+              <ul className="mb-4 ml-6 list-disc" {...props} />
+            ),
+            ol: ({ ...props }) => (
+              <ol className="mb-4 ml-6 list-decimal" {...props} />
+            ),
+            li: ({ ...props }) => (
+              <li className="mb-2" {...props} />
+            ),
+            blockquote: ({ ...props }) => (
+              <blockquote
+                className="my-4 border-l-4 border-gray-300 pl-4 italic"
+                {...props}
+              />
+            ),
+            code: (props) => {
+              const { inline, ...rest } = props as { inline?: boolean } & React.ComponentPropsWithoutRef<"code">;
+              return inline ? (
+                <code
+                  className="rounded bg-gray-100 px-1.5 py-0.5 font-mono text-sm"
+                  {...rest}
+                />
+              ) : (
+                <code
+                  className="block rounded bg-gray-100 p-4 font-mono text-sm"
+                  {...rest}
+                />
+              );
+            },
+            pre: ({ ...props }) => (
+              <pre className="mb-4 overflow-x-auto rounded bg-gray-100 p-4" {...props} />
+            ),
+            a: ({ ...props }) => (
+              <a
+                className="text-blue-600 underline hover:text-blue-800"
+                target="_blank"
+                rel="noopener noreferrer"
+                {...props}
+              />
+            ),
+            strong: ({ ...props }) => (
+              <strong className="font-semibold" {...props} />
+            ),
+            em: ({ ...props }) => <em className="italic" {...props} />,
+          }}
+        >
           {blog.content}
-        </div>
+        </ReactMarkdown>
       </div>
 
       {/* Author Card */}

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
+import { MarkdownEditor } from "@/components/ui/markdown-editor";
 import {
   Select,
   SelectContent,
@@ -63,18 +64,28 @@ export default function EditBlogPage() {
   // Update form when blog data is loaded
   useEffect(() => {
     if (blog) {
+      // Ensure status is a valid string value
+      const statusValue = String(blog.status || "draft") as
+        | "draft"
+        | "published"
+        | "archived";
+
       form.reset({
         title: blog.title || "",
         content: blog.content || "",
         excerpt: blog.excerpt || "",
         featuredImage: blog.featuredImage || "",
-        status: (blog.status as "draft" | "published" | "archived") || "draft",
+        status: statusValue,
         tags: blog.tags || [],
         metaTitle: blog.metaTitle || "",
         metaDescription: blog.metaDescription || "",
       });
+
+      // Explicitly set status to ensure Select component updates
+      form.setValue("status", statusValue, { shouldValidate: false });
     }
-  }, [blog, form]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blog]);
 
   const handleSubmit = async (data: CreateBlogInput) => {
     setIsSubmitting(true);
@@ -229,11 +240,10 @@ export default function EditBlogPage() {
                 <FormItem>
                   <FormLabel>Content *</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Enter blog content"
-                      {...field}
+                    <MarkdownEditor
                       value={field.value || ""}
-                      rows={12}
+                      onChange={field.onChange}
+                      placeholder="Enter blog content in markdown format..."
                       disabled={isSubmitting}
                     />
                   </FormControl>
@@ -246,28 +256,38 @@ export default function EditBlogPage() {
               <FormField
                 control={form.control}
                 name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      disabled={isSubmitting}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="draft">Draft</SelectItem>
-                        <SelectItem value="published">Published</SelectItem>
-                        <SelectItem value="archived">Archived</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  const statusValue =
+                    (field.value as "draft" | "published" | "archived") ||
+                    (blog?.status
+                      ? (String(blog.status) as
+                          | "draft"
+                          | "published"
+                          | "archived")
+                      : ("draft" as const));
+                  return (
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={statusValue}
+                        disabled={isSubmitting}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="draft">Draft</SelectItem>
+                          <SelectItem value="published">Published</SelectItem>
+                          <SelectItem value="archived">Archived</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
 
               <FormField
